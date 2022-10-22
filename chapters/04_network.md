@@ -1,5 +1,3 @@
-# Arch Linux Guide
-
 ## Network
 
 ### Wireless connection
