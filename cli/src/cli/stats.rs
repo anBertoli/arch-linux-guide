@@ -4,10 +4,12 @@ use std::path::PathBuf;
 use std::{fs, io};
 
 pub fn stats_cmd(path: &str, stats_cmd: StatsCommand) {
+    log::info!("Starting stats calculation.");
+
     let files_stats = match process_files_stats(path) {
         Ok(files) => files,
         Err(err) => {
-            log::error!("Error: reading source files: '{}'.", err);
+            log::error!("Reading source files: no source directory.");
             return;
         }
     };
@@ -49,7 +51,7 @@ fn process_files_stats(dir: &str) -> Result<Vec<BookFileStats>, io::Error> {
         let lines = file_contents.lines().count();
         let words = file_contents.split_whitespace().count();
 
-        log::debug!("\tValid UTF-8 contents.");
+        log::debug!("Valid UTF-8 contents.");
         files.push(BookFileStats {
             path: abs_path_str.to_string(),
             lines,

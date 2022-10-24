@@ -5,12 +5,12 @@ use std::path::PathBuf;
 use std::{fs, io};
 
 pub fn gen_cmd(dir: &str, gen_cmd: GenCommand) {
-    log::info!("Generating final document.");
+    log::info!("Starting document generation.");
 
     let files_contents = match read_files(&dir) {
         Ok(files) => files,
         Err(err) => {
-            log::error!("Error: reading source files: '{}'.", err);
+            log::error!("Error: reading source files: 'no source directory'.");
             return;
         }
     };
@@ -55,8 +55,8 @@ fn read_files(dir: &str) -> Result<Vec<BookFile>, io::Error> {
 
         let mut file_contents = String::with_capacity(2000);
         let n = file.read_to_string(&mut file_contents)?;
-        log::debug!("\tRead {} bytes.", n);
-        log::debug!("\tValid UTF-8 contents.");
+        log::debug!("Read {} bytes.", n);
+        log::debug!("Valid UTF-8 contents.");
         files.push(BookFile {
             contents: file_contents.to_owned(),
             path: abs_path,

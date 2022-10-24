@@ -23,7 +23,7 @@ pub fn run_cli() {
 #[command(propagate_version = true)]
 pub struct Cli {
     /// The directory containing the chapters.
-    #[arg(short, long, required = true)]
+    #[arg(required = true)]
     source_dir: String,
 
     /// Enable/disable verbose logs.
@@ -60,8 +60,8 @@ pub struct GenCommand {
 
 #[derive(Debug, Args)]
 pub struct StatsCommand {
-    #[arg(short, long, action = ArgAction::Append, value_delimiter = ',')]
-    // #[arg(value_enum, default_value_t = StatsMode::Words)]
+    #[arg(short, long, value_enum, required = true)]
+    #[arg(action = ArgAction::Append, value_delimiter = ',')]
     mode: Vec<StatsMode>,
 
     #[arg(from_global)]
