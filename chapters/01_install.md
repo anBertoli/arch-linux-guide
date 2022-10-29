@@ -176,26 +176,23 @@ $ mkfs.ext4 <path/to/the/ROOT_partition/file>
 $ mkswap <path/to/the/SWAP_partition/file>
 ```
 
-⚠️ TO CHECK ⚠️
-
+⚠️ TO CHECK ⚠️ 
 Note that now we are operating inside the Arch Linux Live Environment and the filesystem rooted 
 at / contains the files loaded from the USB installation medium. This filesystem is not really 
 backed by the USB storage, but is simulated on the RAM (this is how live installations works). 
 Writing/modifying files in the current filesystem will not result in permanent modifications 
 of the USB contents. So the files we can visualize (until the end of the current installation 
-step) are like files of an Arch Linux, but in RAM and loaded from the USB Live image.
-
-⚠️ TO CHECK ⚠️
+step) are like files of an Arch Linux, but in RAM and loaded from the USB Live image. ⚠️
 
 We need now to mount our disk partitions on the filesystem, following the table below. The _/mnt_ 
-directory is generally used for temporary mounts so it's fine to use it now. Note that in the final 
-installation ROOT and EFI partitions will be mounted on proper locations.
+directory is generally used for temporary mounts so it's fine to use it now. Note that in the 
+final installation ROOT and EFI partitions will be mounted on proper locations.
 
-| Partition            | Filesystem     | Mount point | 
-|:---------------------|:---------------|:------------|
-| ROOT partition       | EXT4           | /mnt        |
-| EFI system partition | FAT32          | /mnt/boot   |
-| SWAP partition       | -              | -           |
+| Partition            | Filesystem     | Temporary mount point | 
+|:---------------------|:---------------|:----------------------|
+| ROOT partition       | EXT4           | /mnt                  |
+| EFI system partition | FAT32          | /mnt/boot             |
+| SWAP partition       | -              | -                     |
 
 
 ```shell
@@ -206,5 +203,22 @@ $ mount --mkdir /dev/<ROOT_partition_file> /mnt
 $ mount --mkdir /dev/<EFI_partition_file> /mnt/boot
 
 # don't mount the SWAP partition, just tell Linux to use it
-$ swapon /dev/sda3
+$ swapon /dev/<SWAP_partition_file>
 ```
+
+## TITLE
+
+⚠️ TODO ⚠️
+At this point we have some partitions on one or more disks, properly formatted and temporarily 
+mounted. We need now to configure the mirrors to download Arch Linux packages. The installer
+comes with `Reflector`, a script written to retrieve the latest mirror list from the Arch Linux
+Mirror Status page.
+
+```bash
+$ reflector --download-timeout 60
+reflector --download-timeout 60
+```
+
+/etc/pacman.d/mirrorlist
+
+
