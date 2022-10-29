@@ -206,22 +206,31 @@ $ mount --mkdir /dev/<EFI_partition_file> /mnt/boot
 $ swapon /dev/<SWAP_partition_file>
 ```
 
-## TITLE
+## Configure mirror servers
 
-⚠️ TODO ⚠️
 At this point we have some partitions on one or more disks, properly formatted and temporarily 
 mounted. We need now to configure the mirrors to download Arch Linux packages. The installer
 comes with `Reflector`, a script written to retrieve the latest mirror list from the Arch Linux
 Mirror Status page.
 
-```bash
-$ reflector --download-timeout 60
-```
+Reflector can generate a list of mirrors based on a set of requirements. In this cas, I want a list
+of mirrors that were synchronized within the last 12 hours and that are located in Italy (you should
+use your country), and sort the mirrors by download speed. The save command will persist the result
+in the specified file. You can run the reflector without saving the output just to see what the script
+produces (the list of mirrors).
+
+The file at `/etc/pacman.d/mirrorlist` is a configuration file used by pacman to know which mirrors
+to use (in descending order of preference). Now when we'll install Arch Linux in the next steps, 
+the OS and all packages will be downloaded from the mirrors indicated there.
 
 ```bash
-reflector --download-timeout 60
+$ reflector \
+  --download-timeout 60 \
+  --country Italy \
+  --age 12 \
+  --protocol https \
+  --sort rate \
+  --save /etc/pacman.d/mirrorlist
 ```
-
-/etc/pacman.d/mirrorlist
 
 
