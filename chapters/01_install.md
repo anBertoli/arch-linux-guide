@@ -216,6 +216,9 @@ Mirror Status page.
 
 ```bash
 $ reflector --download-timeout 60
+```
+
+```bash
 reflector --download-timeout 60
 ```
 
