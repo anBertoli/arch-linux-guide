@@ -1,5 +1,5 @@
 use crate::cli::{StatsCommand, StatsMode};
-use std::io::{Error, Read, Write};
+use std::io::Read;
 use std::path::PathBuf;
 use std::{fs, io};
 
@@ -9,7 +9,7 @@ pub fn stats_cmd(path: &str, stats_cmd: StatsCommand) {
     let files_stats = match process_files_stats(path) {
         Ok(files) => files,
         Err(err) => {
-            log::error!("Reading source files: no source directory.");
+            log::error!("Reading source files: {}.", err);
             return;
         }
     };

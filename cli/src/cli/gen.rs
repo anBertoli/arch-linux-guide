@@ -10,7 +10,7 @@ pub fn gen_cmd(dir: &str, gen_cmd: GenCommand) {
     let files_contents = match read_files(&dir) {
         Ok(files) => files,
         Err(err) => {
-            log::error!("Error: reading source files: 'no source directory'.");
+            log::error!("Reading source files: {}.", err);
             return;
         }
     };
@@ -29,6 +29,10 @@ pub fn gen_cmd(dir: &str, gen_cmd: GenCommand) {
 
     match result {
         Ok(_) => log::info!("Operation successful."),
+        Err(err) if err.kind() == ErrorKind::AlreadyExists => log::error!(
+            "File '{}' already exists (use --force to overwrite)",
+            &gen_cmd.file.unwrap()
+        ),
         Err(err) => log::error!("{}.", err),
     };
 }
@@ -60,14 +64,13 @@ fn read_files(dir: &str) -> Result<Vec<BookFile>, io::Error> {
         files.push(BookFile {
             contents: file_contents.to_owned(),
             path: abs_path,
-            n_bytes: n,
         });
     }
 
     Ok(files)
 }
 
-fn write_to_file(out_path: &str, force: bool, files_contents: &[BookFile]) -> Result<(), String> {
+fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), io::Error> {
     let mut file_opt = fs::OpenOptions::new();
     file_opt.read(false).write(true);
     let mut file = if force {
@@ -75,25 +78,19 @@ fn write_to_file(out_path: &str, force: bool, files_contents: &[BookFile]) -> Re
     } else {
         file_opt.create_new(true)
     }
-    .open(&out_path);
+    .open(&out_path)?;
 
-    let mut file = match file {
-        Err(err) if err.kind() == ErrorKind::AlreadyExists => {
-            return Err(format!(
-                "file '{}' already exists (use --force to overwrite)",
-                out_path
-            ))
-        }
-        Err(err) => return Err(err.to_string()),
-        Ok(f) => f,
-    };
-
-    for file_content in files_contents {
+    for file_content in files {
         let path_as_str = file_content.path.to_string_lossy();
         log::debug!("Writing '{}' to {}", path_as_str, out_path);
-        match file.write_all(file_content.contents.as_bytes()) {
-            Ok(_) => log::info!("Written {} successfully.", path_as_str),
-            Err(err) => return Err(err.to_string()),
+        let bytes = file_content.contents.as_bytes();
+        match file.write_all(bytes) {
+            Err(err) => return Err(err),
+            Ok(_) => log::info!(
+                "Written {} successfully ({} bytes).",
+                path_as_str,
+                bytes.len()
+            ),
         }
     }
 
@@ -103,7 +100,6 @@ fn write_to_file(out_path: &str, force: bool, files_contents: &[BookFile]) -> Re
 struct BookFile {
     path: PathBuf,
     contents: String,
-    n_bytes: usize,
 }
 
 impl Display for BookFile {

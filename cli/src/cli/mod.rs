@@ -1,7 +1,7 @@
 mod gen;
-mod logs;
 mod stats;
 
+use crate::logs;
 use clap::{ArgAction, Args, Parser, Subcommand, ValueEnum};
 use log::Level;
 
@@ -9,12 +9,12 @@ pub fn run_cli() {
     logs::init();
     let cli: Cli = Cli::parse();
     if !cli.verbose {
-        logs::set_max_level(Level::Info)
+        logs::set_max_level(Level::Info);
     }
     log::debug!("{:?}", cli);
     match cli.command {
-        SubCommand::Gen(print_cmd) => gen::gen_cmd(&cli.source_dir, print_cmd),
-        SubCommand::Stats(stats_cmd) => stats::stats_cmd(&cli.source_dir, stats_cmd),
+        SubCommand::Gen(cmd) => gen::gen_cmd(&cli.source_dir, cmd),
+        SubCommand::Stats(cmd) => stats::stats_cmd(&cli.source_dir, cmd),
     }
 }
 
@@ -64,6 +64,8 @@ pub struct StatsCommand {
     #[arg(action = ArgAction::Append, value_delimiter = ',')]
     mode: Vec<StatsMode>,
 
+    #[arg(from_global)]
+    force: bool,
     #[arg(from_global)]
     verbose: bool,
 }

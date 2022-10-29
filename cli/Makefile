@@ -1,8 +1,8 @@
 
-build:
+build-cli:
 	mkdir -p bin
 	cargo build --release
-	cp ./target/release/main ./bin/arch-cli
+	cp ./target/release/arch-cli ./bin/arch-cli
 
-install:
+install-cli:
 	cargo install --path .

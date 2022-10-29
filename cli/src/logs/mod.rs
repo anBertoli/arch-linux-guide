@@ -7,12 +7,13 @@ pub fn init() {
         .filter_level(LevelFilter::Trace)
         .format(|buf, record| {
             let mut level_style = buf.style();
+            level_style.set_bold(true).set_intense(true);
             match record.level() {
-                Level::Error => level_style.set_color(Color::Red).set_bold(true),
-                Level::Warn => level_style.set_color(Color::Yellow).set_bold(true),
-                Level::Info => level_style.set_color(Color::Green).set_bold(true),
-                Level::Debug => level_style.set_color(Color::Magenta).set_bold(true),
-                Level::Trace => level_style.set_color(Color::Blue).set_bold(true),
+                Level::Error => level_style.set_color(Color::Red),
+                Level::Warn => level_style.set_color(Color::Yellow),
+                Level::Info => level_style.set_color(Color::Rgb(100, 220, 100)),
+                Level::Debug => level_style.set_color(Color::Magenta),
+                Level::Trace => level_style.set_color(Color::Blue),
             };
             writeln!(
                 buf,
