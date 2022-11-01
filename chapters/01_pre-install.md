@@ -1,4 +1,4 @@
-# Pre-installation
+# ⚙️ Pre-installation
 
 ## Create bootable media with the OS image
 

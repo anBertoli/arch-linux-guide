@@ -1,4 +1,4 @@
-# Pre-installation
+# ⚙️ Pre-installation
 
 ## Create bootable media with the OS image
 
@@ -282,7 +282,7 @@ The `/mnt/etc/fstab` file can be used to define how disk partitions, various oth
 devices, or remote file systems should be mounted into the file system at boot.
 
 The `genstab` script simply detects all the current mounts below a given mount point and
-prints them in fstab-compatible format to standard output. We can redirect the output to  
+prints them in fstab-compatible format to standard output. We can redirect the output to 
 the `/mnt/etc/fstab` file, so the OS will re-mount all the partitions at boot.
 
 ```shell
@@ -291,7 +291,7 @@ $ genfstab -U /mnt >> /mnt/etc/fstab
 
 Double-check the `/mnt/etc/fstab` file. If everything looks good, we can proceed.
 
-### Change root to new root partition 📝
+### 📝 Change root to new root partition 
 
 From here, it is convenient to change root inside the new root partitions (where the new OS
 is installed) and run the commands inside the chroot (called also _root jail_).
