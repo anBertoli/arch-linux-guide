@@ -132,11 +132,11 @@ $ gdisk </path/to/your/device/file>
   > w
   
   ### PARTITIONS CREATION
-  # create EFI partition, size = +500M, EFI type code = ef00 
+  # create EFI partition, size = +500M, type code = ef00 
   > n 
-  # create ROOT partition, size = +100G, EFI type code = 8300 
+  # create ROOT partition, size = +100G, type code = 8300 
   > n 
-  # create EFI partition, size = +10G, EFI type code = 8200 
+  # create EFI partition, size = +10G, type code = 8200 
   > n
   # check everything is correct, then write and exit 
   > p
