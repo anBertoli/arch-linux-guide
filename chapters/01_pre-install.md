@@ -162,7 +162,7 @@ along with the partitions themselves in the partition table, therefore they are 
 indicate how to interpret/manage partitions to the OS.
 
 The EFI partition should be formatted with a FAT32 filesystem. It is a standard for EFI partitions and 
-all OSs rely on this to read the EFI partition.
+all OS rely on this to read the EFI partition.
 
 ```shell
 # format the EFI partition with a FAT32 filesystem
@@ -179,11 +179,11 @@ $ mkswap <path/to/the/SWAP_partition/file>
 
 ⚠️ TO CHECK ⚠️ 
 Note that now we are operating inside the Arch Linux Live Environment and the filesystem rooted 
-at / contains the files loaded from the USB installation medium. This filesystem is not really 
+at `/` contains the files loaded from the USB installation medium. This filesystem is not really 
 backed by the USB storage, but is simulated on the RAM (this is how live installations works). 
 Writing/modifying files in the current filesystem will not result in permanent modifications 
 of the USB contents. So the files we can visualize (until the end of the current installation 
-step) are like files of an Arch Linux, but in RAM and loaded from the USB Live image. ⚠️
+step) are files of an Arch Linux system, but in RAM and loaded from the USB Live image. ⚠️
 
 We need now to mount our disk partitions on the filesystem, following the table below. The _/mnt_ 
 directory is generally used for temporary mounts so it's fine to use it now. Note that in the 
