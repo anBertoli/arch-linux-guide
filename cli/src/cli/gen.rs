@@ -67,6 +67,7 @@ fn read_files(dir: &str) -> Result<Vec<BookFile>, io::Error> {
         });
     }
 
+    files.sort_by(|i, j| i.path.cmp(&j.path));
     Ok(files)
 }
 
