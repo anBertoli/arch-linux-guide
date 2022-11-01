@@ -23,13 +23,13 @@ showed below. The Arch installer doesn't have any graphical user interface to au
 
 Make sure that you've booted in UEFI mode and not in BIOS mode. The following command will output a bunch 
 of UEFI related files if the boot started in UEFI mode properly. In case of a BIOS boot, the _efi_ directory
-won't even exist inside the /sys/firmware directory.
+won't even exist inside the `/sys/firmware` directory.
 ````shell
 $ ls /sys/firmware/efi/efivars
 ````
 
 By default, the console assumes that you have a standard US keyboard layout. You can change the layout
-to a different one. All the available keymaps are usually kept inside the /usr/share/kbd/keymaps directory
+to a different one. All the available keymaps are usually kept inside the `/usr/share/kbd/keymaps` directory
 in the form of map.gz files.
 ```shell
 $ ls /usr/share/kbd/keymaps/**/*.map.gz
@@ -96,9 +96,9 @@ _/dev/nvme0n1p2_, etc.
 $ fdisk </path/to/your/device/file> -l
 ```
 
-Once you collect all useful information, use `gdisk` to start re-partitioning the disk (_gdisk_ is the 
-user-friendly version of _fdisk_, it uses an interactive CLI). You really want to have a GPT partitioned
-disk, MBR is considered legacy and must be avoided.
+Once you collect all useful information, use `gdisk` to start re-partitioning the disk (`gdisk`
+is the user-friendly version of `fdisk`, it uses an interactive CLI). You really want to have 
+a GPT partitioned disk, MBR is considered legacy and must be avoided.
 
 You need at least three partitions to install Arch Linux:
 
@@ -114,7 +114,7 @@ since it's shared between multiple installed OS. Don't touch that, just create t
 
 ```shell
 # start the gdisk CLI
-gdisk </path/to/your/device/file>
+$ gdisk </path/to/your/device/file>
   ### GDISK COMMANDS 
   # show help and commands
   > ?
