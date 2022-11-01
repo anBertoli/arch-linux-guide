@@ -54,7 +54,7 @@ $ genfstab -U /mnt >> /mnt/etc/fstab
 
 Double-check the `/mnt/etc/fstab` file. If everything looks good, we can proceed.
 
-### Change root to new root partition
+### Change root to new root partition 📝
 
 From here, it is convenient to change root inside the new root partitions (where the new OS
 is installed) and run the commands inside the chroot (called also _root jail_).
@@ -133,7 +133,7 @@ https://www.happyassassin.net/posts/2014/01/25/uefi-boot-how-does-that-actually-
 
 ### Update CPU microcode
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 Processors may have faulty behaviour, which the kernel can correct by updating the microcode
 on startup. Processor manufacturers release stability and security updates to the processor
@@ -148,7 +148,7 @@ $ pacman -S intel-ucode
 
 ### Installation
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 Let's proceed with the installation. First, install the packages `grub` and `efibootmgr`:
 GRUB is the bootloader itself while `efibootmgr` is used by the GRUB installation script
@@ -209,7 +209,7 @@ $ grub-mkconfig -o /boot/grub/grub.cfg
 
 ### Configure time zone
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 List the available timezones then choose the correct one creating a symbolic link.
 
@@ -221,7 +221,7 @@ $ hwclock --systohc # generate /etc/adjtime
 
 ### Configure languages
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 First, you'll have to edit the `etc/locale.gen` file according to your localization. Open the 
 file in a text editor and uncomment the locale you want to use. Then run the `locale-gen` 
@@ -261,7 +261,7 @@ KEYMAP=it
 
 ### Configure basic networking
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 I use the `networkmanager` package to handle connection, because it is easier to use 
 and implements different functionalities in one place. Alternatively there are different
@@ -294,7 +294,7 @@ $ cat /etc/hosts
 
 ### Change root user password
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 The passwd command lets you change the password for a user. By default it affects the current 
 user's password which is the root right now. Do it and follow the prompt.
@@ -305,7 +305,7 @@ $ passwd
 
 ### Add non-root user
 
-⚠️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
+📝️ Inside the _chroot_ at the mount point of the root partition (`/mnt/`).
 
 The installation leaves by default only one user: the root superuser. Using your Linux system 
 as the root user for long is not a good idea. So creating a non-root user is important. The 

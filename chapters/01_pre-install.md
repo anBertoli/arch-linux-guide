@@ -185,9 +185,9 @@ Writing/modifying files in the current filesystem will not result in permanent m
 of the USB contents. So the files we can visualize (until the end of the current installation 
 step) are files of an Arch Linux system, but in RAM and loaded from the USB Live image. ⚠️
 
-We need now to mount our disk partitions on the filesystem, following the table below. The _/mnt_ 
-directory is generally used for temporary mounts so it's fine to use it now. Note that in the 
-final installation ROOT and EFI partitions will be mounted on proper locations.
+We need now to mount our disk partitions on the filesystem, following the table below. The 
+`/mnt` directory is generally used for temporary mounts so it's fine to use it now. Note that 
+in the final installation ROOT and EFI partitions will be mounted on proper locations.
 
 | Partition            | Filesystem     | Temporary mount point | 
 |:---------------------|:---------------|:----------------------|
@@ -211,14 +211,14 @@ $ swapon /dev/<SWAP_partition_file>
 
 At this point we have some partitions on one or more disks, properly formatted and temporarily 
 mounted. We need now to configure the mirrors to download Arch Linux packages. The installer
-comes with `Reflector`, a script written to retrieve the latest mirror list from the Arch Linux
+comes with `reflector`, a script able to retrieve the latest mirror list from the Arch Linux
 Mirror Status page.
 
-Reflector can generate a list of mirrors based on a set of requirements. In this cas, I want a list
-of mirrors that were synchronized within the last 12 hours and that are located in Italy (you should
-use your country), and sort the mirrors by download speed. The save command will persist the result
-in the specified file. You can run the reflector without saving the output just to see what the script
-produces (the list of mirrors).
+Reflector can generate a list of mirrors based on a set of requirements. In this case, I want 
+a list of mirrors that were synchronized within the last 12 hours and that are located in 
+Italy (you should use your country), and sort the mirrors by download speed. The save command 
+will persist the result in the specified file. You can run the reflector without saving the 
+output just to see what the script produces (the list of mirrors).
 
 The file at `/etc/pacman.d/mirrorlist` is a configuration file used by pacman to know which mirrors
 to use (in descending order of preference). Now when we'll install Arch Linux in the next steps, 
