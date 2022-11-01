@@ -19,7 +19,7 @@ The installation process will ask you confirmation for OS installation, proceed 
 installer to boot. If everything works as expected you should see the terminal in a screen like the one
 showed below. The Arch installer doesn't have any graphical user interface to automate the installation.
 
-<img src="../assets/images/01-01-installer-boot.png" alt="drawing" width="900"/>
+<img src="./assets/images/01-01-installer-boot.png" alt="drawing" width="900"/>
 
 Make sure that you've booted in UEFI mode and not in BIOS mode. The following command will output a bunch 
 of UEFI related files if the boot started in UEFI mode properly. In case of a BIOS boot, the _efi_ directory
@@ -149,7 +149,7 @@ device names (e.g. _/dev/nvme0n1p1_, _/dev/nvme0n1p2_, etc.), you must refer to 
 ```shell
 $ fdisk /dev/sda -l
 ```
-<img src="../assets/images/01-02-partitions.png" alt="drawing" width="600"/>
+<img src="./assets/images/01-02-partitions.png" alt="drawing" width="600"/>
 
 
 ## Filesystems and mounting (partitions formatting)
