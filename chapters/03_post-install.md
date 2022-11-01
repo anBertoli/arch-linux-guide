@@ -1,1 +1,1 @@
-# 💻 Post installation
+# ⚙️ Post installation
