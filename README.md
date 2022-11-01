@@ -236,7 +236,7 @@ $ reflector \
 
 
 
-# 🧰 Installation
+# ⚙️ Installation
 
 ## Install OS
 
