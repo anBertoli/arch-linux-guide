@@ -102,11 +102,11 @@ a GPT partitioned disk, MBR is considered legacy and must be avoided.
 
 You need at least three partitions to install Arch Linux:
 
-| Partition            | Usage                                                       | Space   | Type             | Filesystem to use |
-|:---------------------|:------------------------------------------------------------|:--------|:-----------------|:------------------|
-| EFI system partition | used to store files required by the UEFI firmware           | 500MB   | EFI              | FAT32             | 
-| ROOT partition       | for installing the distribution itself and store user files | > 100GB | Linux filesystem | EXT4              |
-| SWAP partition       | space dedicated for swapping (overflow space for your RAM)  | 10GB    | Linux swap       |                   |
+| Partition            | Usage                                                       | Space   | Type             | Filesystem to use | Temporary mount point                   |
+|:---------------------|:------------------------------------------------------------|:--------|:-----------------|:------------------|:----------------------------------------|
+| EFI system partition | used to store files required by the UEFI firmware           | 500MB   | EFI              | FAT32             | /mnt                                    |
+| ROOT partition       | for installing the distribution itself and store user files | > 100GB | Linux filesystem | EXT4              | /mnt/boot                               |
+| SWAP partition       | space dedicated for swapping (overflow space for your RAM)  | 10GB    | Linux swap       |                   | -                                       |
 
 Note that if you are creating a dual boot setup some partitions could be already present. You don't want 
 to touch partitions dedicated to other OS. Also note that in this case the EFI partitions is already present
