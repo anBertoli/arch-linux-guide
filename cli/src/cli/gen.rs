@@ -84,11 +84,9 @@ fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), 
     for file_content in files {
         let path_as_str = file_content.path.to_string_lossy();
         log::debug!("Writing '{}' to {}", path_as_str, out_path);
-        let mut fixed_links = file_content
-            .contents
-            .replace("../assets/", "./assets/")
-            .push('\n');
-        match file.write_all(fixed_links.as_bytes()) {
+        let mut contents = file_content.contents.replace("../assets/", "./assets/");
+        contents.push('\n');
+        match file.write_all(contents.as_bytes()) {
             Err(err) => return Err(err),
             Ok(_) => log::info!(
                 "Written {} successfully ({} bytes).",
