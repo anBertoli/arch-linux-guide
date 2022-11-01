@@ -235,6 +235,7 @@ $ reflector \
 ```
 
 
+
 # 🧰 Installation
 
 ## Install OS
@@ -573,7 +574,9 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ## End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot.# 💻 Post installation# 🌐 Network
+the Arch-Chroot environment, unmount the partition, and reboot.
+# 💻 Post installation
+# 🌐 Network
 
 ## Wireless connection
 

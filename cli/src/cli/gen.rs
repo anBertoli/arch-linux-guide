@@ -86,7 +86,8 @@ fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), 
         log::debug!("Writing '{}' to {}", path_as_str, out_path);
         let mut contents = file_content.contents.replace("../assets/", "./assets/");
         contents.push('\n');
-        match file.write_all(contents.as_bytes()) {
+        let bytes = contents.as_bytes();
+        match file.write_all(bytes) {
             Err(err) => return Err(err),
             Ok(_) => log::info!(
                 "Written {} successfully ({} bytes).",
