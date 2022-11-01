@@ -689,3 +689,4 @@ $ systemctl enable dhcpcd
 ```
 
 Reboot and check if everything works.
+# 📚 Programming languages and IDEs
