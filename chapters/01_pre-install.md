@@ -152,15 +152,16 @@ $ fdisk /dev/sda -l
 <img src="../assets/images/01-02-partitions.png" alt="drawing" width="600"/>
 
 
-## Filesystems and mounting (partitions formatting)
+## Filesystems and mount points
 
-Partitioning by itself is not enough for the OS to use the partitions. We need to format the partitions.
-To do this we must create a filesystem on each partition. A file system is a standard that defined how
-files and data are stored and organized on disk. The most popular linux filesystems are ext3 and ext4. 
-The filesystems are characteristic of a partition, recorded along with the partitions in the partition 
-table, therefore they are used to indicate how to interpret/manage partitions to the OS.
+Partitioning by itself is not enough for the OS to use the partitions. We need to format the 
+partitions. To do this we must create a filesystem on each partition. A file system is a 
+standard that defined how files and data are stored and organized on disk. The most popular 
+Linux filesystems are _ext3_ and _ext4_. The filesystem is a feature of a partition, recorded
+along with the partitions themselves in the partition table, therefore they are used to 
+indicate how to interpret/manage partitions to the OS.
 
-The EFI partition should be formatted with a FAT32 filesystem. It is a standard for EFI partitons and 
+The EFI partition should be formatted with a FAT32 filesystem. It is a standard for EFI partitions and 
 all OSs rely on this to read the EFI partition.
 
 ```shell
