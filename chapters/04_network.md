@@ -1,6 +1,6 @@
-## Network
+# 🌐 Network
 
-### Wireless connection
+## Wireless connection
 
 At this point the system should have the wpa_supplicant package (`wpa_supplicant`, `wpa_cli`, `wpa_passphrase`, to 
 connect and authenticate to a wireless access point, provided by the base arch installation), `dhcpcd` (dhcp client,

@@ -235,7 +235,7 @@ $ reflector \
 ```
 
 
-# Installation
+# 🧰 Installation
 
 ## Install OS
 
@@ -573,9 +573,9 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ## End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot.# Post installation## Network
+the Arch-Chroot environment, unmount the partition, and reboot.# 💻 Post installation# 🌐 Network
 
-### Wireless connection
+## Wireless connection
 
 At this point the system should have the wpa_supplicant package (`wpa_supplicant`, `wpa_cli`, `wpa_passphrase`, to 
 connect and authenticate to a wireless access point, provided by the base arch installation), `dhcpcd` (dhcp client,
