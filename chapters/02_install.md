@@ -1,6 +1,6 @@
-# ⚙️ Installation
+# ⚙️️ Installation
 
-## Install OS
+## 🛠️ Install OS
 
 First of all let's update packages of the Live OS.
 
@@ -22,16 +22,17 @@ $ pacstrap /mnt \
     # minimal package set to define a 
     # basic Arch Linux installation
     base \
+    # linux utilities and some useful 
+    # linux tools and commands
+    sudo \         
+    networkmanager
     # C compiler & dev utilities
     gcc \
     git \
     make \
     vim \
     docker \
-    
-    # utilities, commands and tools
-    sudo \         
-    networkmanager
+
 ```
 
 Now the Linux kernel is installed along with some utilities (in the temporary mounted disk
@@ -69,11 +70,7 @@ _chroot wrapper program_. The modified environment is called a _chroot jail_.
 $ arch-chroot /mnt
 ```
 
-
-
-
-
-## Install the boot loader (GRUB)
+## 🛠️ Install the boot loader (GRUB)
 
 ### Introduction
 
@@ -205,7 +202,7 @@ $ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 
-## OS configuration
+## 🛠️ OS configuration
 
 ### Configure time zone
 
@@ -334,6 +331,6 @@ Some more info on how `sudo` and its configuration file works:
 https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 
-## End
+## 🛠️ End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
 the Arch-Chroot environment, unmount the partition, and reboot.
