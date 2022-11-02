@@ -574,8 +574,7 @@ $ vim /etc/sudoers
 Some more info on how `sudo` and its configuration file works: 
 https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
-
-## End
+### End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
 the Arch-Chroot environment, unmount the partition, and reboot.
 # ⚙️ Post installation
