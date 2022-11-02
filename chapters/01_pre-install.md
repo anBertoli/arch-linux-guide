@@ -1,6 +1,6 @@
 # 🛠️ Pre-installation
 
-## ⚙️ Create bootable media with the OS image
+## 📌 Create bootable media with the OS image
 
 To download Arch Linux, head to https://archlinux.org/download/ and download the latest release
 (~800MB). Once downloaded you need to put the image on a USB, you can use different tools on 
@@ -12,7 +12,7 @@ boot could disallow Arch Linux to boot properly. If you are creating a dual boot
 Windows + Linux) it is important to disable fast startup and hibernation features on Windows.
 
 
-## ⚙️ Boot from installation medium
+## 📌 Boot from installation medium
 
 Plug the USB, turn on the machine and access the BIOS firmware UI (it is done in different ways 
 depending on the specific hardware configuration). From there pick the bootable USB drive as 
@@ -76,7 +76,7 @@ Finally sync the machine clock using the NTP time protocol:
 $ timedatectl set-ntp true
 ```
 
-## ⚙️ Disk partitioning
+## 📌 Disk partitioning
 Disk partitioning is dangerous if you don't know what you are doing, if you mess up your 
 partitions, you lose data on your disks. So keep attention!
 
@@ -158,7 +158,7 @@ $ fdisk /dev/sda -l
 <img src="../assets/images/01-02-partitions.png" alt="drawing" width="600"/>
 
 
-## ⚙️ Filesystems and mount points
+## 📌️ Filesystems and mount points
 
 Partitioning by itself is not enough for the OS to use the partitions. We need to format the 
 partitions. To do this we must create a filesystem on each partition. A file system is a 
@@ -213,7 +213,7 @@ $ mount --mkdir /dev/<EFI_partition_file> /mnt/boot
 $ swapon /dev/<SWAP_partition_file>
 ```
 
-## ⚙️ Configure mirror servers
+## 📌 Configure mirror servers
 
 At this point we have some partitions on one or more disks, properly formatted and temporarily 
 mounted. We need now to configure the mirrors to download Arch Linux packages. The installer
