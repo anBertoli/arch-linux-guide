@@ -319,7 +319,8 @@ $ passwd <username>
 ```
 
 If not already present add administration privileges for the new user. Open `/etc/sudoers` and 
-uncomment the following line. 
+uncomment the following line. Note that we should use `visudo` to edit this file, but.. keep
+attention and do it manually.
 
 ```shell
 $ vim /etc/sudoers
@@ -332,4 +333,5 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ### End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot.
+the Arch-Chroot environment, unmount the partition, and reboot. If you are fine with a shell
+only OS you are good. Otherwise proceed with the next chapters.

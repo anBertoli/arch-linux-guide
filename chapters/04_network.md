@@ -2,12 +2,21 @@
 
 ## Wireless connection
 
-At this point the system should have the wpa_supplicant package (`wpa_supplicant`, `wpa_cli`, `wpa_passphrase`, to 
-connect and authenticate to a wireless access point, provided by the base arch installation), `dhcpcd` (dhcp client,
-installed previously).
+You should install and enbale `networkmanager` if not already done previously. The package 
+contains a daemon, a command line interface (`nmcli`) and a curses‐based interface (`nmtui`).
 
-Check if the driver for your card has been loaded, check the output of the `lspci -k` or `lsusb -v`, something 
-similar should appear in the drivers list:
+```shell
+# install network manager
+$ pacman -Sy networkmanager
+# start network manager
+$ systemctl start NetworkManager
+# enable network manager to start at boot
+$ systemctl enable NetworkManager
+```
+
+
+Before proceeding, check if the driver for your network card has been loaded, check the 
+output of the `lspci -k` or `lsusb -v`, something similar should appear in the drivers list:
 ```shell
 $ lspci -k
 # 06:00.0 Network controller: Intel Corporation WiFi Link 5100
@@ -16,8 +25,8 @@ $ lspci -k
 # 	Kernel modules: iwlwifi
 ```
 
-Check if a corresponding network interface was created, usually the naming of the wireless network interfaces starts 
-with the letter "w", e.g. wlan0 or wlp2s0:
+Check if a corresponding network interface was created, usually the naming of the wireless 
+network interfaces starts with the letter "w", e.g. wlan0 or wlp2s0:
 ```shell
 $ ip link show
 # <your-interface>: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state DOWN mode DORMANT qlen 1000
@@ -37,45 +46,26 @@ $ ip link show
 # <your-interface>: <BROADCAST,MULTICAST,UP,LOWER_UP> ....
 ```
 
-Create the `/etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf` file with the following content. This will allow
-_wpa_cli_ to update the config file when needed:
-```bash
-$ touch /etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf
-```
-```markdown
-ctrl_interface=/run/wpa_supplicant
-update_config=1
-```
-
-Now start `wpa_supplicant` on the right network interface with:
 ```shell
-$ wpa_supplicant -B -i <your-interface> -c /etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf
+# see a list of network devices and their state
+$ nmcli device
+# list nearby Wi-Fi networks
+$ nmcli device wifi list
+
+# connect to a Wi-Fi network
+$ nmcli device wifi connect <SSID_or_BSSID> password <password>
+# connect to a Wi-Fi on the wlan1 interface
+$ nmcli device wifi connect <SSID_or_BSSID> password <password> ifname <wlan1> <profile_name>
+
+# get a list of connections with their names, UUIDs, types and backing devices
+$ nmcli connection show
+# activate a connection (i.e. connect to a network with an existing profile)
+$ nmcli connection up name_or_uuid
+$ delete a connection
+$ nmcli connection delete name_or_uuid
 ```
 
-Now `wpa_cli` can be started and used to configure the connection:
-```shell
-$ wpa_cli
-
-# scan the wireless networks
-> scan
-> scan_results
-# to associate with <my-ssid>, add the network, set the credentials and enable it
-> add_network
-0
-> set_network 0 ssid "<my-ssid>"
-> set_network 0 psk "<passphrase>"
-> enable_network 0
-# check for something like:
-# <2>CTRL-EVENT-CONNECTED - Connection to 00:00:00:00:00:00 completed (reauth) [id=0 id_str=]
-
-# now save the config to the file previously created
-> save_config
-# OK
-> quit
-```
-
-The file `/etc/wpa_supplicant/wpa_supplicant_<your-interface>.conf` should have been updated with a network block 
-for that wireless network. The network interface should be UP in both places in the output of the `ip link` command:
+The network interface should be UP in both places in the output of the `ip link` command:
 ```shell
 $ ip link show
 #                                        here                                 here
@@ -84,30 +74,14 @@ $ ip link show
 #   link/ether 00:60:64:37:4a:30 brd ff:ff:ff:ff:ff:ff
 ```
 
-Now your network card/something is connected and authenticated to the wireless network, but you don't have an IP yet,
-nor a valid route in the routing table or DNS servers set. The fastest way to this is to use a DHCP client as follows:
+NetworkManager has a global configuration file at `/etc/NetworkManager/NetworkManager.conf`. 
+Additional configuration files can be placed in `/etc/NetworkManager/conf.d/`. Usually no 
+configuration needs to be done to the global defaults. After editing a configuration file, 
+the changes can be applied by running:
+
 ```shell
-$ dhcpcd <your-interface>
+$ nmcli general reload
 ```
 
-### Wireless connection at boot
-
-Several systemd units are provided from both `wpa_supplicant` and `dhcpcd` to automate connection at boot.
-
-For `wpa_supplicant` the unit _wpa_supplicant@interface.service_ accepts the interface name as an argument 
-and starts the _wpa_supplicant_ daemon for this interface. It reads a `/etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf` 
-configuration file (created previously if the steps above are followed)
-
-Copy the template file and enable it (it could be in different places based on your system, but this should work):
-```shell
-$ cp /usr/lib/systemd/system/wpa_supplicant@.service /usr/lib/systemd/system/wpa_supplicant@<your-interface>.service
-$ systemctl enable wpa_supplicant@<your-interface>
-```
-
-For the DHCP client is even easier, just enable the _dhcpcd_ systemd unit. Note that in some cases it could be necessary
-to create and activate an interface-specific unit (template at /usr/lib/systemd/system/dhcp@.service_).  
-```shell
-$ systemctl enable dhcpcd
-```
-
-Reboot and check if everything works.
+Note that by default NetworkManager uses its internal DHCP client. If you want to change it 
+check: https://wiki.archlinux.org/title/NetworkManager#DHCP_client
