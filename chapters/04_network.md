@@ -37,13 +37,10 @@ $ ip link show
 #    link/ether 00:60:64:37:4a:30 brd ff:ff:ff:ff:ff:ff
 ```
 
-Then the network interface should be brought up with:
+Then the network interface should be brought up with the command shown below. Check again 
+the interface status to spot the UP keyword at the beginning of the row with `ip link`:
 ```shell
 $ ip link set <your-interface> up
-```
-
-Check again the interface status to spot the UP keyword at the beginning of the row with `ip link`:
-```shell
 $ ip link show
 #                                        here
 #                                        | 
