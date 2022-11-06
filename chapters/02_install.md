@@ -30,9 +30,7 @@ $ pacstrap /mnt \
     gcc \
     git \
     make \
-    vim \
-    docker \
-
+    vim 
 ```
 
 Now the Linux kernel is installed along with some utilities (in the temporary mounted disk
