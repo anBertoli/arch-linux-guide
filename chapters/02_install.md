@@ -331,5 +331,11 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ### End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot. If you are fine with a shell
-only OS you are good. Otherwise proceed with the next chapters.
+the Arch-Chroot environment, unmount the partition, and reboot. 
+
+```bash
+$ exit              # from chroot
+$ umount -R /mnt    # unmount partitions
+$ reboot
+```
+If you are fine with a _shell-only_ OS you are good. Otherwise proceed with the next chapters.

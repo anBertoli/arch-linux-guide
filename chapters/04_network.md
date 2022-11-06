@@ -2,8 +2,12 @@
 
 ## Wireless connection
 
-You should install and enbale `networkmanager` if not already done previously. The package 
+You should install and enable `networkmanager` if not already done previously. The package 
 contains a daemon, a command line interface (`nmcli`) and a curses‐based interface (`nmtui`).
+
+⚠️ The Live env has everything needed to connect to internet. If now you booted directly from 
+the newly installed OS and you didn't install the network manager previously... well, you 
+have to use an ethernet connection or re-boot from the Live env to install it.
 
 ```shell
 # install network manager

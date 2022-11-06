@@ -26,31 +26,15 @@ Finally install the desktop environment.
 $ pacman -S plasma
 ```
 
-Like gdm in GNOME, Plasma comes with `sddm` as the default display manager. Execute the 
-following command to enable the service.
+Like gdm in GNOME, Plasma comes with `sddm` as the default display manager. A display manager, 
+or login manager, is typically a graphical user interface that is displayed at the end of the
+boot process in place of the default shell. 
+
+Execute the following command to enable the service.
 
 ```shell
 $ systemctl enable sddm
 ```
 
-
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
+Alternatively, Plasma can start at boot immediately after the X server. See:
+https://wiki.archlinux.org/title/KDE#From_the_console

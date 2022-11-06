@@ -575,8 +575,14 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ### End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot. If you are fine with a shell
-only OS you are good. Otherwise proceed with the next chapters.
+the Arch-Chroot environment, unmount the partition, and reboot. 
+
+```bash
+$ exit              # from chroot
+$ umount -R /mnt    # unmount partitions
+$ reboot
+```
+If you are fine with a _shell-only_ OS you are good. Otherwise proceed with the next chapters.
 # ⚙️ Post installation
 
 ## Install graphical environment
@@ -605,40 +611,28 @@ Finally install the desktop environment.
 $ pacman -S plasma
 ```
 
-Like gdm in GNOME, Plasma comes with `sddm` as the default display manager. Execute the 
-following command to enable the service.
+Like gdm in GNOME, Plasma comes with `sddm` as the default display manager. A display manager, 
+or login manager, is typically a graphical user interface that is displayed at the end of the
+boot process in place of the default shell. 
+
+Execute the following command to enable the service.
 
 ```shell
 $ systemctl enable sddm
 ```
 
-
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
-
-```shell
-
-```
+Alternatively, Plasma can start at boot immediately after the X server. See:
+https://wiki.archlinux.org/title/KDE#From_the_console
 # 🌐 Network
 
 ## Wireless connection
 
-You should install and enbale `networkmanager` if not already done previously. The package 
+You should install and enable `networkmanager` if not already done previously. The package 
 contains a daemon, a command line interface (`nmcli`) and a curses‐based interface (`nmtui`).
+
+⚠️ The Live env has everything needed to connect to internet. If now you booted directly from 
+the newly installed OS and you didn't install the network manager previously... well, you 
+have to use an ethernet connection or re-boot from the Live env to install it.
 
 ```shell
 # install network manager
