@@ -563,7 +563,8 @@ $ passwd <username>
 ```
 
 If not already present add administration privileges for the new user. Open `/etc/sudoers` and 
-uncomment the following line. 
+uncomment the following line. Note that we should use `visudo` to edit this file, but.. keep
+attention and do it manually.
 
 ```shell
 $ vim /etc/sudoers
@@ -576,18 +577,83 @@ https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file
 
 ### End
 Congratulations, you now have a working Arch Linux installation. At this point, you can exit
-the Arch-Chroot environment, unmount the partition, and reboot.
+the Arch-Chroot environment, unmount the partition, and reboot. If you are fine with a shell
+only OS you are good. Otherwise proceed with the next chapters.
 # ⚙️ Post installation
+
+## Install graphical environment
+To run programs with graphical user interfaces on your system, you'll have to install an 
+X Window System implementation. The most common one is Xorg. To install Xorg, execute the
+following command.
+
+```shell
+$ pacman -S xorg-server
+```
+
+Then you need to install graphic drivers, depending on your graphic card.
+
+```shell
+# for nvidia graphics processing unit
+$ pacman -S nvidia nvidia-utils
+# for amd discreet and integrated graphics processing unit
+$ pacman -S xf86-video-amdgpu
+# for intel integrated graphics processing unit
+$ pacman -S xf86-video-intel
+```
+
+Finally install the desktop environment.
+
+```shell
+$ pacman -S plasma
+```
+
+Like gdm in GNOME, Plasma comes with `sddm` as the default display manager. Execute the 
+following command to enable the service.
+
+```shell
+$ systemctl enable sddm
+```
+
+
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
+
+```shell
+
+```
 # 🌐 Network
 
 ## Wireless connection
 
-At this point the system should have the wpa_supplicant package (`wpa_supplicant`, `wpa_cli`, `wpa_passphrase`, to 
-connect and authenticate to a wireless access point, provided by the base arch installation), `dhcpcd` (dhcp client,
-installed previously).
+You should install and enbale `networkmanager` if not already done previously. The package 
+contains a daemon, a command line interface (`nmcli`) and a curses‐based interface (`nmtui`).
 
-Check if the driver for your card has been loaded, check the output of the `lspci -k` or `lsusb -v`, something 
-similar should appear in the drivers list:
+```shell
+# install network manager
+$ pacman -Sy networkmanager
+# start network manager
+$ systemctl start NetworkManager
+# enable network manager to start at boot
+$ systemctl enable NetworkManager
+```
+
+
+Before proceeding, check if the driver for your network card has been loaded, check the 
+output of the `lspci -k` or `lsusb -v`, something similar should appear in the drivers list:
 ```shell
 $ lspci -k
 # 06:00.0 Network controller: Intel Corporation WiFi Link 5100
@@ -596,8 +662,8 @@ $ lspci -k
 # 	Kernel modules: iwlwifi
 ```
 
-Check if a corresponding network interface was created, usually the naming of the wireless network interfaces starts 
-with the letter "w", e.g. wlan0 or wlp2s0:
+Check if a corresponding network interface was created, usually the naming of the wireless 
+network interfaces starts with the letter "w", e.g. wlan0 or wlp2s0:
 ```shell
 $ ip link show
 # <your-interface>: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state DOWN mode DORMANT qlen 1000
@@ -617,45 +683,26 @@ $ ip link show
 # <your-interface>: <BROADCAST,MULTICAST,UP,LOWER_UP> ....
 ```
 
-Create the `/etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf` file with the following content. This will allow
-_wpa_cli_ to update the config file when needed:
-```bash
-$ touch /etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf
-```
-```markdown
-ctrl_interface=/run/wpa_supplicant
-update_config=1
-```
-
-Now start `wpa_supplicant` on the right network interface with:
 ```shell
-$ wpa_supplicant -B -i <your-interface> -c /etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf
+# see a list of network devices and their state
+$ nmcli device
+# list nearby Wi-Fi networks
+$ nmcli device wifi list
+
+# connect to a Wi-Fi network
+$ nmcli device wifi connect <SSID_or_BSSID> password <password>
+# connect to a Wi-Fi on the wlan1 interface
+$ nmcli device wifi connect <SSID_or_BSSID> password <password> ifname <wlan1> <profile_name>
+
+# get a list of connections with their names, UUIDs, types and backing devices
+$ nmcli connection show
+# activate a connection (i.e. connect to a network with an existing profile)
+$ nmcli connection up name_or_uuid
+$ delete a connection
+$ nmcli connection delete name_or_uuid
 ```
 
-Now `wpa_cli` can be started and used to configure the connection:
-```shell
-$ wpa_cli
-
-# scan the wireless networks
-> scan
-> scan_results
-# to associate with <my-ssid>, add the network, set the credentials and enable it
-> add_network
-0
-> set_network 0 ssid "<my-ssid>"
-> set_network 0 psk "<passphrase>"
-> enable_network 0
-# check for something like:
-# <2>CTRL-EVENT-CONNECTED - Connection to 00:00:00:00:00:00 completed (reauth) [id=0 id_str=]
-
-# now save the config to the file previously created
-> save_config
-# OK
-> quit
-```
-
-The file `/etc/wpa_supplicant/wpa_supplicant_<your-interface>.conf` should have been updated with a network block 
-for that wireless network. The network interface should be UP in both places in the output of the `ip link` command:
+The network interface should be UP in both places in the output of the `ip link` command:
 ```shell
 $ ip link show
 #                                        here                                 here
@@ -664,31 +711,163 @@ $ ip link show
 #   link/ether 00:60:64:37:4a:30 brd ff:ff:ff:ff:ff:ff
 ```
 
-Now your network card/something is connected and authenticated to the wireless network, but you don't have an IP yet,
-nor a valid route in the routing table or DNS servers set. The fastest way to this is to use a DHCP client as follows:
+NetworkManager has a global configuration file at `/etc/NetworkManager/NetworkManager.conf`. 
+Additional configuration files can be placed in `/etc/NetworkManager/conf.d/`. Usually no 
+configuration needs to be done to the global defaults. After editing a configuration file, 
+the changes can be applied by running:
+
 ```shell
-$ dhcpcd <your-interface>
+$ nmcli general reload
 ```
 
-### Wireless connection at boot
+Note that by default NetworkManager uses its internal DHCP client. If you want to change it 
+check: https://wiki.archlinux.org/title/NetworkManager#DHCP_client
 
-Several systemd units are provided from both `wpa_supplicant` and `dhcpcd` to automate connection at boot.
-
-For `wpa_supplicant` the unit _wpa_supplicant@interface.service_ accepts the interface name as an argument 
-and starts the _wpa_supplicant_ daemon for this interface. It reads a `/etc/wpa_supplicant/wpa_supplicant-<your-interface>.conf` 
-configuration file (created previously if the steps above are followed)
-
-Copy the template file and enable it (it could be in different places based on your system, but this should work):
-```shell
-$ cp /usr/lib/systemd/system/wpa_supplicant@.service /usr/lib/systemd/system/wpa_supplicant@<your-interface>.service
-$ systemctl enable wpa_supplicant@<your-interface>
-```
-
-For the DHCP client is even easier, just enable the _dhcpcd_ systemd unit. Note that in some cases it could be necessary
-to create and activate an interface-specific unit (template at /usr/lib/systemd/system/dhcp@.service_).  
-```shell
-$ systemctl enable dhcpcd
-```
-
-Reboot and check if everything works.
 # 📚 Programming languages and IDEs
+
+## 🦫 Go & Goland
+
+### Install Go
+
+Before installing Go update all system packages.
+```shell
+$ sudo pacman -Syu
+```
+
+Proceed cleaning the old Go installation, downloading the desired version fo Go,
+extracting and installing it.
+
+```shell
+# choose the desired version
+GO_VER=1.19.3
+
+# remove old Go installation
+$ rm -rf /usr/local/go
+
+# download the Go language archive and install it 
+$ curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
+$ tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
+```
+
+Add `/usr/local/go/bin` to the PATH environment variable. You can do this by adding the 
+following line to your `$HOME/.profile` or `/etc/profile` (for a system-wide installation).
+
+```shell
+# add the line using redirection or do it manually using vim
+$ echo "export PATH=${PATH}:/usr/local/go/bin" >> $HOME/.profile
+$ source $HOME/.profile
+```
+
+Confirm everything is working.
+
+```shell
+$ go version
+```
+
+### Install Goland
+
+To install Goland download it from the jetbrains.com site, decompress and extract the archive,
+copy the contents into a proper directory.
+
+```bash
+GOLAND_VER="2022.2.4"
+$ curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
+$ tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
+```
+
+To run the IDE run the `goland.sh` script. You can eventually add this path to the PATH env 
+var. During the first launch Goland will ask you to authenticate or provide the license.
+
+```bash
+$ /opt/goland-${GOLAND_VER}/bin/goland.sh
+```
+
+## 🦀 Rust & CLion
+
+### Install Rust
+
+The primary way that folks install Rust is through a tool called Rustup, which is a Rust 
+installer and version management tool. When you install Rustup you’ll also get the latest
+stable version of the Rust build tool and package manager, also known as Cargo.
+
+```shell
+# install rustup, rust and cargo
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# can be run in the future to get rustup updates
+$ rustup update
+
+# check it worked
+$ cargo --version
+```
+
+In the Rust development environment, all tools are installed to the `~/.cargo/bin` directory, 
+and this is where you will find the Rust toolchain, including rustc, cargo, and rustup.
+
+During installation rustup will attempt to configure the PATH adding this folder. Because of 
+differences between platforms, command shells, and bugs in rustup, the modifications to 
+PATH may not take effect until the console is restarted, or the user is logged out, or it 
+may not succeed at all. 
+
+If the automatic configuration failed, add `~/.cargo/bin` to PATH manually. Add the 
+following line to your `$HOME/.profile` or `/etc/profile` (for a system-wide installation).
+
+```shell
+# add the line using redirection or do it manually using vim
+$ echo "export PATH=${PATH}:~/.cargo/bin" >> $HOME/.profile
+$ source $HOME/.profile
+
+# check again
+$ cargo --version
+```
+
+### Install CLion
+
+To install CLion download it from the jetbrains.com site, decompress and extract the archive,
+copy the contents into a proper directory.
+
+```bash
+CLION_VER="2022.2.4"
+$ curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
+$ tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
+```
+
+To run the IDE run the `clion.sh` script. You can eventually add this path to the PATH env var.
+During the first launch CLion will ask you to authenticate or provide the license.
+
+```bash
+$ /opt/clion-${CLION_VER}/bin/clion.sh
+```
+
+Inside the CLion IDE you must install the Rust plugin to allow the IDE to fully support Rust.
+
+
+## 🐳 Docker
+
+Install the `docker` and `docker-compose` packages. Next start and enable the `docker.service` 
+and verify it works.
+
+```shell
+$ pacman -Sy docker
+$ pacman -Sy docker-compose
+
+$ systemctl start docker
+$ systemctl enable docker
+
+$ sudo docker info
+```
+
+Next, verify that you can run containers. The following command downloads the latest Arch 
+Linux image and uses it to run a _hello world_ program within a container:
+
+```shell
+$ docker run -it --rm archlinux bash -c "echo hello world"
+```
+
+If you want to be able to run the docker CLI command as a non-root user, add your user to 
+the `docker` user group, re-login, and restart `docker.service`.
+
+```shell
+$ sudo usermod -a -G docker <user>
+$ cat /etc/group # verify it worked
+```
