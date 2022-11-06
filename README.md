@@ -687,7 +687,7 @@ $ nmcli device wifi connect <SSID_or_BSSID> password <password> ifname <wlan1> <
 $ nmcli connection show
 # activate a connection (i.e. connect to a network with an existing profile)
 $ nmcli connection up name_or_uuid
-$ delete a connection
+# delete a connection
 $ nmcli connection delete name_or_uuid
 ```
 
