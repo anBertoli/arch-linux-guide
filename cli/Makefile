@@ -11,7 +11,10 @@ install-cli:
 
 .PHONY: gen-doc
 gen-doc: build-cli
-	 ./bin/arch-cli ../chapters gen --file ../README.md --verbose --force
+	 ./bin/arch-cli ../01_arch_linux_installation/chapters gen \
+ 		--file ../README.md \
+	 	--verbose \
+	 	--force
 
 .PHONY: clean
 clean:

@@ -21,7 +21,7 @@ installation, proceed and wait the Arch Linux installer to boot. If everything w
 expected you should see the terminal in a screen like the one showed below. The Arch installer
 doesn't have any graphical user interface to automate the installation.
 
-<img src="./assets/images/01-01-installer-boot.png" alt="drawing" width="900"/>
+<img src=".././assets/images/01-01-installer-boot.png" alt="drawing" width="900"/>
 
 Make sure that you've booted in UEFI mode and not in BIOS mode. The following command will 
 output a bunch of UEFI related files if the boot started in UEFI mode properly. In case of a 
@@ -155,7 +155,8 @@ in the next step.
 ```shell
 $ fdisk /dev/sda -l
 ```
-<img src="./assets/images/01-02-partitions.png" alt="drawing" width="600"/>
+
+<img src=".././assets/images/01-02-partitions.png" alt="drawing" width="600"/>
 
 
 ## Filesystems and mount points
@@ -850,7 +851,7 @@ Next, verify that you can run containers. The following command downloads the la
 Linux image and uses it to run a _hello world_ program within a container:
 
 ```shell
-$ docker run -it --rm archlinux bash -c "echo hello world"
+$ sudo docker run -it --rm alpine sh -c "echo hello world"
 ```
 
 If you want to be able to run the docker CLI command as a non-root user, add your user to 

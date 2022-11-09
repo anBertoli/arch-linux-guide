@@ -155,6 +155,7 @@ in the next step.
 ```shell
 $ fdisk /dev/sda -l
 ```
+
 <img src="../../assets/images/01-02-partitions.png" alt="drawing" width="600"/>
 
 
