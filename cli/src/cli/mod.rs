@@ -22,9 +22,10 @@ pub fn run_cli() {
 #[command(name = "arch-cli", author, version, about)]
 #[command(propagate_version = true)]
 pub struct Cli {
-    /// The directory containing the chapters.
-    #[arg(required = true)]
-    source_dir: String,
+    /// The directories containing the desired chapters.
+    #[arg(long, short, required = true)]
+    #[arg(action = ArgAction::Append, value_delimiter = ',')]
+    source_dir: Vec<String>,
 
     /// Enable/disable verbose logs.
     #[arg(short, long, global = true)]

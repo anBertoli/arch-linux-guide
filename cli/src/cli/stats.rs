@@ -3,10 +3,10 @@ use std::io::Read;
 use std::path::PathBuf;
 use std::{fs, io};
 
-pub fn stats_cmd(path: &str, stats_cmd: StatsCommand) {
+pub fn stats_cmd(dirs: &[String], stats_cmd: StatsCommand) {
     log::info!("Starting stats calculation.");
 
-    let files_stats = match process_files_stats(path) {
+    let files_stats = match process_files(dirs) {
         Ok(files) => files,
         Err(err) => {
             log::error!("Reading source files: {}.", err);
@@ -26,9 +26,15 @@ pub fn stats_cmd(path: &str, stats_cmd: StatsCommand) {
     });
 }
 
-fn process_files_stats(dir: &str) -> Result<Vec<BookFileStats>, io::Error> {
+fn process_files(dirs: &[String]) -> Result<Vec<BookFileStats>, io::Error> {
     let mut files = Vec::with_capacity(10);
+    for dir in dirs {
+        process_files_stats(dir, &mut files)?;
+    }
+    Ok(files)
+}
 
+fn process_files_stats(dir: &str, files: &mut Vec<BookFileStats>) -> Result<(), io::Error> {
     let entries = fs::read_dir(dir)?;
     for entry in entries {
         let abs_path = fs::canonicalize(entry?.path())?;
@@ -60,7 +66,7 @@ fn process_files_stats(dir: &str) -> Result<Vec<BookFileStats>, io::Error> {
         });
     }
 
-    Ok(files)
+    Ok(())
 }
 
 struct BookFileStats {

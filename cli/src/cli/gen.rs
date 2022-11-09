@@ -4,10 +4,10 @@ use std::io::{ErrorKind, Read, Write};
 use std::path::PathBuf;
 use std::{fs, io};
 
-pub fn gen_cmd(dir: &str, gen_cmd: GenCommand) {
+pub fn gen_cmd(dirs: &[String], gen_cmd: GenCommand) {
     log::info!("Starting document generation.");
 
-    let files_contents = match read_files(&dir) {
+    let files_contents = match read_files(&dirs) {
         Ok(files) => files,
         Err(err) => {
             log::error!("Reading source files: {}.", err);
@@ -37,7 +37,19 @@ pub fn gen_cmd(dir: &str, gen_cmd: GenCommand) {
     };
 }
 
-fn read_files(dir: &str) -> Result<Vec<BookFile>, io::Error> {
+fn read_files(dirs: &[String]) -> Result<Vec<BookFile>, io::Error> {
+    let mut files = Vec::with_capacity(10);
+
+    for dir in dirs {
+        log::debug!("Start reading directory '{}'.", dir);
+        let dir_files = read_files_in_dir(dir)?;
+        files.extend(dir_files);
+    }
+
+    Ok(files)
+}
+
+fn read_files_in_dir(dir: &str) -> Result<Vec<BookFile>, io::Error> {
     let mut files = Vec::with_capacity(10);
 
     let entries = fs::read_dir(dir)?;
