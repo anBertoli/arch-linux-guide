@@ -7,7 +7,7 @@ use std::{fs, io};
 pub fn gen_cmd(dirs: &[String], gen_cmd: GenCommand) {
     log::info!("Starting document generation.");
 
-    let files_contents = match read_files(&dirs) {
+    let mut files_contents = match read_files(&dirs) {
         Ok(files) => files,
         Err(err) => {
             log::error!("Reading source files: {}.", err);
@@ -23,7 +23,7 @@ pub fn gen_cmd(dirs: &[String], gen_cmd: GenCommand) {
         }
         Some(out_path) => {
             log::info!("Start writing to file '{}'.", out_path);
-            write_to_file(out_path, gen_cmd.force, &files_contents)
+            write_to_file(out_path, gen_cmd.force, &mut files_contents)
         }
     };
 
@@ -83,7 +83,7 @@ fn read_files_in_dir(dir: &str) -> Result<Vec<BookFile>, io::Error> {
     Ok(files)
 }
 
-fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), io::Error> {
+fn write_to_file(out_path: &str, force: bool, files: &mut [BookFile]) -> Result<(), io::Error> {
     let mut file_opt = fs::OpenOptions::new();
     file_opt.read(false).write(true);
     let mut file = if force {
@@ -96,8 +96,7 @@ fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), 
     for file_content in files {
         let path_as_str = file_content.path.to_string_lossy();
         log::debug!("Writing '{}' to {}", path_as_str, out_path);
-        let mut contents = file_content.contents.replace("../assets/", "./assets/");
-        contents.push('\n');
+        let mut contents = file_content.contents.push('\n');
         let bytes = contents.as_bytes();
         match file.write_all(bytes) {
             Err(err) => return Err(err),
