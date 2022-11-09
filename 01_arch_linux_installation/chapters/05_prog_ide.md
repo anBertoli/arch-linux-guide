@@ -136,7 +136,7 @@ Next, verify that you can run containers. The following command downloads the la
 Linux image and uses it to run a _hello world_ program within a container:
 
 ```shell
-$ docker run -it --rm archlinux bash -c "echo hello world"
+$ sudo docker run -it --rm alpine sh -c "echo hello world"
 ```
 
 If you want to be able to run the docker CLI command as a non-root user, add your user to 
