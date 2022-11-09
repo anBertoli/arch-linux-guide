@@ -96,7 +96,7 @@ fn write_to_file(out_path: &str, force: bool, files: &mut [BookFile]) -> Result<
     for file_content in files {
         let path_as_str = file_content.path.to_string_lossy();
         log::debug!("Writing '{}' to {}", path_as_str, out_path);
-        let mut contents = file_content.contents.push('\n');
+        file_content.contents.push('\n');
         let bytes = contents.as_bytes();
         match file.write_all(bytes) {
             Err(err) => return Err(err),
