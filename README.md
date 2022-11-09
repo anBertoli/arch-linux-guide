@@ -21,7 +21,7 @@ installation, proceed and wait the Arch Linux installer to boot. If everything w
 expected you should see the terminal in a screen like the one showed below. The Arch installer
 doesn't have any graphical user interface to automate the installation.
 
-<img src="../../01_arch_linux_installation/assets/01-01-installer-boot.png" width="900"/>
+<img src="./01_arch_linux_installation/assets/01-01-installer-boot.png" width="900"/>
 
 Make sure that you've booted in UEFI mode and not in BIOS mode. The following command will 
 output a bunch of UEFI related files if the boot started in UEFI mode properly. In case of a 
@@ -156,7 +156,7 @@ in the next step.
 $ fdisk /dev/sda -l
 ```
 
-<img src="../../01_arch_linux_installation/assets/01-02-partitions.png" width="600"/>
+<img src="./01_arch_linux_installation/assets/01-02-partitions.png" width="600"/>
 
 
 ## Filesystems and mount points
@@ -1101,7 +1101,7 @@ che rappresenta un pezzo di hardware che può immagazzinare dati, scritto a bloc
 `lsblk` lista i block devices, come da esempio sotto. Come si può notare esiste un disco 
 _sda_ fisico, suddiviso in sezioni logiche che sono le partizioni. 
 
-<img src="../../02_linux_handbook/assets/lsblk.png" width="600"/>
+<img src="./02_linux_handbook/assets/lsblk.png" width="600"/>
 
 Ogni block device ha una versione `major` e `minor`. La major version (8) identifica il tipo 
 di hardware mentre la minor version (0,1,2,3) individua le singole partizioni.
@@ -1174,7 +1174,7 @@ utilizzato, più alcune opzioni aggiuntive. La sintasi delle righe è la seguent
 `<partizione> <mount-point> <fs-type> <options> <dump> <pass>` 
 (dump controlla backups, pass controlla se bisogna fare check sul fs dopo crash)
 
-<img src="../../02_linux_handbook/assets/fstab.png" width="600"/>
+<img src="./02_linux_handbook/assets/fstab.png" width="600"/>
 
 ```shell
 ```
