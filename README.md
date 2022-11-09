@@ -1043,7 +1043,7 @@ Esiste anche il comando `locate` cerca un file nel filesystem, ma si base su un 
 creato ed aggiornato periodicamente e non sempre necessariamente aggiornato (`updatedb` per 
 riaggiornare). 
 
-Il comando `grep` è molto utilizzato per cercare pattern all’interno di files.
+Il comando **`grep`** è molto utilizzato per cercare pattern all’interno di files.
 
 - `-i` 	ricerca case insensitive (di default è case sensitive)
 - `-r` 	ricerca ricorsiva in tutti i file a partire da una root
