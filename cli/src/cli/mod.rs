@@ -53,10 +53,19 @@ pub struct GenCommand {
     #[arg(short, long, required = false)]
     file: Option<String>,
 
+    // TODO
+    // #[arg(short, long, required = false, value_parser = parse_replace_arg)]
+    // replace: Vec<(String, String)>,
     #[arg(from_global)]
     force: bool,
     #[arg(from_global)]
     verbose: bool,
+}
+
+fn parse_replace_arg(s: &str) -> Result<(String, String), &str> {
+    // "str1"_"str2"
+    println!("{}", s);
+    unimplemented!()
 }
 
 #[derive(Debug, Args)]
