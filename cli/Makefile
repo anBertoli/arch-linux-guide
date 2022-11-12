@@ -13,16 +13,23 @@ install-cli:
 gen-doc: build-cli
 	./bin/arch-cli \
  		--source-dir ../01_arch_linux_installation/chapters \
-		gen --file ../01_arch_linux_installation/README.md --verbose --force
+		gen --file ../01_arch_linux_installation/README.md \
+	  	--replace ../../01_arch_linux_installation#../01_arch_linux_installation	\
+	  	--verbose --force
 
 	 ./bin/arch-cli \
  		--source-dir ../02_linux_handbook/chapters \
-		gen --file ../02_linux_handbook/README.md --verbose --force
+		gen --file ../02_linux_handbook/README.md \
+		--replace ../../02_linux_handbook#../02_linux_handbook	\
+		--verbose --force
 
 	./bin/arch-cli \
  		--source-dir ../01_arch_linux_installation/chapters \
  		--source-dir ../02_linux_handbook/chapters \
-		gen --file ../README.md --verbose --force
+		gen --file ../README.md \
+		--replace ../../01_arch_linux_installation#./01_arch_linux_installation \
+		--replace ../../02_linux_handbook#./02_linux_handbook	\
+		--verbose --force
 
 .PHONY: clean
 clean:

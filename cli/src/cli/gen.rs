@@ -23,7 +23,7 @@ pub fn gen_cmd(dirs: &[String], gen_cmd: GenCommand) {
         }
         Some(out_path) => {
             log::info!("Start writing to file '{}'.", out_path);
-            write_to_file(out_path, gen_cmd.force, &files_contents)
+            write_to_file(&gen_cmd, &files_contents)
         }
     };
 
@@ -83,22 +83,31 @@ fn read_files_in_dir(dir: &str) -> Result<Vec<BookFile>, io::Error> {
     Ok(files)
 }
 
-fn write_to_file(out_path: &str, force: bool, files: &[BookFile]) -> Result<(), io::Error> {
+fn write_to_file(gen_cmd: &GenCommand, files: &[BookFile]) -> Result<(), io::Error> {
+    let dest_file_path = gen_cmd.file.as_ref().unwrap();
     let mut file_opt = fs::OpenOptions::new();
     file_opt.read(false).write(true);
-    let mut file = if force {
+    let mut file = if gen_cmd.force {
         file_opt.create(true).truncate(true)
     } else {
         file_opt.create_new(true)
     }
-    .open(&out_path)?;
+    .open(dest_file_path)?;
 
     for file_content in files {
         let path_as_str = file_content.path.to_string_lossy();
-        log::debug!("Writing '{}' to {}", path_as_str, out_path);
-        let mut contents = file_content.contents.replace("../../", "./");
-        contents.push('\n');
-        let bytes = contents.as_bytes();
+        log::debug!("Writing '{}' to {}", path_as_str, dest_file_path);
+
+        let mut file_contents: String = (&gen_cmd.replace).iter().fold(
+            file_content.contents.clone(),
+            |contents, (from, to)| {
+                log::debug!("Replacing '{}' with '{}'", from, to);
+                return contents.replace(from, to);
+            },
+        );
+
+        file_contents.push('\n');
+        let bytes = file_contents.as_bytes();
         match file.write_all(bytes) {
             Err(err) => return Err(err),
             Ok(_) => log::info!(

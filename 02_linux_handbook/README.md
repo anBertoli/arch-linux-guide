@@ -238,7 +238,7 @@ che rappresenta un pezzo di hardware che può immagazzinare dati, scritto a bloc
 `lsblk` lista i block devices, come da esempio sotto. Come si può notare esiste un disco 
 _sda_ fisico, suddiviso in sezioni logiche che sono le partizioni. 
 
-<img src="./assets/lsblk.png" width="600"/>
+<img src="../02_linux_handbook/assets/lsblk.png" width="600"/>
 
 Ogni block device ha una versione `major` e `minor`. La major version (8) identifica il tipo 
 di hardware mentre la minor version (0,1,2,3) individua le singole partizioni.
@@ -311,7 +311,7 @@ utilizzato, più alcune opzioni aggiuntive. La sintasi delle righe è la seguent
 `<partizione> <mount-point> <fs-type> <options> <dump> <pass>` 
 (dump controlla backups, pass controlla se bisogna fare check sul fs dopo crash)
 
-<img src="./assets/fstab.png" width="600"/>
+<img src="../02_linux_handbook/assets/fstab.png" width="600"/>
 
 ```shell
 ```
