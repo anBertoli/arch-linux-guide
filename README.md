@@ -1216,7 +1216,7 @@ partire da loro (i volumi fisici sono degli identificativi usati da LVM per i di
 Si passa poi alla creazione dei volumes groups e dei logical volumes che possono essere
 formattati con un filesystem specifico e infine montati.
 
-# 🌐Network
+# 🌐 Network
 
 ## Switching & routing
 
