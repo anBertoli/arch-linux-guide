@@ -99,9 +99,7 @@ $ file <path>
 $ ls -alh [file, ...] 
 ```
 
-### Linux filesystem hierarchy
-
-Tipicamente il filesystem linux è organizzato come segue, si tratta di convenzioni.
+Il filesystem linux è organizzato per convenzione secondo la seguente gerarchia.
 
 - `/home`   -> contiene le cartelle degli utenti è aliasata dal simbolo ~ (tilde)
 - `/root`   -> home dell’utente root
