@@ -32,7 +32,9 @@ Esistono 3 tipi di partizioni:
 - logical partition: sub-partizione contenuta nelle extended partition, legacy
 
 
-Esistono diversi comandi per gestire le partizioni, fra cui `gdisk`. E' una CLI interattiva.
+### Manage partitions
+
+Esistono diversi comandi per gestire le partizioni, fra cui **`gdisk`**. E' una CLI interattiva.
 
 ```shell
 # start the gdisk CLI
@@ -65,16 +67,16 @@ caratteristica di una partizione, scritti in corrispondenza delle partition entr
 partition table, servono quindi ad indicare agli OS come interpretare/trattare le partizioni 
 di un disco.
 
-Il comando `mkfs` crea un filesystem su una partizione. 
+Il comando **`mkfs`** crea un filesystem su una partizione. 
 ```shell
 # create filesystem on specified partition
-$ mkfs.ext4 <path/to/device>
+$ mkfs.ext4 <path/to/partition_file>
 ```
 
-Il comando `mount` monta una partizione in una locazione del filesystem.
+Il comando **`mount`** monta una partizione in una locazione del filesystem.
 ```shell
 # create partition on specified filesystem point
-$ mount <path/to/device> <path/to/mount>
+$ mount <path/to/partition_file> <path/to/mount>
 # list all mounts
 $ mount
 ```
@@ -87,66 +89,44 @@ utilizzato, più alcune opzioni aggiuntive. La sintasi delle righe è la seguent
 
 <img src="../../02_linux_handbook/assets/fstab.png" width="600"/>
 
-```shell
-```
+## DAS, NAS and SAN 
 
-```shell
-```
+- `DAS`: direct attached storage
+- `NAS`: network attached storage
+- `SAN`: storage area network
 
-```shell
-```
+`DAS` impiega uno storage fisico direttamente collegato ad una macchina, è di tipo block, 
+veloce, affidabile, dedicato per un singolo host e ideale per piccoli business. Non sono
+coinvolti firewall o rete di alcun tipo, poichè l’hardware è direttamente collegato 
+alla macchina.
 
-### Title3
+`NAS` è uno storage che scambia dati con le macchine tramite rete, il network deve essere 
+attraversato e quindi può introdurre latenza. Per gli host, il filesystem NFS montato appare
+come un normale mount point (directory) nel filesystem dell’host. Abbastanza veloce, 
+condiviso fra piu macchine, ma risente della rete. SAN è un block storage simile, è 
+condiviso ma comunica con gli host tramite fibra ottica.
 
-```shell
-```
+I sistemi NAS (ma non solo), usano tipi di filesystem come `NFS` (_network file system_). 
+Questo filesystem nello specifico lavora tramite files e non blocchi ed opera con un 
+paradigma client server. NFS viene montato sulle macchine client su specifici mount point 
+(come ogni altro filesystem), ed appare come normali directories. Nel modello client-server,
+il server NFS mantiene il suo filesystem e quando gli host montano il filesystem possono 
+accedere al filesystem condiviso (sempre via rete). Solitamente solo specifiche cartelle
+dello storage sel server sono montate sui client.
 
-```shell
-```
+Il server NFS mantiene una lista di exports (in `/etc/exports`), ovvero una lista di 
+directories esposte alle macchine client. Possono esistere firewall da configurare fra 
+macchina/NFS client e NFS server.
 
-```shell
-```
+## Logical volume management (LVM)
 
-### Title3
+Il LVM permette di raggruppare diversi dischi e/o partizioni creando `volume groups`, i quali
+possono essere poi splittati in `logical volumes`. Un gruppo può raggruppare molti dischi. 
+Uno dei vantaggi di questo metodo è che i volumi logici possono essere re-sizati dinamicamente 
+senza dover smontare e rimontare i filesystem.
 
-```shell
-```
-
-```shell
-```
-
-```shell
-```
-
-## Title2
-
-```shell
-```
-
-```shell
-```
-
-```shell
-```
-
-### Title3
-
-```shell
-```
-
-```shell
-```
-
-```shell
-```
-
-### Title3
-
-```shell
-```
-
-```shell
-```
-
-```shell
-```
+Per usare LVM è necessario installare il package `**lvm2**`. E’ necessario identificare 
+partizioni/dischi liberi da includere nel futuro volume group e creare physical volumes a 
+partire da loro (i volumi fisici sono degli identificativi usati da LVM per i dischi fisici). 
+Si passa poi alla creazione dei volumes groups e dei logical volumes che possono essere
+formattati con un filesystem specifico e infine montati.

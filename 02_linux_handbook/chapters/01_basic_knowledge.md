@@ -1,4 +1,4 @@
-# Concetti di base
+# 📝 Concetti di base
 
 Il core del sistema operativo è il `kernel`. Il kernel si occupa di gestire la memoria (RAM), 
 gestire i processi del sistema (CPU), gestire i device fisici (comunicazione fra processi e 
@@ -19,7 +19,7 @@ che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo pro
 creando una `device file` che rappresenta il device nella cartella, tipicamente in /dev (e.g. 
 /dev/sdd1).
 
-Il comando `dmesg` ottiene messagi e logs generati dal kernel. Questi messaggi contengono 
+Il comando **`dmesg`** ottiene messagi e logs generati dal kernel. Questi messaggi contengono 
 anche log relativi all’hardware, per cui è possibile debuggare o saperne di più sui device 
 collegati tramite questo comando. Inoltre il comando `udevadm` interroga udev per ottenere 
 informazioni sui device e sugli eventi udev. Il comando invece `lspci` riporta informazioni 
@@ -51,10 +51,8 @@ sopra per una spiegazione più completa).
 della CPU. 
 
 **Kernel init**. Il sistema operativo inizializza driver, memoria, strutture dati interne 
-etc. 
-
-**User space init**. Avvia il processo init (PID 1) dello user space, lo standard è `systemd` 
-ai giorni nostri.
+etc. **User space init**. Avvia il processo init (PID 1) dello user space, lo standard è 
+`systemd` ai giorni nostri.
 
 Il runlevel è una modalità operativa del sistema operativo, ad esempio il boot fino al 
 terminale (raw) è considerato livello 3, per interfaccia grafica tipicamente 5. Per ogni 
@@ -65,10 +63,10 @@ default e modificarlo. Notare che il termine runlevels è usato nei sistemi con 
 Questi sono stati sostituiti da target systemd nei sistemi basati su di esso. L'elenco 
 completo dei runlevel e dei corrispondenti target di sistema è il seguente.
 
-- runlevel 0 --> poweroff.target
-- runlevel 1 --> rescue.target
-- runlevel 2 --> multi-user.target
-- runlevel 3 --> multi-user.target
-- runlevel 4 --> multi-user.target
-- runlevel 5 --> graphical.target
-- runlevel 6 --> reboot.target
+- _runlevel 0_: `poweroff.target`
+- _runlevel 1_: `rescue.target`
+- _runlevel 2_: `multi-user.target`
+- _runlevel 3_: `multi-user.target`
+- _runlevel 4_: `multi-user.target`
+- _runlevel 5_: `graphical.target`
+- _runlevel 6_: `reboot.target`
