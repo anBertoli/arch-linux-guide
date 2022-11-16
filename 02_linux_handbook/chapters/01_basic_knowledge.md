@@ -2,9 +2,8 @@
 
 Il core del sistema operativo è il `kernel`. Il kernel si occupa di gestire la memoria (RAM), 
 gestire i processi del sistema (CPU), gestire i device fisici (comunicazione fra processi e 
-hardware) e offrire agli applicativi accesso controllato all'hardware (tramite system call). 
-Il kernel è monolitico ma modulare, cioè può estendere le sue capacità tramite module kernel 
-caricabili a runtime.
+hardware) e offrire agli applicativi accesso controllato all'hardware. Il kernel è monolitico
+ma modulare, cioè può estendere le sue capacità tramite moduli caricabili a runtime.
 
 Il sistema operativo si divide fra `kernel space` (processi e risorse usati dal kernel) e 
 `user space` (processi applicativi). I programmi in user space interagiscono con l’hardware
@@ -14,12 +13,12 @@ il risultato e/o eventuali errori.
 
 ## Hardware
 
-Quando un device è collegato un device driver detecta il device è genera un evento (uevent) 
+Quando un device è collegato un device driver detecta il device è genera un evento (_uevent_) 
 che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo processa l’evento
-creando una `device file` che rappresenta il device nella cartella, tipicamente in /dev (e.g. 
-/dev/sdd1).
+creando una `device file` (che rappresenta il device) in una cartella, tipicamente `/dev` (e.g. 
+`/dev/sdd1`).
 
-Il comando **`dmesg`** ottiene messagi e logs generati dal kernel. Questi messaggi contengono 
+Il comando `dmesg` ottiene messagi e logs generati dal kernel. Questi messaggi contengono 
 anche log relativi all’hardware, per cui è possibile debuggare o saperne di più sui device 
 collegati tramite questo comando. Inoltre il comando `udevadm` interroga udev per ottenere 
 informazioni sui device e sugli eventi udev. Il comando invece `lspci` riporta informazioni 
