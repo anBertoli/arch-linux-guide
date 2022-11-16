@@ -75,12 +75,12 @@ completo dei runlevel e dei corrispondenti target di sistema è il seguente.
 
 Si usa la shell come uno specifico utente del sistema. I comandi dati alla shell si
 dividono in due categorie. Quelli interni sono parte della shell (del binario shell) e sono
-ad esempio echo cd, pwd, etc. Quelli esterni sono degli eseguibili a sé (es. mv, cp,
-uptime) e si trovano in una cartella del sistema listata nella variabile d'ambiente `PATH`.
+ad esempio _echo_, _cd_, _pwd_, etc. Quelli esterni sono degli eseguibili a sé (es. _mv_, _cp_,
+_uptime_) e si trovano in una cartella del sistema listata nella variabile d'ambiente `PATH`.
 E’ possibile distinguerli usando il comando `type <command>`.
 
-Esistono diversi tipi di shell, echo $SHELL mostra la shell di default sul sistema. Per
-settare una shell di default diversa è possibile usare chsh.
+Esistono diversi tipi di shell, la env var `SHELL` mostra la shell di default sul sistema. Per
+settare una shell di default diversa è possibile usare `chsh`.
 
 ## Bash
 
