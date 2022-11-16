@@ -9,6 +9,7 @@ E’ possibile distinguerli usando il comando `type <command>`.
 ```shell
 $ type mv       # mv is /bin/mv
 $ type echo     # echo is a shell builtin
+
 $ echo $SHELL   # /bin/bash
 ```
 
@@ -23,9 +24,7 @@ completamento e alias.
 Bash supporta l’uso di variabili di shell e variabili d’ambiente. Le prime sono legate solo
 alla corrente sessione, mentre le seconde sono anche passate ai processi figli della shell
 corrente (`env` per printare var d’ambiente). Il comando `export` crea una nuova env var. E'
-possibile farla permanere aggiugnengo l'export in `~/.profile` e/o `~/.bash_profile`. La
-env `PATH` controlla i posti dove i binari dei comandi vengono cercati per essere eseguiti
-quando si invoca un dato comando.
+possibile farla permanere aggiugnengo l'export in `~/.profile` e `~/.bash_profile`.
 
 ```shell
 # set and use shell variable
@@ -38,7 +37,11 @@ $ export MY_ENV=67
 
 # persist new env var
 $ echo 'export MY_ENV=67' >> ~/.profile
+$ echo 'export MY_ENV=67' >> ~/.bash_profile
 ```
+
+La env `PATH` controlla i posti dove i binari dei comandi vengono cercati per essere eseguiti
+quando si invoca un dato comando.
 
 ### IO redirection
 
