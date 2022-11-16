@@ -4,23 +4,23 @@
 
 Uno switch connette dei sottoreti di livello 2, sottoreti su mezzi fisici diversi che possono
 appunto essere connesse tramite switch (o bridge). Più reti di livello 2 sono raggruppate in
-un unica rete di livello 3 (IP). Le reti di livello 3 hanno quindi IP di rete diverso e 
+un unica rete di livello 3 (IP). Le reti di livello 3 hanno quindi IP di rete diverso e
 sono collegate tramite routers.
 
-Gli switch permettono la comunicazione fra host solo all’interno dello stesso network, 
-mentre la comunicazione fra reti diverse passa tramite router. I router hanno più 
-interfacce ognuna collegata ad un network IP diverso ed ognuna con il proprio indirizzo 
-IP compreso nel network a cui si affaccia. I router contengono regole di routing per 
-inoltrare il traffico da una data interfaccia verso un’altra interfaccia, in base all’IP 
+Gli switch permettono la comunicazione fra host solo all’interno dello stesso network,
+mentre la comunicazione fra reti diverse passa tramite router. I router hanno più
+interfacce ognuna collegata ad un network IP diverso ed ognuna con il proprio indirizzo
+IP compreso nel network a cui si affaccia. I router contengono regole di routing per
+inoltrare il traffico da una data interfaccia verso un’altra interfaccia, in base all’IP
 di destinazione.
 
 <img src="../../02_linux_handbook/assets/net-2.png" width="1200"/>
 
 Le macchine Linux astraggono il link fisico (es. collegamento con switch) come `interfacce`
 Linux. Gli host possiedono anche una `routing table`, che controlla dove vengono inoltrati
-i pacchetti in uscita in base alla destinazione. Ad esmepio, se la destinazione è un host 
-in una delle reti IP su cui l'host ha un'interfaccia, la routing table specifica che quel 
-pacchetto debba essere inoltrato sull'interfaccia collegata a tale rete. Gli host sono inoltre 
+i pacchetti in uscita in base alla destinazione. Ad esmepio, se la destinazione è un host
+in una delle reti IP su cui l'host ha un'interfaccia, la routing table specifica che quel
+pacchetto debba essere inoltrato sull'interfaccia collegata a tale rete. Gli host sono inoltre
 impostati per avere un `default gateway`. Si tratta dell'IP "di default" a cui viene mandato
 il traffico quando la routing table non ha nessun match per l'IP del destinatario .
 
@@ -31,7 +31,7 @@ Il comando **`ip`** viene utilizzato per gestire le interfacce di rete Linux.
 $ ip link
 ```
 
-Per modificare gli IP assegnati alle interfacce si usa `ip addr <command>`. Ad esempio è 
+Per modificare gli IP assegnati alle interfacce si usa `ip addr <command>`. Ad esempio è
 possibile assegnare ad una interfaccia l’IP fornito (deve essere nel network range indicato),
 in modod che l'host possa comunicare all'interno del network.
 
@@ -41,6 +41,7 @@ $ ip addr add <ip>/<netmask> dev <interfaccia>
 ```
 
 Con `ip route` è possibile gestire la routing table e le sue entries.
+
 ```shell
 # mostra la routing table dell'host
 $ ip route
@@ -60,8 +61,8 @@ venga modificato il file di configurazione `/etc/network/interfaces`.
 
 ## Diagnostics
 
-Il comando **`ping`** manda un pacchetto ICMP ad un dato IP e si aspetta una risposta, 
-monitorando anche diverse metriche. Usato tipicamente per troubleshooting e per verificare la 
+Il comando **`ping`** manda un pacchetto ICMP ad un dato IP e si aspetta una risposta,
+monitorando anche diverse metriche. Usato tipicamente per troubleshooting e per verificare la
 connettività (routing, interfaces up, etc).
 
 Il comando **`traceroute`** segue il percorso di un pacchetto dalla sua sorgente fino a
@@ -69,14 +70,15 @@ destinazione, riportando problemi e metriche. Permette di verificare problemi di
 colli di bottiglia ed altro.
 
 Possible troubleshooting flow:
-- verificare interfacce della macchina da cui facciamo il test o da cui si manifesta il 
+
+- verificare interfacce della macchina da cui facciamo il test o da cui si manifesta il
   problema
 - verificare IP ed interfaccie degli host destinatari
 - verificare la risoluzione corretta dell'eventuale nome di dominio (`dig`)
-- verifica connettività del newtork (`ping`), in caso si mancata connettività `traceroute` 
-  può veririfcare dove l’invio dei messaggi si ferma e da li è possibile fare ulteriori indagini
+- verifica connettività del newtork (`ping`), in caso si mancata connettività `traceroute`
+  può veririfcare dove l’invio dei messaggi si ferma e da li è possibile fare ulteriori
+  indagini
 - controllare processi che dovrebbero essere in ascolto sul server
-
 
 ## DNS
 
@@ -133,13 +135,14 @@ Come già indicato il file `/etc/hosts` può essere usato dalle macchine Linux p
 di nomi, con più o meno priorità rispetto ai nameservers. Nel caso di utilizzo di nameservers
 tipicamente vien utilizzato un nameserver locale.
 
-Il server DNS che viene usato ha tipicamente una lista configurata di nomi, che possono 
+Il server DNS che viene usato ha tipicamente una lista configurata di nomi, che possono
 essere quindi risolti su richiesta dei clients. Se richiediamo la risoluzione di un nome
 non presente nel database del nameserver possono accadere una delle due segeunti cose:
+
 - il DNS server è anche un resolver, per cui autonomamente si occuperà di risolvere il nome
   ricorsivamente attraverso il sistema DNS pubblico. Il DNS server deve essere impostato per
   contattare il giusto nameserver esterno
-- i client sono configurati per avere un secondo nameserver (es. 8.8.8.8) da contattare  nel
+- i client sono configurati per avere un secondo nameserver (es. 8.8.8.8) da contattare nel
   caso il primo non abbia la risposta cercata (è possibile specificare più di un DNS server in
   `/etc/resolv.conf`)
 
@@ -167,3 +170,82 @@ $ dig +retry=0 -p 53 @8.8.8.8 google.com
 # from the root servers
 $ dig +retry=0 +trace +recurse www.google.com 
 ```
+
+## Iptables (firewalls & more)
+
+E’ utile sapere come gestire la sicurezza di rete anche tramite firewall. E’ possibile farlo
+tramite direttamente sui router oppure farlo sui singoli server. L’utility `iptables`
+permette di controllare e gestire il traffico di rete sulla singola macchina.
+
+iptables controlla il traffico tramite `chains` (o _catene di regole_). La chain `INPUT` è
+applicabile al traffico in ingresso, la chain `OUTPUT` è responsabile per il traffico generato
+dal server in uscita, mentre la chain `FORWARD` è responsabile del forwarding ovvero quando
+traffico in ingresso deve essere reindirizzato in uscita. Iptables inoltre presenta più
+tabelle, ognuna con un suo scopo (nat, raw, mangle, filter, etc) ognuna con le sue chain si
+regole. Noi qua parleremo solo di quella _filter_.
+
+Il nome chain deriva dal fatto che è una _chain of rules_. Ogni regola di una chain cerca di
+matchare il pacchetto in esame e lo droppa o accetta, se non c’è match con la regola si passa
+alla regola successiva (pacchetto accettato). Ad esempio, nella figura sottostante, un
+pacchetto da client 01 matcha alla prima regola e il pacchetto è accettato. Se un pacchetto
+arriva da client09 solo la quinta regola viene applicata perchè le precedenti non matchano. E’
+ovviamente possibile matchare su molte caratteristiche.
+
+<img src="../../02_linux_handbook/assets/ip-tables-1.png" width="700">
+
+Se un pacchetto non matcha nessuna regola l’azione intrapresa dipende dalla policy di default
+applicata alla chain (visualizzabile con iptables -L). È possibile impostare la politica
+predefinita utilizzando il flag -P.
+
+### Example
+
+Cerchiamo di creare delle regole per lo scenario mostrato qui sotto, mostriamo quelle per la
+macchina devapp01. Notare che è importante aggiungere le regole nel **giusto ordine** poichè le
+chain rules vengono matchate in ordine, dalla prima all’ultima.
+
+<img src="../../02_linux_handbook/assets/ip-tables-2.png" width="800">
+
+```shell
+# INPUT default policy: ACCEPT
+
+# aggiunge regola che accetta i pacchetti provenienti 
+# dal client, solo pacchetti TCP sulla porta 22
+$ iptables -A INPUT -p TCP -s 172.16.238.187 --dport 22 -j ACCEPT
+
+# accetta il traffico uscente TCP verso l’IP specificato 
+# (db host), porta di destinazione 80 
+$ iptables -A OUTPUT -p tcp -d 172.16.238.11 --dport 5432 -j ACCEPT
+
+# accetta il traffico uscente TCP verso l’IP specificato 
+# (git repo), porta di destinazione 80
+$ iptables -A OUTPUT -p tcp -d 172.16.238.15 --dport 80 -j ACCEPT
+
+# droppa il traffico TCP verso tutte le destinazioni, porta di 
+# destinazione 443 o 80 (blocco internet)
+$ iptables -A OUTPUT -p tcp --dport 443 -j DROP
+$ iptables -A OUTPUT - tcp --dport 80 -j DROP
+
+# accetta il traffico TCP entrante dall’IP specificato (client) 
+# sulla porta 80 (http)
+$ iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
+
+# aggiunge regola (catch-all) che droppa tutto il traffico TCP
+# entrante sulla porta 22, deve essere messa in fondo alla chain
+$ iptables -A INPUT -p TCP --dport 22 -j DROP 
+```
+
+Iptables presenta molti comandi, listarli tutti è impossibile, ma ecco alcuni esempi:
+
+```shell
+# lista le regole di networking del sistema
+$ iptables -L 
+
+# elimina la regola in posizione 5 nella chain OUTPUT
+$ iptables -D OUTPUT 5 
+```
+
+#### References
+
+- https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
+- https://unix.stackexchange.com/questions/189905/how-iptables-tables-and-chains-are-traversed
+- https://linux.die.net/man/8/iptables
