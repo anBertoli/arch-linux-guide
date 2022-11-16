@@ -99,6 +99,9 @@ alla corrente sessione, mentre le seconde sono anche passate ai processi figli d
 corrente (`env` per printare var d’ambiente). Il comando `export` crea una nuova env var. E'
 possibile farla permanere aggiugnengo l'export in `~/.profile` e `~/.bash_profile`.
 
+La env `PATH` controlla i posti dove i binari dei comandi vengono cercati per essere eseguiti
+quando si invoca un dato comando.
+
 ```shell
 # set and use shell variable
 $ MY_VAR=67		            
@@ -113,25 +116,22 @@ $ echo 'export MY_ENV=67' >> ~/.profile
 $ echo 'export MY_ENV=67' >> ~/.bash_profile
 ```
 
-La env `PATH` controlla i posti dove i binari dei comandi vengono cercati per essere eseguiti
-quando si invoca un dato comando.
-
 ### IO redirection
 
 Ogni processo viene lanciato con tre file descriptor aperti di default:
 
 - `STDIN`: standard input, il processo accetta input attraverso questo fd
 - `STDOUT`: standard output, di default il processo scrive su questo fd
-- `STDERR`: standard error, per printare errori
+- `STDERR`: standard error, fd usato per scrivere errori
 
 E’ possibile redirezionare questi stream verso altre destinazioni. La destinazione può
 essere un altro processo, una pipe oppure un file/device.
 
-- `>`    redirect di standard output, sovrascrivendo contenuto
-- `>>`    redirect di standard output, append al contenuto
-- `2>`    redirect di standard error, sovrascrivendo contenuto
-- `2>>`    redirect di standard error, append al contenuto
-- `<`    read standard input from source
+- `>` redirect di standard output, sovrascrivendo contenuto
+- `>>` redirect di standard output, append al contenuto
+- `2>` redirect di standard error, sovrascrivendo contenuto
+- `2>>` redirect di standard error, append al contenuto
+- `<` read standard input from source
 - `1>&2` redirect standard output to standard error
 - `2>&1` redirect standard error to standard output
 
