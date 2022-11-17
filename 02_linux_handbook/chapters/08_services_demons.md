@@ -59,7 +59,7 @@ $ journalctl -u <unit-name>
 
 ## SSH
 
-Il comando 📌`ssh`è usato per eseguire shell su macchine remote, protocollo comunicante su
+Il comando 🛠️`ssh`è usato per eseguire shell su macchine remote, protocollo comunicante su
 porta 22:
 
 ```shell
@@ -81,7 +81,7 @@ home è quella dell’utente che deve loggarsi). Il formato del file è semplice
 lista di chiavi pubbliche, una per riga (il comando ssh-copy-id può installare chiavi
 pubbliche da locale con più facilità).
 
-Il comando 📌`scp` serve a copiare files da remoto verso locale e viceversa usando una
+Il comando 🛠️`scp` serve a copiare files da remoto verso locale e viceversa usando una
 connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag -r,
 mentre -p preserva i permessi dei file locali. La sintassi per uploadare dei file è:
 
