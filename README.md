@@ -1750,7 +1750,7 @@ Cerchiamo di creare delle regole _iptables_ per lo scenario mostrato qui sotto, 
 quelle per la macchina _devapp01_. Notare che è importante aggiungere le regole nel
 **giusto ordine** poichè le regole vengono matchate in ordine, dalla prima all’ultima.
 
-<img src="./02_linux_handbook/assets/ip-tables-2.png" width="600">
+<img src="./02_linux_handbook/assets/ip-tables-2.png" width="800">
 
 ```shell
 # INPUT default policy: ACCEPT
