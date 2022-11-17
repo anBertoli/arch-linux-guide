@@ -217,6 +217,10 @@ $ iptables -A INPUT -p TCP -s 172.16.238.187 --dport 22 -j ACCEPT
 # sulla porta 80 (http)
 $ iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
 
+# aggiunge regola che droppa tutto il traffico TCP entrante 
+# sulla porta 22, deve essere messa dopo le precedenti
+$ iptables -A INPUT -p TCP --dport 22 -j DROP 
+
 # accetta il traffico uscente TCP verso l’IP specificato
 # (db host), porta di destinazione 5432 (postgres) 
 $ iptables -A OUTPUT -p tcp -d 172.16.238.11 --dport 5432 -j ACCEPT
@@ -229,13 +233,16 @@ $ iptables -A OUTPUT -p tcp -d 172.16.238.15 --dport 80 -j ACCEPT
 # destinazione 443 o 80 (blocco internet)
 $ iptables -A OUTPUT -p tcp --dport 443 -j DROP
 $ iptables -A OUTPUT -p tcp --dport 80 -j DROP
-
-# aggiunge regola (catch-all) che droppa tutto il traffico TCP
-# entrante sulla porta 22, deve essere messa in fondo alla chain
-$ iptables -A INPUT -p TCP --dport 22 -j DROP 
 ```
 
-Iptables presenta molti comandi, listarli tutti è impossibile, ma ecco alcuni esempi:
+Notare un fatto sulla connessione col database: il traffico in uscita verso il DB è
+permesso, ma il traffico in entrata (la risposta) è permesso? La risposta è si, ecco perchè.
+Quando il server _devapp01_ contatta il database, utilizza una porta casuale dal suo lato.
+Le regole di INPUT del dev server negano esplicitamente solo il traffico entrante sulla
+porta 22 e la policy di default è ACCEPT, quindi il traffico che rappresenta la risposta
+del database è accettato.
+
+_Iptables_ presenta molti comandi, listarli tutti è impossibile, ma ecco alcuni esempi:
 
 ```shell
 # lista le regole di networking del sistema
@@ -245,7 +252,7 @@ $ iptables -L
 $ iptables -D OUTPUT 5 
 ```
 
-#### References
+### References
 
 - https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
 - https://unix.stackexchange.com/questions/189905/how-iptables-tables-and-chains-are-traversed
