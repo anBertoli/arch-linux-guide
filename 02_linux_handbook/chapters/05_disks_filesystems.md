@@ -86,9 +86,10 @@ $ mount
 
 Per far permanere le modifiche (i mounts) è necessario editare il file 📄`/etc/fstab`. Tale
 file raccoglie la lista dei mount point per ogni partizione ed il tipo di file system
-utilizzato, più alcune opzioni aggiuntive. La sintasi delle righe è la seguente:
+utilizzato, più alcune opzioni aggiuntive. La sintassi delle righe è la seguente:
 
 `<partizione> <mount-point> <fs-type> <options> <dump> <pass>`
+
 (dump controlla backups, pass controlla se bisogna fare check sul fs dopo crash)
 
 <img src="../../02_linux_handbook/assets/fstab.png" width="600"/>
