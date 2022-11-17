@@ -1009,11 +1009,11 @@ $ my-command < input.json 2> /dev/null
 ```
 
 E’ possibile connettere lo STDOUT di un processo allo STDIN di un secondo comando tramite le
-`shell pipes` (simbolo `|`). Il comando `tee` seguito ha la funzione di splittare l’output:
-tee scrive nella destinazione specificata ma anche sullo STDOUT.
+`shell pipes` (simbolo `|`). Il comando `tee` di seguito ha la funzione di splittare l’output:
+il comando scrive nella destinazione specificata, ma anche sullo STDOUT.
 
 ```shell
-# list files in current directory, outputs is the
+# list files in current directory, output is the
 # input of wc, which counts the number of lines
 $ ls -alh | wc -l
 
@@ -1027,8 +1027,8 @@ $ ls -alh | tee listing.txt | wc -l
 La prompt di bash può essere customizzata attraverso la env var `PS1`, che è un template del
 nostro prompt, personalizzabile attraverso alcuni caratteri speciali. Ad esempio con
 `PS1="[\d \w example]$"` il nostro prompt sarà composto da, es. [Tue May 26 /etc/nginx]$.
-La modifica del prompt per essere permanenete deve essere salvato in `~/.profile`. Di
-seguito una lista non esaustiva di opzioni.
+La modifica del prompt per essere permanentemente deve essere salvato in `~/.profile` e
+`~/.bash_profile`. Di seguito una lista non esaustiva di opzioni.
 
 - `\a` : an ASCII bell character (07)
 - `\d` : the date in "Weekday Month Date" format (e.g., "Tue May 26")
@@ -1052,6 +1052,8 @@ seguito una lista non esaustiva di opzioni.
 - `\# `: the command number of this command
 - `\$` : if the effective UID is 0, a #, otherwise a $
 - `\nnn` : the character corresponding to the octal number nnn
+
+For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
 ### Symbols & help
 
@@ -1254,27 +1256,27 @@ But changing the ownership (user/group) of files and directories is only allowed
 # 👨‍💻 Users
 
 Una macchina Linux prevede uno o più **users**, ognuno con un suo ID univoco (uid), username
-e password. Informazioni sugli user e sui gruppi sono mantenute in appositi file di
-configurazione. Gli utenti si raggruppano in **groups**, ognuno con un group ID univoco (gid).
+e password. Gli utenti si raggruppano in **groups**, ognuno con un group ID univoco (gid).
+Informazioni sugli user e sui gruppi sono mantenute in appositi file di configurazione.
 
 Un utente ha le seguenti caratteristiche:
 
-- username
-- user ID (uid)
-- group ID di default (gid), il gruppo di default costituito solo dall’utente stesso
-- altri groups ID di appartenenza
-- home path
-- default shell
+- `username`
+- `user ID` (uid)
+- `group ID` di default (gid) il gruppo di default costituito solo dall’utente stesso
+- `altri groups ID` di appartenenza
+- `home path`
+- `default shell`
 
-Oltre ai normali user accounts. Esiste sempre anche il superuser account, root è l’unico
-superuser (UID = 0). Esistono infine anche i system accounts, creati per gestire/avviare
-software e demoni e non pensati per essere idrettamente usati dagli utenti umani.
+Oltre ai normali _user accounts_. Esiste sempre anche il _superuser account_, root è l’unico
+superuser (UID = 0). Esistono infine anche i _system accounts_, creati per gestire/avviare
+software e demoni e non pensati per essere direttamente usati dagli utenti umani.
 
 - `id`: ritorna informazioni sull’utente attivo
 - `who`: mostra gli utenti loggati correntemente
 - `last`: mostra gli utenti che si sono loggati come uno storico
 
-I file di configurazione degli utenti (detti access control files) sono tipicamente in  
+I file di configurazione degli utenti (detti access control files) sono tipicamente in
 /etc. Di solito sono leggibili da tutti ma modificabili sono da root.
 
 - `/etc/passwd`: info utenti del sistema, ma senza password

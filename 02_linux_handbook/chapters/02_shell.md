@@ -73,11 +73,11 @@ $ my-command < input.json 2> /dev/null
 ```
 
 E’ possibile connettere lo STDOUT di un processo allo STDIN di un secondo comando tramite le
-`shell pipes` (simbolo `|`). Il comando `tee` seguito ha la funzione di splittare l’output:
-tee scrive nella destinazione specificata ma anche sullo STDOUT.
+`shell pipes` (simbolo `|`). Il comando `tee` di seguito ha la funzione di splittare l’output:
+il comando scrive nella destinazione specificata, ma anche sullo STDOUT.
 
 ```shell
-# list files in current directory, outputs is the
+# list files in current directory, output is the
 # input of wc, which counts the number of lines
 $ ls -alh | wc -l
 
@@ -91,8 +91,8 @@ $ ls -alh | tee listing.txt | wc -l
 La prompt di bash può essere customizzata attraverso la env var `PS1`, che è un template del
 nostro prompt, personalizzabile attraverso alcuni caratteri speciali. Ad esempio con
 `PS1="[\d \w example]$"` il nostro prompt sarà composto da, es. [Tue May 26 /etc/nginx]$.
-La modifica del prompt per essere permanenete deve essere salvato in `~/.profile`. Di
-seguito una lista non esaustiva di opzioni.
+La modifica del prompt per essere permanentemente deve essere salvato in `~/.profile` e
+`~/.bash_profile`. Di seguito una lista non esaustiva di opzioni.
 
 - `\a` : an ASCII bell character (07)
 - `\d` : the date in "Weekday Month Date" format (e.g., "Tue May 26")
@@ -116,6 +116,8 @@ seguito una lista non esaustiva di opzioni.
 - `\# `: the command number of this command
 - `\$` : if the effective UID is 0, a #, otherwise a $
 - `\nnn` : the character corresponding to the octal number nnn
+
+For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
 ### Symbols & help
 

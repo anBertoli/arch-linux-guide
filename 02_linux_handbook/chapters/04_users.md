@@ -1,27 +1,27 @@
 # 👨‍💻 Users
 
 Una macchina Linux prevede uno o più **users**, ognuno con un suo ID univoco (uid), username
-e password. Informazioni sugli user e sui gruppi sono mantenute in appositi file di
-configurazione. Gli utenti si raggruppano in **groups**, ognuno con un group ID univoco (gid).
+e password. Gli utenti si raggruppano in **groups**, ognuno con un group ID univoco (gid).
+Informazioni sugli user e sui gruppi sono mantenute in appositi file di configurazione.
 
 Un utente ha le seguenti caratteristiche:
 
-- username
-- user ID (uid)
-- group ID di default (gid), il gruppo di default costituito solo dall’utente stesso
-- altri groups ID di appartenenza
-- home path
-- default shell
+- `username`
+- `user ID` (uid)
+- `group ID` di default (gid) il gruppo di default costituito solo dall’utente stesso
+- `altri groups ID` di appartenenza
+- `home path`
+- `default shell`
 
-Oltre ai normali user accounts. Esiste sempre anche il superuser account, root è l’unico
-superuser (UID = 0). Esistono infine anche i system accounts, creati per gestire/avviare
-software e demoni e non pensati per essere idrettamente usati dagli utenti umani.
+Oltre ai normali _user accounts_. Esiste sempre anche il _superuser account_, root è l’unico
+superuser (UID = 0). Esistono infine anche i _system accounts_, creati per gestire/avviare
+software e demoni e non pensati per essere direttamente usati dagli utenti umani.
 
 - `id`: ritorna informazioni sull’utente attivo
 - `who`: mostra gli utenti loggati correntemente
 - `last`: mostra gli utenti che si sono loggati come uno storico
 
-I file di configurazione degli utenti (detti access control files) sono tipicamente in  
+I file di configurazione degli utenti (detti access control files) sono tipicamente in
 /etc. Di solito sono leggibili da tutti ma modificabili sono da root.
 
 - `/etc/passwd`: info utenti del sistema, ma senza password
