@@ -937,8 +937,8 @@ $ iptables -D OUTPUT 5
 
 Le distribuzioni Linux usano package managers per gestire le dipendenze. Per dipendenze si
 intende librerie necessarie per eseguire e/o compilare un software. Esistono due filoni
-principali di distribuzioni Linux. RHEL (Red Hat), Centos, Fedora usano il package manager
-`rpm` mentre Debian, Ubuntu, Arch Linux usano il package manager `deb`. La distribuzione Red
+principali di distribuzioni Linux. RHEL (Red Hat), Centos, Fedora usano package in formato
+`.rpm` mentre Debian, Ubuntu, Arch Linux usano package in formato `.deb`. La distribuzione Red
 Hat è a pagamento ma offe anche assistenza, CentOS è un derivato di Red Hat.
 
 Un package è un archivio compresso che comprende tutti i file che compongono una dipendenza.
