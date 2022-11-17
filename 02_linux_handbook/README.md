@@ -686,38 +686,39 @@ possono essere formattati con un filesystem specifico e infine montati.
 
 ## Switching & routing
 
-Uno switch connette dei sottoreti di livello 2, sottoreti su mezzi fisici diversi che possono
-appunto essere connesse tramite switch (o bridge). Più reti di livello 2 sono raggruppate in
-un unica rete di livello 3 (IP). Le reti di livello 3 hanno quindi IP di rete diverso e
-sono collegate tramite routers.
+Uno _switch_ connette più reti di livello 2, che si trovano su mezzi fisici diversi. Più
+reti di livello 2 sono raggruppate in un unica rete di livello 3 (IP). Le macchine nelle reti
+di livello 3 hanno un _IP_ di rete e più reti di livello 3 sono collegate tramite _routers_.
 
-Gli switch permettono la comunicazione fra host solo all’interno dello stesso network,
+Gli switch permettono la comunicazione fra host solo all’interno della stessa rete,
 mentre la comunicazione fra reti diverse passa tramite router. I router hanno più
 interfacce ognuna collegata ad un network IP diverso ed ognuna con il proprio indirizzo
-IP compreso nel network a cui si affaccia. I router contengono regole di routing per
+IP compreso nel network su cui si affaccia. I router contengono regole di routing per
 inoltrare il traffico da una data interfaccia verso un’altra interfaccia, in base all’IP
 di destinazione.
 
 <img src="../02_linux_handbook/assets/net-2.png" width="1000"/>
 
-Le macchine Linux astraggono il link fisico (es. collegamento con switch) come `interfacce`
-Linux. Gli host possiedono anche una `routing table`, che controlla dove vengono inoltrati
-i pacchetti in uscita in base alla destinazione. Ad esmepio, se la destinazione è un host
-in una delle reti IP su cui l'host ha un'interfaccia, la routing table specifica che quel
-pacchetto debba essere inoltrato sull'interfaccia collegata a tale rete. Gli host sono inoltre
-impostati per avere un `default gateway`. Si tratta dell'IP "di default" a cui viene mandato
-il traffico quando la routing table non ha nessun match per l'IP del destinatario .
+Le macchine Linux astraggono il link fisico (es. collegamento con switch) come `interfacce
+di rete` Linux. Gli host (come i routers) possiedono una `routing table`, che controlla
+dove vengono inoltrati i pacchetti in uscita in base alla destinazione. Ad esempio, se la
+destinazione è un host in una delle reti IP su cui l'host ha un'interfaccia, la _routing table_
+specifica che quel pacchetto debba essere inoltrato sull'interfaccia collegata a tale rete.
+Gli host sono inoltre impostati per avere un `default gateway`. Si tratta dell'IP "di default"
+a cui viene mandato il traffico quando la routing table non ha match migliori per l'IP di
+destinazione.
 
-Il comando **`ip`** viene utilizzato per gestire le interfacce di rete Linux.
+Il comando 🛠️`ip` viene utilizzato per gestire le interfacce di rete Linux.
 
 ```shell
 # modifica o lista le interfacce dell’host
 $ ip link
 ```
 
-Per modificare gli IP assegnati alle interfacce si usa `ip addr <command>`. Ad esempio è
-possibile assegnare ad una interfaccia l’IP fornito (deve essere nel network range indicato),
-in modod che l'host possa comunicare all'interno del network.
+Per modificare gli IP assegnati alle interfacce si usa `ip addr add <args>`. Ad esempio è
+possibile assegnare a una interfaccia l’IP fornito (deve essere nel network range indicato),
+in modo che l'host possa comunicare all'interno del network. Notare che però tipicamente gli
+IP vengono assegnati automaticamente tramite protocol `DHCP` dal DHCP server.
 
 ```shell
 # assegna IP ad una interfaccia
@@ -741,15 +742,15 @@ $ ip route add 0.0.0.0 via <ip-default-gateway>
 ```
 
 Le modifiche fatte alle interfacce o alla tabella di routing sono temporanee, a meno che non
-venga modificato il file di configurazione `/etc/network/interfaces`.
+venga modificato il file di configurazione 📄`/etc/network/interfaces`.
 
 ## Diagnostics
 
-Il comando **`ping`** manda un pacchetto ICMP ad un dato IP e si aspetta una risposta,
+Il comando 🛠️`ping` manda un pacchetto ICMP ad un dato IP e si aspetta una risposta,
 monitorando anche diverse metriche. Usato tipicamente per troubleshooting e per verificare la
-connettività (routing, interfaces up, etc).
+connettività (routing corretto, interfaces funzionanti, etc).
 
-Il comando **`traceroute`** segue il percorso di un pacchetto dalla sua sorgente fino a
+Il comando 🛠️`traceroute` segue il percorso di un pacchetto dalla sua sorgente fino a
 destinazione, riportando problemi e metriche. Permette di verificare problemi di routing,
 colli di bottiglia ed altro.
 
