@@ -1813,17 +1813,17 @@ molto manuale ed error-prone).
 
 Un package manager è un software che automatizza e semplifica l’installazione, la rimozione,
 l'upgrade di software, controlla l’integrità e l’autenticità dei package, automatizza
-installazione ricorsiva delle dipendenze. Alcuni esempi: DPKG (debian like), APT (front end
-per DPKG), APT-GET (front end per DPKG), RPM (red hat like), YUM (front end per RPM),
-DNF (front end per RPM).
+installazione ricorsiva delle dipendenze. Alcuni esempi: _DPKG_ (debian like), _APT_ (front end
+per DPKG), _APT-GET_ (front end per DPKG), _RPM_ (red hat like), _YUM_ (front end per RPM),
+_DNF_ (front end per RPM).
 
 ## Red Hat Package Manager (RPM & YUM)
 
 `rpm` non risolve dipendenze automaticamente, per fare questo usa un front end chiamato `yum`.
 Il package manager yum sfrutta software repositories remoti, che sono collezioni di package,
-le info sui repos remoti sono salvati localmente (files di configurazione in `/etc/yum.repos.
-d` e files `/etc/yum.respos.d/.repo`). yum usa rpm internamente ma si occupa anche delle
-dipendenze transitive seguendo i seguenti step:
+mentre le info sui repos remoti sono salvati localmente (files di configurazione in
+`/etc/yum.repos.d` e files `/etc/yum.respos.d/.repo`). yum usa rpm internamente ma si occupa
+anche delle dipendenze transitive seguendo i seguenti step:
 
 - controlla se il package da installare, se è presente esce
 - se non è presente, verifica i repo configurati per vedere se contengono il package richiesto
