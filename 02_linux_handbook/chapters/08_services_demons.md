@@ -82,8 +82,8 @@ lista di chiavi pubbliche, una per riga (il comando ssh-copy-id può installare 
 pubbliche da locale con più facilità).
 
 Il comando 🛠️`scp` serve a copiare files da remoto verso locale e viceversa usando una
-connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag -r,
-mentre -p preserva i permessi dei file locali. La sintassi per uploadare dei file è:
+connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag _-r_,
+mentre _-p_ preserva i permessi dei file locali. La sintassi per uploadare dei file è:
 
 ```shell
 $ scp -i <path/to/key> [-r] [-p] </local/files> <user>@<host/ip>:</remote/dir>
@@ -91,8 +91,9 @@ $ scp -i <path/to/key> [-r] [-p] </local/files> <user>@<host/ip>:</remote/dir>
 
 ## Cron jobs
 
-Cron ci permette di schedulare task ricorrenti usando un formato specifico per lo
-scheduling. I task cron una volta confermati, vengono gestiti dal demone `crond`.
+Il sistema _cron_ ci permette di schedulare task ricorrenti usando un formato specifico per lo
+scheduling. I task cron una volta create mediante comando 🛠`crontab` vengono gestiti dal
+demone `crond`.
 
 ```shell
 # schedulare un job come utente corrente (non usare root pls)
@@ -101,9 +102,9 @@ $ crontab -e
 $ crontab -l 	
 ```
 
-La sintassi è la seguente, con * per indicare che ogni valore di quel campo è valido per far
-correre il job. E’ possibile anche usare una sintassi per indicare di eseguire il job non in
-momenti precisi, ma a step periodici.
+La sintassi dei _cronjob_ è la seguente, con * per indicare che ogni valore di quel campo è
+valido per far correre il job. E’ possibile anche usare una sintassi specifica per indicare
+di eseguire il job non in momenti precisi, ma a step periodici.
 
 ```shell
 # minute:hour:day:month:weekday, runs at 08:10 
