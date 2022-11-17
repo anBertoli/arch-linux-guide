@@ -1014,7 +1014,7 @@ $ apt list | grep <pkg>
 Si tratta del primo user space program, detto init (con PID = 1). SystemD lavora con `unit
 files` che descivono come i servizi devono essere startati, gestiti e terminati.
 
-Gli unit files sono presenti in `/etc/systemd/system/<unit_name>.service`. Il tool di gestione
+Gli unit files sono presenti in 📄`/etc/systemd/system/<unit_name>.service`. Il tool di gestione
 di systemD è `systemctl`. I log dei servizi sono indirizzati automaticamente al syslog e
 visualizzabili mediante `journalctl`.
 
@@ -1022,8 +1022,8 @@ L’utente di default dei servizi è root.
 
 ### Systemctl and journalctl
 
-`systemctl` è il tool per gestire i servizi e gli unit files. Permette di avviare, stoppare,
-installare unità, ricaricare configurazioni e molto altro.
+Il tool ⚙️`systemctl` è usato per gestire i servizi e gli unit files. Permette di avviare,
+stoppare, installare unità, ricaricare configurazioni e molto altro.
 
 ```shell
 # list units
@@ -1053,7 +1053,7 @@ $ systemctl get-default
 $ systemctl set-default 		
 ```
 
-Il comando `journalctl` è usato per leggere i log dei servizi e altre informazioni relative.
+Il comando ⚙️`journalctl` è usato per leggere i log dei servizi e altre informazioni relative.
 
 ```shell
 # printa i logs da tutti i servizi
@@ -1068,7 +1068,7 @@ $ journalctl -u <unit-name>
 
 ## SSH
 
-Il comando ⚙️`ssh`è usato per eseguire shell su macchine remote, protocollo comunicante su
+Il comando ⚙️`ssh` è usato per eseguire shell su macchine remote, protocollo comunicante su
 porta 22:
 
 ```shell
