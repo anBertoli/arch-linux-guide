@@ -131,7 +131,7 @@ Uno dei vantaggi di questo metodo è che i volumi logici possono essere re-sizat
 senza dover smontare e rimontare i filesystem.
 
 Per usare LVM è necessario installare il package `lvm2`. E’ necessario identificare
-partizioni/dischi liberi da includere nel futuro volume group e creare physical volumes a
-partire da loro (i volumi fisici sono degli identificativi usati da LVM per i dischi fisici).
-Si passa poi alla creazione dei volumes groups e dei logical volumes che possono essere
-formattati con un filesystem specifico e infine montati.
+partizioni/dischi liberi da includere nel futuro volume group e creare `physical volumes` a
+partire da tali partizioni (i volumi fisici sono degli identificativi usati da LVM per i
+dischi fisici). Si passa poi alla creazione dei volumes groups e dei logical volumes che
+possono essere formattati con un filesystem specifico e infine montati.
