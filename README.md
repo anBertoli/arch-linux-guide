@@ -1878,41 +1878,45 @@ Si tratta del primo user space program, detto init (con PID = 1). SystemD lavora
 files` che descivono come i servizi devono essere startati, gestiti e terminati.
 
 Gli unit files sono presenti in `/etc/systemd/system/<unit_name>.service`. Il tool di gestione
-di systemD è `systemctl`. I log del servizio sono loggati automaticamente a syslog e
-visualizzibili mediante `journalctl`.
+di systemD è `systemctl`. I log dei servizi sono indirizzati automaticamente al syslog e
+visualizzabili mediante `journalctl`.
 
 L’utente di default dei servizi è root.
 
 ### Systemctl and journalctl
 
 `systemctl` è il tool per gestire i servizi e gli unit files. Permette di avviare, stoppare,
-installare unita, ricaricare configurazioni e molto altro.
+installare unità, ricaricare configurazioni e molto altro.
 
 ```shell
-# start the unit which file is /etc/systemd/system/<unit_name>.service 
-systemctl start <nome-unit>
+# list units
+$ systemctl list-units [--all]
+# start the unit which file is /etc/systemd/system/<unit-name>.service 
+$ systemctl start <unit-name>
 # stop the service
-systemctl stop <nome-unit>
+$ systemctl stop <unit-name>
 # restart the service, if the unit supports it
-systemctl restart <nome-unit>
+$ systemctl restart <unit-name>
 # reload config for the service, if the unit supports it
-systemctl reload <nome-unit>
+$ systemctl reload <unit-name>
 # install the service, if the unit supports it
 # the service will start at boot
-systemctl enable <nome-unit>
+$ systemctl enable <unit-name>
 # uninstall the service
-systemctl disable <nome-unit>
+$ systemctl disable <unit-name>
 # get info about a service
-systemctl status <nome-unit>
+$ systemctl status <unit-name>
+
 
 # reload systemd units
-systemctl deamon-reload
-systemctl list-units [--all]
-systemctl get-default		vedi target corrente
-systemctl set-default 		setta nuovo target di default
+$ systemctl deamon-reload 
+# vedi target corrente
+$ systemctl get-default		
+# setta nuovo target di default
+$ systemctl set-default 		
 ```
 
-Il comando `journalctl` è usato per leggere i log dei servizi ed informazioni relative.
+Il comando `journalctl` è usato per leggere i log dei servizi e altre informazioni relative.
 
 ```shell
 # printa i logs da tutti i servizi
@@ -1922,15 +1926,16 @@ $ journalctl
 $ journalctl -b		
 
 # printa logs di una specifica unit/servizio
-$ journalctl -u <unit>	
+$ journalctl -u <unit-name>	
 ```
 
 ## SSH
 
-Usato per eseguire shell su macchine remote, protocollo comunicante su porta 22:
+Il comando 📌`ssh`è usato per eseguire shell su macchine remote, protocollo comunicante su
+porta 22:
 
 ```shell
-$ ssh -i <path-to-key> <remote-user>@<hostname/ip>.
+$ ssh -i <path-to-key> <remote-user>@<hostname/ip>
 ```
 
 La macchina remota deve avere un demone ssh in esecuzione. Il login può avvenire tramite
@@ -1941,14 +1946,14 @@ Tipicamente l’utente in locale crea una coppia di chiavi, privata e pubblica. 
 deve rimanere segreta, la pubblica può essere inviata all’amministratore per essere
 installata sul server. Una chiave può essere generata ad esempio con: `ssh-keygen -t rsa`.
 
-Le chiavi generate localmente vengono salvate tipicamente in `~/.ssh/my_key.pub` e  
+Le chiavi generate localmente vengono salvate tipicamente in `~/.ssh/my_key.pub` e
 `~/.ssh/my_key`, per quanto riguarda rispettivamente la chiave pubblica e privata. Le
 chiavi pubbliche “autorizzate” sono installate sul server in `~/.ssh/authorized_keys` (la
 home è quella dell’utente che deve loggarsi). Il formato del file è semplicemente una
 lista di chiavi pubbliche, una per riga (il comando ssh-copy-id può installare chiavi
 pubbliche da locale con più facilità).
 
-Il comando `scp` serve a copiare files da remoto verso locale e viceversa usando una
+Il comando 📌`scp` serve a copiare files da remoto verso locale e viceversa usando una
 connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag -r,
 mentre -p preserva i permessi dei file locali. La sintassi per uploadare dei file è:
 
