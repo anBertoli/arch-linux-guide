@@ -1442,10 +1442,9 @@ Esistono 3 tipi di partizioni:
   logiche, ha una sua partition table interna, legacy
 - logical partition: sub-partizione contenuta nelle extended partition, legacy
 
-### Manage partitions
+### Partitions management
 
-Esistono diversi comandi per gestire le partizioni, fra cui **`gdisk`**. E' una CLI
-interattiva.
+Esistono diversi comandi per gestire le partizioni, fra cui `gdisk`. E' una CLI interattiva.
 
 ```shell
 # start the gdisk CLI
