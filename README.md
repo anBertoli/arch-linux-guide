@@ -1632,24 +1632,24 @@ Possible troubleshooting flow:
 
 ### Configuration
 
-Il file `/etc/hosts` è una lista locale di associazioni nomi -> ip. Il file viene spesso
+Il file 📄`/etc/hosts` è una lista locale di associazioni nomi -> ip. Il file viene spesso
 consultato prima dei server di DNS per risolvere un dominio, a meno che la macchina non
-sia impostata diversamente. Molti tool adottano questo metodo fra cui curl, ssh, etc.
+sia impostata diversamente. Molti tool adottano questo metodo fra cui _curl_ ed _ssh_.
 
 Gestire manualmente il file `/etc/hosts` per reti grandi e/o mutevoli è scomodo ed error
 prone, si preferisce quindi impostare l'utilizzo diretto di un server DNS da parte della
 macchine. Per puntare gli host verso il corretto server DNS si modifica il file
-`/etc/resolv.conf`, indicando l’ip del nameserver. Il file `/etc/hosts` è solitamente ancora
+📄`/etc/resolv.conf`, indicando l’IP del nameserver. Il file `/etc/hosts` è solitamente ancora
 usato con priorità maggiore (di default, ma dipende ta tool a tool). La priorità è
-modificabile editando il file `/etc/nssswitch.conf`.
+modificabile editando il file 📄`/etc/nssswitch.conf`.
 
 Riassumendo:
 
-- `/etc/hosts`: file con nomi di dominio e relativo ip consultato da vari comandi e tools
+- `/etc/hosts`: file con nomi di dominio e relativo ip, consultato da vari comandi e tools
   per tentare di risolvere un nome di dominio
-- `/etc/resolv.conf`: lista di nameserver consultabili dall macchina
-- `/etc/nssswitch.conf`: elenca la priorità fra la consultazione di _/etc/hosts_ e il
-  nameserver impostato in _/etc/resolv.conf_
+- `/etc/resolv.conf`: lista di nameserver consultabili dalla macchina
+- `/etc/nssswitch.conf`: elenca la priorità fra: la consultazione di _/etc/hosts_ e
+  l'interrogazione di un nameserver impostato in _/etc/resolv.conf_
 
 ```shell
 $ cat /etc/hosts
@@ -1681,28 +1681,28 @@ hosts:          files dns
 
 Come già indicato il file `/etc/hosts` può essere usato dalle macchine Linux per la risoluzione
 di nomi, con più o meno priorità rispetto ai nameservers. Nel caso di utilizzo di nameservers
-tipicamente vien utilizzato un nameserver locale.
+spesso viene utilizzato un nameserver locale.
 
-Il server DNS che viene usato ha tipicamente una lista configurata di nomi, che possono
+Il server DNS che viene usato tipicamente ha una lista configurata di nomi, che possono
 essere quindi risolti su richiesta dei clients. Se richiediamo la risoluzione di un nome
 non presente nel database del nameserver possono accadere una delle due segeunti cose:
 
-- il DNS server è anche un resolver, per cui autonomamente si occuperà di risolvere il nome
+- il DNS server è anche un _resolver_, per cui autonomamente si occuperà di risolvere il nome
   ricorsivamente attraverso il sistema DNS pubblico. Il DNS server deve essere impostato per
   contattare il giusto nameserver esterno
 - i client sono configurati per avere un secondo nameserver (es. 8.8.8.8) da contattare nel
-  caso il primo non abbia la risposta cercata (è possibile specificare più di un DNS server in
-  `/etc/resolv.conf`)
+  caso il DNS server locale non abbia la risposta cercata (è possibile specificare più di un
+  DNS server in `/etc/resolv.conf`)
 
 Il DNS server locale ha di solito precedenza su DNS server pubblici.
 
 Nel primo caso (nameserver locale che è anche resolver) una tipica richiesta ha questo
-flow: il client contatta il server DNS locale, se il server non ha una risposta esso effettua
-una risoluzione di tipo ricorsiva attraverso il DNS pubblico di internet a partire dai root
+flow: il client contatta il server DNS locale, se il server locale non ha una risposta esso
+effettua una risoluzione ricorsiva attraverso il DNS pubblico di internet a partire dai root
 nameservers. Infine si giunge al nameserver autoritativo per il nome cercato. Le risposte
 sono cachate anche su più livelli (TTL dei records DNS).
 
-I comandi **`dig`** e **`nslookup`** fanno risoluzione di nomi (senza considerare il file
+I comandi 🛠️`dig` e 🛠️`nslookup` fanno risoluzione di nomi (senza considerare il file
 `/etc/hosts`).
 
 ```shell
@@ -1713,43 +1713,42 @@ $ dig google.com
 # to the nameserver at 8.8.8.8 port 53
 $ dig +retry=0 -p 53 @8.8.8.8 google.com
 
-# resolve google.com without retries, asking 
-# dig to perform and show the entire recursion
-# from the root servers
+# resolve google.com without retries, perform and 
+# show the entire recursion from the root servers
 $ dig +retry=0 +trace +recurse www.google.com 
 ```
 
 ## Iptables (firewalls & more)
 
-E’ utile sapere come gestire la sicurezza di rete anche tramite firewall. E’ possibile farlo
-tramite direttamente sui router oppure farlo sui singoli server. L’utility `iptables`
-permette di controllare e gestire il traffico di rete sulla singola macchina.
+E’ utile sapere come gestire la sicurezza di rete tramite firewall. E’ possibile farlo
+direttamente sui router oppure sui singoli server. Il tool 🛠️`iptables` permette di
+controllare e gestire il traffico di rete su una singola macchina.
 
-iptables controlla il traffico tramite `chains` (o _catene di regole_). La chain `INPUT` è
+iptables controlla il traffico tramite _chains_ (o _catene di regole_). La chain `INPUT` è
 applicabile al traffico in ingresso, la chain `OUTPUT` è responsabile per il traffico generato
-dal server in uscita, mentre la chain `FORWARD` è responsabile del forwarding ovvero quando
+dal server in uscita, mentre la chain `FORWARD` è responsabile del forwarding ovvero quando il
 traffico in ingresso deve essere reindirizzato in uscita. Iptables inoltre presenta più
-tabelle, ognuna con un suo scopo (nat, raw, mangle, filter, etc) ognuna con le sue chain si
-regole. Noi qua parleremo solo di quella _filter_.
+tabelle, ognuna con un suo scopo (_nat_, _raw_, _mangle_, _filter_, etc) ognuna con le sue
+chain di regole. Noi qua parleremo solo di quella _filter_.
 
-Il nome chain deriva dal fatto che è una _chain of rules_. Ogni regola di una chain cerca di
-matchare il pacchetto in esame e lo droppa o accetta, se non c’è match con la regola si passa
-alla regola successiva (pacchetto accettato). Ad esempio, nella figura sottostante, un
-pacchetto da client 01 matcha alla prima regola e il pacchetto è accettato. Se un pacchetto
-arriva da client09 solo la quinta regola viene applicata perchè le precedenti non matchano. E’
-ovviamente possibile matchare su molte caratteristiche.
+Il nome _chain_ deriva dal fatto che è una _chain of rules_. Ogni regola di una chain cerca di
+matchare il pacchetto in esame e lo droppa o accetta (o altra azione), se non c’è match con la
+regola si passa alla regola successiva. Ad esempio, nella figura sottostante, un pacchetto da
+proveniente dal _client01_ matcha alla prima regola e il pacchetto è direttamente accettato. Se
+un pacchetto arriva da _client09_ solo la quinta regola viene applicata perchè le precedenti
+non matchano. E’ ovviamente possibile matchare su molte caratteristiche.
 
 <img src="./02_linux_handbook/assets/ip-tables-1.png" width="500">
 
 Se un pacchetto non matcha nessuna regola l’azione intrapresa dipende dalla policy di default
-applicata alla chain (visualizzabile con iptables -L). È possibile impostare la politica
-predefinita utilizzando il flag -P.
+applicata alla chain (visualizzabile con `iptables -L`). È possibile impostare la politica
+predefinita utilizzando il flag _-P_.
 
 ### Example
 
-Cerchiamo di creare delle regole per lo scenario mostrato qui sotto, mostriamo quelle per la
-macchina devapp01. Notare che è importante aggiungere le regole nel **giusto ordine** poichè le
-chain rules vengono matchate in ordine, dalla prima all’ultima.
+Cerchiamo di creare delle regole _iptables_ per lo scenario mostrato qui sotto, mostriamo
+quelle per la macchina _devapp01_. Notare che è importante aggiungere le regole nel
+**giusto ordine** poichè le regole vengono matchate in ordine, dalla prima all’ultima.
 
 <img src="./02_linux_handbook/assets/ip-tables-2.png" width="600">
 
