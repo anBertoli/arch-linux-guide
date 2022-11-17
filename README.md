@@ -1760,8 +1760,12 @@ quelle per la macchina _devapp01_. Notare che è importante aggiungere le regole
 # dal client, solo pacchetti TCP sulla porta 22
 $ iptables -A INPUT -p TCP -s 172.16.238.187 --dport 22 -j ACCEPT
 
-# accetta il traffico uscente TCP verso l’IP specificato 
-# (db host), porta di destinazione 80 
+# accetta il traffico TCP entrante dall’IP specificato (client) 
+# sulla porta 80 (http)
+$ iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
+
+# accetta il traffico uscente TCP verso l’IP specificato
+# (db host), porta di destinazione 5432 (postgres) 
 $ iptables -A OUTPUT -p tcp -d 172.16.238.11 --dport 5432 -j ACCEPT
 
 # accetta il traffico uscente TCP verso l’IP specificato 
@@ -1771,11 +1775,7 @@ $ iptables -A OUTPUT -p tcp -d 172.16.238.15 --dport 80 -j ACCEPT
 # droppa il traffico TCP verso tutte le destinazioni, porta di 
 # destinazione 443 o 80 (blocco internet)
 $ iptables -A OUTPUT -p tcp --dport 443 -j DROP
-$ iptables -A OUTPUT - tcp --dport 80 -j DROP
-
-# accetta il traffico TCP entrante dall’IP specificato (client) 
-# sulla porta 80 (http)
-$ iptables -A INPUT -p tcp -s 172.16.238.187 --dport 80 -j ACCEPT
+$ iptables -A OUTPUT -p tcp --dport 80 -j DROP
 
 # aggiunge regola (catch-all) che droppa tutto il traffico TCP
 # entrante sulla porta 22, deve essere messa in fondo alla chain
