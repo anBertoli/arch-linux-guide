@@ -1727,9 +1727,10 @@ controllare e gestire il traffico di rete su una singola macchina.
 iptables controlla il traffico tramite _chains_ (o _catene di regole_). La chain `INPUT` è
 applicabile al traffico in ingresso, la chain `OUTPUT` è responsabile per il traffico generato
 dal server in uscita, mentre la chain `FORWARD` è responsabile del forwarding ovvero quando il
-traffico in ingresso deve essere reindirizzato in uscita. Iptables inoltre presenta più
-tabelle, ognuna con un suo scopo (_nat_, _raw_, _mangle_, _filter_, etc) ognuna con le sue
-chain di regole. Noi qua parleremo solo di quella _filter_.
+traffico in ingresso deve essere reindirizzato in uscita. _Iptables_ inoltre presenta più
+tabelle, ognuna con un suo scopo (_nat_, _raw_, _mangle_, _filter_, etc) ed ognuna con le sue
+catene di regole. Noi qua parleremo solo di quella _filter_, utile per filtrare e/o bloccare
+il traffico.
 
 Il nome _chain_ deriva dal fatto che è una _chain of rules_. Ogni regola di una chain cerca di
 matchare il pacchetto in esame e lo droppa o accetta (o altra azione), se non c’è match con la
