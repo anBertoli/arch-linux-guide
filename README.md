@@ -1561,7 +1561,7 @@ IP compreso nel network a cui si affaccia. I router contengono regole di routing
 inoltrare il traffico da una data interfaccia verso un’altra interfaccia, in base all’IP
 di destinazione.
 
-<img src="./02_linux_handbook/assets/net-2.png" width="1200"/>
+<img src="./02_linux_handbook/assets/net-2.png" width="1000"/>
 
 Le macchine Linux astraggono il link fisico (es. collegamento con switch) come `interfacce`
 Linux. Gli host possiedono anche una `routing table`, che controlla dove vengono inoltrati
@@ -1738,7 +1738,7 @@ pacchetto da client 01 matcha alla prima regola e il pacchetto è accettato. Se 
 arriva da client09 solo la quinta regola viene applicata perchè le precedenti non matchano. E’
 ovviamente possibile matchare su molte caratteristiche.
 
-<img src="./02_linux_handbook/assets/ip-tables-1.png" width="700">
+<img src="./02_linux_handbook/assets/ip-tables-1.png" width="400">
 
 Se un pacchetto non matcha nessuna regola l’azione intrapresa dipende dalla policy di default
 applicata alla chain (visualizzabile con iptables -L). È possibile impostare la politica
@@ -1750,7 +1750,7 @@ Cerchiamo di creare delle regole per lo scenario mostrato qui sotto, mostriamo q
 macchina devapp01. Notare che è importante aggiungere le regole nel **giusto ordine** poichè le
 chain rules vengono matchate in ordine, dalla prima all’ultima.
 
-<img src="./02_linux_handbook/assets/ip-tables-2.png" width="800">
+<img src="./02_linux_handbook/assets/ip-tables-2.png" width="600">
 
 ```shell
 # INPUT default policy: ACCEPT
