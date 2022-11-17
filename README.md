@@ -1373,7 +1373,7 @@ La directory `/etc/sudoers.d` ed il file `/etc/sudoers` contengono i files delle
 Ogni entry di questi file controlla le operazioni che è possibile eseguire per un utente
 o gruppo di utenti e quali altri utenti/gruppi possono essere impersonificati.
 
-Never edit these files with a normal text editor! Always use the `visudo` command instead!
+⚠️ Never edit these files with a normal text editor! Always use the `visudo` command instead!
 
 Il formato delle entries è:
 
