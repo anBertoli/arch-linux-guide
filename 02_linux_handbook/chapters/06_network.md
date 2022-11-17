@@ -191,7 +191,7 @@ pacchetto da client 01 matcha alla prima regola e il pacchetto è accettato. Se 
 arriva da client09 solo la quinta regola viene applicata perchè le precedenti non matchano. E’
 ovviamente possibile matchare su molte caratteristiche.
 
-<img src="../../02_linux_handbook/assets/ip-tables-1.png" width="400">
+<img src="../../02_linux_handbook/assets/ip-tables-1.png" width="500">
 
 Se un pacchetto non matcha nessuna regola l’azione intrapresa dipende dalla policy di default
 applicata alla chain (visualizzabile con iptables -L). È possibile impostare la politica

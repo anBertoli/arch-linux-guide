@@ -1738,7 +1738,7 @@ pacchetto da client 01 matcha alla prima regola e il pacchetto è accettato. Se 
 arriva da client09 solo la quinta regola viene applicata perchè le precedenti non matchano. E’
 ovviamente possibile matchare su molte caratteristiche.
 
-<img src="./02_linux_handbook/assets/ip-tables-1.png" width="400">
+<img src="./02_linux_handbook/assets/ip-tables-1.png" width="500">
 
 Se un pacchetto non matcha nessuna regola l’azione intrapresa dipende dalla policy di default
 applicata alla chain (visualizzabile con iptables -L). È possibile impostare la politica
@@ -1800,9 +1800,9 @@ $ iptables -D OUTPUT 5
 
 Le distribuzioni Linux usano package managers per gestire le dipendenze. Per dipendenze si
 intende librerie necessarie per eseguire e/o compilare un software. Esistono due filoni
-principali nelle distribuzioni Linux. RHEL (red hat), Centos, Fedora usano `RPM` package
-managers mentre Debian, Ubuntu, Arch Linux usano `DEB` package managers. La ditribuzione Red
-Hat è a pagamento ma offe anche assistenza, CentOS è un derivato da Red Hat.
+principali di distribuzioni Linux. RHEL (Red Hat), Centos, Fedora usano il package manager
+`rpm` mentre Debian, Ubuntu, Arch Linux usano il package manager `deb`. La distribuzione Red
+Hat è a pagamento ma offe anche assistenza, CentOS è un derivato di Red Hat.
 
 Un package è un archivio compresso che comprende tutti i file che compongono una dipendenza.
 Prendiamo ad esempio un package DEB. L’archivio `.deb` conterrà i binari/librerie, i files
