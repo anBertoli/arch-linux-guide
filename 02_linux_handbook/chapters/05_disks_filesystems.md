@@ -84,7 +84,7 @@ $ mount <path/to/partition_file> <path/to/mount>
 $ mount
 ```
 
-Per far permanere le modifiche (i mounts) è necessario editare il file 📑`/etc/fstab`. Tale
+Per far permanere le modifiche (i mounts) è necessario editare il file 📄`/etc/fstab`. Tale
 file raccoglie la lista dei mount point per ogni partizione ed il tipo di file system
 utilizzato, più alcune opzioni aggiuntive. La sintasi delle righe è la seguente:
 
