@@ -63,19 +63,19 @@ anche creare un filesystem nella partizione e poi montare la partizione su una d
 file system è uno standard che definisce come i file ed i dati devono essere organizzati
 su disco.
 
-I linux filesystem più diffusi sono `ext2`, `ext3` e `ext4`. I filesystem sono una
+I linux filesystem più diffusi sono _ext2_, _ext3_ e _ext4_. I filesystem sono una
 caratteristica di una partizione, scritti in corrispondenza delle partition entries della
 partition table, servono quindi ad indicare agli OS come interpretare/trattare le partizioni
 di un disco.
 
-Il comando **`mkfs`** crea un filesystem su una partizione.
+Il comando `mkfs` crea un filesystem su una partizione.
 
 ```shell
 # create filesystem on specified partition
 $ mkfs.ext4 <path/to/partition_file>
 ```
 
-Il comando **`mount`** monta una partizione in una locazione del filesystem.
+Il comando `mount` monta una partizione in una locazione del filesystem.
 
 ```shell
 # create partition on specified filesystem point
