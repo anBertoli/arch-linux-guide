@@ -43,8 +43,9 @@ $ echo 'export MY_ENV=67' >> ~/.profile
 $ echo 'export MY_ENV=67' >> ~/.bash_profile
 ```
 
-### IO redirection
+### IO redirection 
 
+#### With files
 Ogni processo viene lanciato con tre file descriptor aperti di default:
 
 - `STDIN`: standard input, il processo accetta input attraverso questo fd
@@ -54,8 +55,8 @@ Ogni processo viene lanciato con tre file descriptor aperti di default:
 E’ possibile redirezionare questi stream verso altre destinazioni. La destinazione può
 essere un altro processo, una pipe oppure un file/device.
 
-- `>` redirect di standard output, sovrascrivendo contenuto
-- `>>` redirect di standard output, append al contenuto
+- `>`, `1>` redirect di standard output, sovrascrivendo contenuto
+- `>>`, `1>>` redirect di standard output, append al contenuto
 - `2>` redirect di standard error, sovrascrivendo contenuto
 - `2>>` redirect di standard error, append al contenuto
 - `<` read standard input from source
@@ -72,6 +73,7 @@ $ ls -alh > listing.txt 2>> list-err.txt
 $ my-command < input.json 2> /dev/null
 ```
 
+#### Between processes
 E’ possibile connettere lo STDOUT di un processo allo STDIN di un secondo comando tramite le
 `shell pipes` (simbolo `|`). Il comando `tee` di seguito ha la funzione di splittare l’output:
 il comando scrive nella destinazione specificata, ma anche sullo STDOUT.
@@ -84,6 +86,13 @@ $ ls -alh | wc -l
 # list files in current directory, output is BOTH
 # send to next command and written in a file
 $ ls -alh | tee listing.txt | wc -l
+```
+
+In alternativa è possibile catturare tutto l'ouput di un comando ed utilizzarlo in un altro comando 
+usando la `command sobstituion` eseguita con la sintassi `$(<command>)`.
+
+```shell
+$ ls -alh $(cat list_of_dirs.txt)
 ```
 
 ### Bash customization
