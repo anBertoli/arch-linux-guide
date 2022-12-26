@@ -16,7 +16,7 @@ $ echo $SHELL   # /bin/bash
 Esistono diversi tipi di shell, la env var `SHELL` mostra la shell di default sul sistema. Per
 settare una shell di default diversa è possibile usare `chsh`.
 
-## Bash
+# Bash
 
 Bash (_bourne again shell_) è fra le shell più utilizzate. Fra le altre cose, offre auto
 completamento e alias.
@@ -43,7 +43,7 @@ $ echo 'export MY_ENV=67' >> ~/.profile
 $ echo 'export MY_ENV=67' >> ~/.bash_profile
 ```
 
-### IO redirection
+## IO redirection
 
 Ogni processo viene lanciato con tre file descriptor aperti di default:
 
@@ -86,7 +86,7 @@ $ ls -alh | wc -l
 $ ls -alh | tee listing.txt | wc -l
 ```
 
-### Bash customization
+## Bash customization
 
 La prompt di bash può essere customizzata attraverso la env var `PS1`, che è un template del
 nostro prompt, personalizzabile attraverso alcuni caratteri speciali. Ad esempio con
@@ -119,7 +119,7 @@ La modifica del prompt per essere permanentemente deve essere salvato in `~/.pro
 
 For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
-### Symbols & help
+## Symbols
 
 - `.` directory corrente
 - `..` directory superiore
@@ -130,12 +130,19 @@ For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 - `$#` number of command-line arguments
 - `$$` pID of the shell itself
 
-
 - `${VAR}` parameter substitution
 - `$VAR` parameter substitution
 
-#### Help
+## Doc & help
 
-- `whatis <comand>`: one line description del comando
-- `man <comand>`:    manuale del comando
-- `<comand> --help/-h`: istruzioni sul comando
+Per accedere alle doc di un commando, esistono diversi metodi:
+
+- `whatis <command>`: one line description del comando, spesso poco esplicativa
+- `<command> --help/-h`: istruzioni sul comando, often useful enough
+- `man <command>`: accedi al manuale del comando, if manuals for the command are installed.
+  If a command has different functionalities and/or usage contexts, manuals report those in
+  different sections (1, 2, 3, etc.). Single sections can be accessed via `man <1|2|..>
+  <command>`
+- `apropos <some-words>`: fa query sulle short description di tutte le man pages, e ritorna il
+  comando che matcha, utile per cercare un comando. apropos relies on a local db, which can
+  be created/update with `mandb`

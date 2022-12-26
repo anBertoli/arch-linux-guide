@@ -13,10 +13,10 @@ il risultato e/o eventuali errori.
 
 ## Hardware
 
-Quando un device è collegato un device driver detecta il device è genera un evento (_uevent_)
-che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo processa l’evento
-creando una `device file` (che rappresenta il device) in una cartella, tipicamente `/dev` (e.g.
-`/dev/sdd1`).
+Quando un device è collegato un device driver Linux detecta il device è genera un evento
+(_uevent_) che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo
+processa l’evento creando una `device file` (che rappresenta il device) in una cartella,
+tipicamente `/dev` (e.g. `/dev/sdd1`).
 
 Il comando `dmesg` ottiene messagi e logs generati dal kernel. Questi messaggi contengono
 anche log relativi all’hardware, per cui è possibile debuggare o saperne di più sui device
@@ -70,3 +70,14 @@ completo dei runlevel e dei corrispondenti target di sistema è il seguente.
 - _runlevel 4_: `multi-user.target`
 - _runlevel 5_: `graphical.target`
 - _runlevel 6_: `reboot.target`
+
+## Log in
+
+- local/remote text mode
+- local/remote graphical mode
+
+Originariamente esistevano le console o terminali: postazioni per utenti diversi per accedere
+alla stessa macchina. Da molti anni sono concetti virtuali, con i _virtual terminal_: in
+Linux ci si accede con _ctrl + alt + f2_. Sono come i terminali del passato ma virtuali e
+multipli. In ambienti grafici si usano più spesso i _terminal emulator_: software user space
+con interfaccia grafica che offrono le stesse funzionalità di un terminale (virtuale).
