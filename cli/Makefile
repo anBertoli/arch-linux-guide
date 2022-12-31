@@ -10,7 +10,7 @@ install-cli:
 	cargo install --path .
 
 .PHONY: gen-docs
-gen-doc: build-cli
+gen-docs: build-cli
 	./bin/arch-cli \
  		--source-dir ../01_arch_linux_installation/chapters \
 		gen --file ../01_arch_linux_installation/README.md \

@@ -158,3 +158,52 @@ Per accedere alle doc di un commando, esistono diversi metodi:
 - `apropos <some-words>`: fa query sulle short description di tutte le man pages, e ritorna il
   comando che matcha, utile per cercare un comando. apropos relies on a local db, which can
   be created/update with `mandb`
+
+## Regex
+
+Le regex vengono usate in molti ambiti come _grep_, _sed_, linguaggi di programmazione, e
+molti altri (https://regexr.com per maggiori info). Esistono _basic_ and _extended_ regex.
+Nell'ambito del comando _grep_, le extended regex vanno usate con `egrep` oppure `grep -E`,
+le basic con _grep_. Le basic chiedono di escapare certi special symbols (con \, e.g. \$),
+sono perciò tricky.
+
+- `^` (carat): matches a term if the term appears at the beginning of a paragraph or a line,
+  e.g. _^apple_ matches lines che iniziano con apple
+- `$` (dollar sign): matches a term if the term appears at the end of a paragraph or a line.
+  For example _bye$_ matches a paragraph or a line ending with bye
+- `.` (period): matches a single instance of any single character, except the end of a line.
+  For example, _sh.rt_ matches _shirt_, _short_ and any character between sh and rt
+- `*` (asterisk): matches 0 or more instances of any character. For example, _co*l_ regular
+  expression matches _cl_, _col_, _cool_, _cool_, _coool_, etc.
+- `+` (plus): matches 1 or more instances of any character. For example, _co+l_ regular
+  expression matches _col_, _cool_, _cool_, _coool_, etc.
+- `?`: makes the previous element optional, e.g.: _disabled?_ matches _disable_ and
+  _disabled_
+
+
+- `element{min,max}`: previous elements can exists “this many” times, e.g.:
+    - _grep -E 10{,3}_ matcha 1 seguito da al massimo 3 volte zero
+    - _grep -E 10{3,}_ matcha 1 seguito da almeno 3 volte zero
+    - _grep -E 10{3}_ matcha 1 seguito da esattamente 3 volte zero
+    - _grep -E 10{3,5}_ matcha 1 seguito da zero ripetuto da 3 a 5 volte
+- `elem1|elem2`: matches uno o l’altra expression, e.g. _enabled?|disabled?’ matcha
+  _enable/enabled/disable/disabled_
+
+
+- `[charset]` matcha range/set di caratteri, matches a single instance of any single character
+  from within the bracketed list
+    - _[a-z]_: matches letters
+    - _[0-9]_: matches digits
+    - _[abz1234]_: matches set indicato
+    - _c[au]t_: matches _cat_ e _cut_
+    - _/dev/[a-z]*[0-9]?_: matches tutti i file in dev che hanno nome che inizia per lettere
+      ed opzionalmente finiscono con una sola digit
+- `[^charset]`: negated ranges, matches any letter not in the indicated set, e.g. _http[^s]_
+  matcha _httpX_ dove X non è la lettera _s_
+
+
+- `()` subexpressions: groups one or more regular expressions. E.g.: _codexpedia\.
+  (com|net|org)_ matches codexpedia.com, codexpedia.net, and codexpedia.org
+    - _/dev/(([a-z]|[A-Z])*[0-9]?)+_ match file in dev che hanno nome che ripete il pattern
+      seguente almeno una volta: zero o più lettere upper o lower seguite da zero o più digits
+

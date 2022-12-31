@@ -13,10 +13,10 @@ il risultato e/o eventuali errori.
 
 ## Hardware
 
-Quando un device è collegato un device driver detecta il device è genera un evento (_uevent_)
-che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo processa l’evento
-creando una `device file` (che rappresenta il device) in una cartella, tipicamente `/dev` (e.g.
-`/dev/sdd1`).
+Quando un device è collegato un device driver Linux detecta il device è genera un evento
+(_uevent_) che viene inoltrato ad un processo userspace chiamato `udev`. Quest’ultimo
+processa l’evento creando una `device file` (che rappresenta il device) in una cartella,
+tipicamente `/dev` (e.g. `/dev/sdd1`).
 
 Il comando `dmesg` ottiene messagi e logs generati dal kernel. Questi messaggi contengono
 anche log relativi all’hardware, per cui è possibile debuggare o saperne di più sui device
@@ -63,13 +63,30 @@ default e modificarlo. Notare che il termine runlevels è usato nei sistemi con 
 Questi sono stati sostituiti da target systemd nei sistemi basati su di esso. L'elenco
 completo dei runlevel e dei corrispondenti target di sistema è il seguente.
 
-- _runlevel 0_: `poweroff.target`
+- _runlevel 0_: `poweroff.target`, launches only fundamental processes, boot as root
 - _runlevel 1_: `rescue.target`
-- _runlevel 2_: `multi-user.target`
+- _runlevel 2_: `multi-user.target`, launches everything expect UI
 - _runlevel 3_: `multi-user.target`
 - _runlevel 4_: `multi-user.target`
-- _runlevel 5_: `graphical.target`
+- _runlevel 5_: `graphical.target`, launches UI if present
 - _runlevel 6_: `reboot.target`
+
+```shell
+$ systemctl get-default 		    # mostra target di default
+$ systemctl set-default <target>	# setta target di default al boot
+$ systemctl isolate <target>	    # ordina di raggiungere quel target ora, senza reboot
+```
+
+## Log in
+
+- local/remote text mode
+- local/remote graphical mode
+
+Originariamente esistevano le console o terminali: postazioni per utenti diversi per accedere
+alla stessa macchina. Da molti anni sono concetti virtuali, con i _virtual terminal_: in
+Linux ci si accede con _ctrl + alt + f2_. Sono come i terminali del passato ma virtuali e
+multipli. In ambienti grafici si usano più spesso i _terminal emulator_: software user space
+con interfaccia grafica che offrono le stesse funzionalità di un terminale (virtuale).
 
 # 🕹️ Shell
 
@@ -89,7 +106,7 @@ $ echo $SHELL   # /bin/bash
 Esistono diversi tipi di shell, la env var `SHELL` mostra la shell di default sul sistema. Per
 settare una shell di default diversa è possibile usare `chsh`.
 
-## Bash
+# Bash
 
 Bash (_bourne again shell_) è fra le shell più utilizzate. Fra le altre cose, offre auto
 completamento e alias.
@@ -116,7 +133,9 @@ $ echo 'export MY_ENV=67' >> ~/.profile
 $ echo 'export MY_ENV=67' >> ~/.bash_profile
 ```
 
-### IO redirection
+## IO redirection
+
+### With files
 
 Ogni processo viene lanciato con tre file descriptor aperti di default:
 
@@ -127,8 +146,8 @@ Ogni processo viene lanciato con tre file descriptor aperti di default:
 E’ possibile redirezionare questi stream verso altre destinazioni. La destinazione può
 essere un altro processo, una pipe oppure un file/device.
 
-- `>` redirect di standard output, sovrascrivendo contenuto
-- `>>` redirect di standard output, append al contenuto
+- `>`, `1>` redirect di standard output, sovrascrivendo contenuto
+- `>>`, `1>>` redirect di standard output, append al contenuto
 - `2>` redirect di standard error, sovrascrivendo contenuto
 - `2>>` redirect di standard error, append al contenuto
 - `<` read standard input from source
@@ -145,6 +164,8 @@ $ ls -alh > listing.txt 2>> list-err.txt
 $ my-command < input.json 2> /dev/null
 ```
 
+### Between processes
+
 E’ possibile connettere lo STDOUT di un processo allo STDIN di un secondo comando tramite le
 `shell pipes` (simbolo `|`). Il comando `tee` di seguito ha la funzione di splittare l’output:
 il comando scrive nella destinazione specificata, ma anche sullo STDOUT.
@@ -159,7 +180,15 @@ $ ls -alh | wc -l
 $ ls -alh | tee listing.txt | wc -l
 ```
 
-### Bash customization
+In alternativa è possibile catturare tutto l'ouput di un comando ed utilizzarlo in un altro
+comando
+usando la `command sobstituion` eseguita con la sintassi `$(<command>)`.
+
+```shell
+$ ls -alh $(cat list_of_dirs.txt)
+```
+
+## Bash customization
 
 La prompt di bash può essere customizzata attraverso la env var `PS1`, che è un template del
 nostro prompt, personalizzabile attraverso alcuni caratteri speciali. Ad esempio con
@@ -192,7 +221,7 @@ La modifica del prompt per essere permanentemente deve essere salvato in `~/.pro
 
 For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
-### Symbols & help
+## Symbols
 
 - `.` directory corrente
 - `..` directory superiore
@@ -203,15 +232,72 @@ For colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 - `$#` number of command-line arguments
 - `$$` pID of the shell itself
 
-
 - `${VAR}` parameter substitution
 - `$VAR` parameter substitution
 
-#### Help
+## Doc & help
 
-- `whatis <comand>`: one line description del comando
-- `man <comand>`:    manuale del comando
-- `<comand> --help/-h`: istruzioni sul comando
+Per accedere alle doc di un commando, esistono diversi metodi:
+
+- `whatis <command>`: one line description del comando, spesso poco esplicativa
+- `<command> --help/-h`: istruzioni sul comando, often useful enough
+- `man <command>`: accedi al manuale del comando, if manuals for the command are installed.
+  If a command has different functionalities and/or usage contexts, manuals report those in
+  different sections (1, 2, 3, etc.). Single sections can be accessed via `man <1|2|..>
+  <command>`
+- `apropos <some-words>`: fa query sulle short description di tutte le man pages, e ritorna il
+  comando che matcha, utile per cercare un comando. apropos relies on a local db, which can
+  be created/update with `mandb`
+
+## Regex
+
+Le regex vengono usate in molti ambiti come _grep_, _sed_, linguaggi di programmazione, e
+molti altri (https://regexr.com per maggiori info). Esistono _basic_ and _extended_ regex.
+Nell'ambito del comando _grep_, le extended regex vanno usate con `egrep` oppure `grep -E`,
+le basic con _grep_. Le basic chiedono di escapare certi special symbols (con \, e.g. \$),
+sono perciò tricky.
+
+- `^` (carat): matches a term if the term appears at the beginning of a paragraph or a line,
+  e.g. _^apple_ matches lines che iniziano con apple
+- `$` (dollar sign): matches a term if the term appears at the end of a paragraph or a line.
+  For example _bye$_ matches a paragraph or a line ending with bye
+- `.` (period): matches a single instance of any single character, except the end of a line.
+  For example, _sh.rt_ matches _shirt_, _short_ and any character between sh and rt
+- `*` (asterisk): matches 0 or more instances of any character. For example, _co*l_ regular
+  expression matches _cl_, _col_, _cool_, _cool_, _coool_, etc.
+- `+` (plus): matches 1 or more instances of any character. For example, _co+l_ regular
+  expression matches _col_, _cool_, _cool_, _coool_, etc.
+- `?`: makes the previous element optional, e.g.: _disabled?_ matches _disable_ and
+  _disabled_
+
+
+- `element{min,max}`: previous elements can exists “this many” times, e.g.:
+    - _grep -E 10{,3}_ matcha 1 seguito da al massimo 3 volte zero
+    - _grep -E 10{3,}_ matcha 1 seguito da almeno 3 volte zero
+    - _grep -E 10{3}_ matcha 1 seguito da esattamente 3 volte zero
+    - _grep -E 10{3,5}_ matcha 1 seguito da zero ripetuto da 3 a 5 volte
+- `elem1|elem2`: matches uno o l’altra expression, e.g. _enabled?|disabled?’ matcha
+  _enable/enabled/disable/disabled_
+
+
+- `[charset]` matcha range/set di caratteri, matches a single instance of any single character
+  from within the bracketed list
+    - _[a-z]_: matches letters
+    - _[0-9]_: matches digits
+    - _[abz1234]_: matches set indicato
+    - _c[au]t_: matches _cat_ e _cut_
+    - _/dev/[a-z]*[0-9]?_: matches tutti i file in dev che hanno nome che inizia per lettere
+      ed opzionalmente finiscono con una sola digit
+- `[^charset]`: negated ranges, matches any letter not in the indicated set, e.g. _http[^s]_
+  matcha _httpX_ dove X non è la lettera _s_
+
+
+- `()` subexpressions: groups one or more regular expressions. E.g.: _codexpedia\.
+  (com|net|org)_ matches codexpedia.com, codexpedia.net, and codexpedia.org
+    - _/dev/(([a-z]|[A-Z])*[0-9]?)+_ match file in dev che hanno nome che ripete il pattern
+      seguente almeno una volta: zero o più lettere upper o lower seguite da zero o più digits
+
+
 # 📝 Files
 
 _Tutto è un file in Linux_ o quasi. Questo è un motto del mondo Linux, dove molte cose sono
@@ -219,14 +305,12 @@ modellate ed esposte con un interfaccia file-simile.
 
 Esistono diversi tipi di file:
 
-- `regular files`, `-`: normal files
+- `regular files`, `-`: normal files (hard links)
 - `directory files`, `d`: directories
 - special files:
     - `character files`, `c`: rappresentano device con cui si comunica in modo seriale
     - `block files`, `b`: rappresentano device con cui si comunica tramite blocchi di dati
-    - `hard link files`, `-`: puntatori reali ad un file su disco, eliminare l’ultimo
-      significa eliminare il file
-    - `soft link files`, `l`: shortcut verso un altro file, ma non i dati
+    - `soft link files`, `l`: shortcut verso un altro file, ma non direttamente verso i dati
     - `socket files`, `s`: file per comunicazione fra processi, via network e non
     - `pipes files`, `p`: file per comunicazione unidirezionale fra due processi
 
@@ -236,10 +320,36 @@ Esistono due comandi utili per esaminare il tipo di un file:
 # reports the type and some additional info about a file
 $ file <path>
 
-# list file(s) and some infos like number of hard links, 
-# permissions, size , etc.
+# list file(s) and some additional infos
 $ ls -alh [file, ...] 
 ```
+
+I filesystem usano gli inode per tracciare per organizzare la gerarchia del filesystem.
+Un inode è una struttura dati che contiene metadati e puntatori verso altri files
+(per le cartelle) e/o blocchi di dati nel device di storage (per i files).
+
+Un file può essere rappresentato come un inode, e l’inode ai blocchi di dati (hard link).
+
+- `hard links`: sono il numero di file che sono rappresentati dallo stesso inode. E’ possibile
+  avere più hard link verso stesso inode e un file viene davvero eliminato solo quando
+  l’ultimo hard link (file nel file system) è eliminato. Gli hard links funzionano solo
+  all’interno dello stesso filesystem e solo per file e non directory. Hard links sono come
+  file regolari, se non fosse per l'attributo numero di _hard links_. Hard links nuovi
+  ereditano di default le permissions dell'originale.
+- `soft links`: un file collegato non ad un inode ma ad un altro file. Permissions del soft
+  link non sono importanti, contano solo quelle del file puntato. Se il file originale viene
+  eliminato risultano broken links. I _soft links_ possono puntare anche a directory e
+  funzionano anche fra filesystem diversi.
+
+```shell
+# create a new hard link
+$ ln <path/to/orig_file> <path/to/new_hard_link>
+
+# create a new soft link
+$ ln -s <path/to/orig_file> <path/to/new_soft_link>
+```
+
+## Filesystem hierarchy
 
 Il filesystem linux è organizzato per convenzione secondo la seguente gerarchia.
 
@@ -263,53 +373,83 @@ Il filesystem linux è organizzato per convenzione secondo la seguente gerarchia
 
 ### Archival and compression
 
-Il comando tar è usato per raggruppare file e creare archivi (definiti tarballs). Il comando
-ls supporta un flag per vedere dentro una tarball. I comandi più utili sono:
+Il comando `tar` è usato per archiviare file e creare archivi, cioè un singolo file (definito
+tarball). Il comando _ls_ supporta un flag per vedere dentro una tarball.
+
+I files archiviati hanno come nome un path che può essere relativo o assoluto. Tale
+nome/path viene generato quando viene creato l'archivio (es. se aggiungiamo directory/files
+indicandoli con absolute o relative path). Quando viene estratto il file il suo nome/path
+nell’archivio determina dove verranno estratti, ovvero directory corrente + path del file
+nell’archivio (meglio listare il contenuto di una tarball prima di estrarla, in modo da
+sapere dove i file verranno posti).
+
+I comandi più utili sono:
 
 ```shell
 # create tarball from specified files
-$ tar -cf <output> <files..>
+$ tar -cf <archive.tar> <files..>
+
+# add file to existing tarball
+$ tar -rf <archive.tar> <file>
 
 # create tarball and compress it
-$ tar -zcf <output> <files..>
+$ tar -zcf <archive.tar> <files..>
 
 # look at the tarball contents
-$ tar -tf <tarball>
+$ tar -tf <archive.tar>
 
 # extract contents in specified directory
-$ tar -xf <tarball> -C <output_dir>
+$ tar -xf <archive.tar> -C <output_dir>
 ```
 
-La compressione riduce la dimensione dei file, fra le utilities più utili ci sono `bzip2`,
-`gzip` e `xz`. Ogni utility può utilizzare diversi algoritmi e diversi livelli compressione.
-Non serve sempre decomprimere un file per poterlo leggere, es. `zcat` legge un file
-compresso senza decomprimerlo davvero.
+Per quanta riguarda la compressione quasi tutti i sistemi Linux supportano tre utility per
+per eseguirla (originale perso di default, --keep per mantenerlo):
+
+- `gzip --keep <file>`
+- `bzip2 --keep <file>`
+- `xz --keep <file>`
+
+Per quanto riguarda la decompressione (compresso perso di default). Notare che esistono
+tool per eseguire lettura enza decompressione (es. `zcat`).
+
+- `gunzip/gzip --decompress --keep <file>`
+- `bunzip2/bzip2 --decompress --keep <file>`
+- `unxz/xz --decompress --keep <file>`
+
+In genere si utilizzano assieme a _tar_ poiché esso supporta anche la (de)compressione con
+uno dei metodi specificati sopra. Per la decompressione automatica con tar non serve indicare
+il metodo.
 
 ```shell
-# compress a file
-$ gzip --keep -v <file>
-# decompress a file
-$ gzip/gunzip --keep -vd <file>
+$ tar --create [--gzip/--bzip2/--xz] --file archive.tar.gz <file1> <file2> ...
 ```
 
 ### Searching & grepping
 
-Il comando `find` cerca un file in una specifica director. Il comando find è potente e
+Il comando `find` cerca un file in una specifica directory. Il comando find è potente e
 supporta un ricco set di flags ed opzioni, è ricorsivo di default. Ecco alcuni esempi.
 
 ```shell
 # general usage pattern
-$ find <root-di-ricerca> -name <nome-file>
+$ find <root-di-ricerca> [OPTIONS]
 
-# find files under /home directory with a specific name
-$ find /home -name file.txt
-# same but ignore case, and use wildcards
-$ find /home -iname "file.*"
-# find directories, not files
+# find directories with a specific name
 $ find /home -type d -name <dir_name>
+# find files with a specific name
+$ find /home -type f -name <file_name>
 
+# find files but ignore case, and use wildcards
+$ find /home -iname "file.*"
+# find files with given size
+$ find /home -type f -size 10m
 # find files whose permissions are 777 owned by the user
 $ find /home -type f -perm 0777 -user <user>
+
+# next option in OR (not AND)
+$ find /home -type f -perm 0777 -o -user <user>
+# negate next option
+$ find /home -type f -perm 0777 -not -user <user>
+
 # find files and for each of them exec a command
 $ find /home -type f -perm 0777 -exec chmod 644 {} \;
 ```
@@ -338,58 +478,215 @@ $ grep "^hello" *.txt
 $ grep -A 3 -B 2 -r -i "^fn" .
 ```
 
+### Misc
+
+Il comando `cut` estrae colonne da un file, specificando il delimiter e il field che ci
+interessa.
+
+```shell
+$ cut -d <delimiter> -f <field_num> <path/to/file>
+```
+
+Il comando `sort` sorta le righe in ordine alfanumerico.
+
+```shell
+$ cat <file> | sort
+```
+
+Il comando `uniq` filtra righe duplicate vicine.
+
+```shell
+$ cat <file> | sort | uniq
+```
+
+Il comando `diff` mostra differenza fra due file.
+
+```shell
+#  mostra differenze e context delle differenze
+$ diff -c file1 file2
+# mostra differenze side by side
+$ diff -y file1 file2
+```
+
 ## Permissions
 
 Ogni file ha degli attributi, di solito visibili tramite `ls -l`, nel seguente formato:
 `-rwxrwxrwx`. Dove la prima lettera indica il tipo di file e le altre i permessi del file,
 raggruppati per proprietario (3 bit), gruppo del proprietario (3 bit), tutti gli altri (3 bit).
-Un gruppo di permessi lista cosa si può fare e da chi con quel file.
+Un gruppo di permessi lista cosa può fare e chi con quel file.
 
 Un gruppo di permessi è rappresentato come 3 bit (4=read, 2=write, 1=execute, un set di
 permessi può essere espresso come la somma di questi 3 bit). Lo stesso discorso di permessi
 vale anche per le directory.
 
-- `r`: leggere file o listare contenuti directory
-- `w`: scrivere su file o scrivere nuovo file in directory
-- `x`: eseguire file o accedere alla cartella
+- `r`: leggere file o listare contenuti directory (ls)
+- `w`: scrivere su file o scrivere nuovo file in directory (touch)
+- `x`: eseguire file o accedere alla cartella (cd)
 
 I permessi sono verificati sequenzialmente: utente se applicabile, gruppo se applicabile,
 tutti gli altri. Non è necessario che il proprietario di un file appartenga al gruppo
 proprietario di quel file. I check dei permessi sono verificati in sequenza in ogni caso.
+
+### Change owner & group
+
+Il comando per cambiare proprietario e/o gruppo ai file: `chown [-R] <user>[/group] file`.
+Esiste anche la versione per modificare solo il gruppo: `chgrp [-R] <group> file`. Changing
+the ownership (user/group) of files and directories is only allowed to root/sudoers.
+
+```shell
+# note that we changed both user and group but
+# we can also change only one of the two
+$ chown andrea:wheel filename.txt
+
+# modify owner recursively
+$ chown -R andrea:wheel ./some_dir
+```
+
+### Change permissions
+
+Only the owner and root/sudoers are allowed to the change the permission of a file or
+directory.
 
 Per modificare i permessi: `chmod <permissions> <filename>`. I permessi sono specificabili
 numericamente o tramite lettere evocative _<u/g/o><+/-><r/-><w/-><x/->_, anche scrivibili
 come una lista separata da virgola. In alternativa esiste la sintassi numerica.
 
 ```shell
-# change permissions of the file for others, add 
-# read permissions, remove execute and write ones,
-# add all for owner and group
+# change permissions of the file for others, add read permissions, 
+# remove execute and write ones, add all for owner and group
 $ chmod a+r a-wx o+rwx g+rwx binary_file
+
 # same but with numbers (7=4+2+1=r+w+x, 4=4+0+0=r)
 $ chmod 0774 binary_file
 ```
 
-Il comando per cambiare proprietario e gruppo ai file: `chown [-R] <user>[/group] file`.
-Esiste anche la versione per modificare solo il gruppo: `chgrp`.
+### Other permissions
+
+<img src="../02_linux_handbook/assets/suid.png" width="600"/>
+
+Il `setUID` (_sUID_) se settato su un file, quando un file viene eseguito, verrà eseguito come
+owner del file e non come l’utente che sta eseguendo il file. È possibile settare setUID con
+`chmod 4xxx file.txt` (4 iniziale). Notare che il sUID può essere presente
+anche senza l'execute permission, in tal caso verrà visualizzato con una _s_ minuscola nei
+permessi di un file, altrimenti con una _S_ maiuscola (suid + x bit both present).
+
+Il `setGID` (_sGID_) su un file, quando il file viene eseguito avendo permessi di
+gruppo viene eseguito come fosse il gruppo a cui appartiene il file ad averlo lanciato. Si
+può settare con il comando `chmod 2xxx file.txt` (2 iniziale).
+
+Lo `sticky bit` on files does not affect individual files. However, at the directory level,
+it restricts file deletion. Only the owner (and root/sudoers) of a file can remove the file
+within that directory (letter = t, bit = 1), e.g. `chmod +t file.txt`.
+
+I SUID, GUID, sticky bit possono essere combinati 4 + 2 + 1, e.g. _chmod 6777 file.txt_
+setta sia suid e guid sul file.txt.
+
+
+# ⚙️ Processes
+
+I processi vengono lanciati e continuano finche finiscono o finchè non vengono chiusi
+dall’esterno. Esistono diversi comandi per interrogare il sistema riguardo allo stato
+dei processi in corso.
+
+Con 🛠`ps` si ottiene lo snapshot dei processi, le colonne sono:
+
+- **USER**: which user launched the process
+- **PID**: the process ID
+- **%CPU**: tempo di esecuzione sulla CPU (>100% per multi CPU)
+- **%MEM**: consumo di RAM del processo
+- **START**: timestamp di start del processo
+- **TIME**: CPU time, tempo di effettivo run del processo (non sleep o altro), ad esempio per
+  avere 5 secondi segnati qui significa (fra le varie opzioni) che 1 CPU è stata usata al 100%
+  per un secondo oppure 2 CPU al 25% per 2 secondi
+- **COMMAND**: comando che ha lanciato il processo, se fra _[ ]_ sono processi kernel space
+- **NICENESS** (NI): -20 to +19: lower means more priority, ereditato da processo padre a
+  figlio
 
 ```shell
-$ ls -l filename.txt
-# -rw-r--r-- 12 mark superheroes 1239291 Aug  8 03:04 filename.txt
-
-# note that we changed both user and group but
-# we can use change only one of the two also
-$ chown andrea:wheel filename.txt
-$ ls -l filename.txt
-# -rw-r--r-- 12 andrea wheel 1239291 Aug  8 03:04 filename.txt
-
-# modify owner recursively
-$ chown -R andrea:wheel ./some_dir
+# show processes with niceness and parent-child relations
+$ ps flaux 
+# show processes with given PID
+$ ps -u <pid>
+# show processes of given user
+$ ps -U <user>
 ```
 
-Only the owner and root are allowed to the change the permission of a file or directory.
-But changing the ownership (user/group) of files and directories is only allowed to root.
+A richer alternative is 🛠️`top/htop`. It shows the processes of the system in real time, with
+nice pagination and other customization options.
 
+La niceness di un processo può essere modificata con i seguenti comandi:
+
+```shell
+# lancia un processo con una data niceness
+[sudo] nice -n <num> /path/to/executable
+# modifica la niceness di un processo già lanciato 
+[sudo] renice <num> <PID>
+```
+
+## Signals
+
+Signals are high priority messages sent to processes, i processi rispondono a quasi tutti i
+segnali solo se programmati per farlo (ma _SIGSTOP/SIGCONT_, _SIGKILL_ non sono ignorabili).
+Il comando 🛠`kill` è usato per gestire l'invio di signals.
+
+Per un lista dei segnali disponibili: `kill -L`.
+
+Per mandare signals è necessario indicare il tipo di segnale (numericamente o come stringa).
+Se non si specifica il segnale quello di default è _SIGTERM_:
+
+```shell
+$ kill -SIGHUP <PID>
+$ kill -HUP <PID>
+$ kill -9 <PID>
+```
+
+Per quanto rigaurda i permessi, solo root/sudoers possono mandare segnali ad ogni processo,
+mentre uno user normale può mandare signals solo ai suoi processi.
+
+## Processes in foreground/background
+
+Un gruppo di processi può essere gestito da una shell/tty, possiamo mettere in background
+i processi e rimetterli in foreground.
+
+Per lanciare un processo e metterlo immediatamente in background è possibile usare `&`. Se
+un processo sta già correndo e possibile stopparlo con CTRL+Z, il processo viene messo in
+background ma anche si stoppa.
+
+```shell
+$ <command> &
+```
+
+Per la gestione dei processi, il comando `jobs` mostra processi in background (con relativo
+job number assegnato), mentre `fg` e `bg` permettono di spostare i jobs da foreground a
+background e viceversa.
+
+```shell
+# show processes/jobs attached to this shell
+$ jobs
+
+$ fg <job_num>    # bring stopped process back to foreground
+$ bg <job_num>    # resume process in background
+```
+
+## Misc
+
+```shell
+$ lsof -p <PID>           # mostra tutti open files and directories per il processo
+$ lsof <path/to/file>     # mostra tutti i processi che hanno aperto il file
+
+$ df -h 	              # show storage spaces
+$ du -sh <dir>            # show disk space usato dalla directory specificata 	
+
+$ free -h                 # mostra utilizzo RAM corrente
+$ uptime                  # mostra utilizzo CPU (tempo + load average)
+
+$ [ss/netstat] -ltunp     # mostra processi che sono in ascolto su una porta TCP
+  # - l listening
+  # - t TCP
+  # - u UDP
+  # - n use numeric values
+  # - p show processes
+```
 # 👨‍💻 Users
 
 Una macchina Linux prevede uno o più **users**, ognuno con un suo ID univoco (uid), username
@@ -405,7 +702,7 @@ Un utente ha le seguenti caratteristiche:
 - `home path`
 - `default shell`
 
-Oltre ai normali _user accounts_. Esiste sempre anche il _superuser account_, root è l’unico
+Oltre ai normali _user accounts_. Esiste sempre anche il _superuser account_ (root) è l’unico
 superuser (UID = 0). Esistono infine anche i _system accounts_, creati per gestire/avviare
 software e demoni e non pensati per essere direttamente usati dagli utenti umani.
 
@@ -458,7 +755,7 @@ Riguardo ai campi delle entries presenti in `/etc/shadow`:
 
 ## Users management
 
-Per creare/eliminare nuovi utenti: `useradd/userdel <nome>`, un nuovo utente viene inserito
+Per creare nuovi utenti si usa `useradd`, un nuovo utente viene inserito
 nel file `/etc/passwd` con nuovo uid e gid. La sua home viene creata di default. Useradd
 supporta molte opzioni:
 
@@ -471,44 +768,117 @@ supporta molte opzioni:
 - `-G`: specifica gruppi di appartenenza aggiuntivi
 
 ```shell
-# add user and check output
+# add user and check results
 $ useradd -u 1009 -e 1009 -d /home/bob -s /bin/bash -c "bob user" --gecos "bob@gmail.com" bob
+
 $ id bob
 # uid=1009 gid=1009 groups=1009
 $ grep -i bob /etc/passwd
 # bob:x:1009:1009:bob@gmail.com:/home/bob:/bin/bash
 ```
 
-Per settare la sua password: `passwd <nome>`, il comando va usato da root, ma può essere
-anche usato dall’utente stesso per cambiare la sua stessa password. Il comando `usermod`
-invece modifica un utente già esistente.
+Per settare la password per uno user esiste il comando `passwd <user>`, il comando va usato
+da root o da dall’utente stesso per cambiare la sua stessa password. Il comando `chage` viene
+usato per gestire diverse impostazioni di un utente relative a login e password.
+
+```shell
+# verify the state of the user
+$ chage -l <user>
+
+$ chage --lastday 0 jane     # setta expiration date per password
+$ chage --maxdays 30 jane    # user deve cambiare password ogni 30 giorni	
+$ chage --maxdays -1 jane    # no limits on max days
+$ chage --warndays 2 jane    # gets a warning 2 days before the password expires
+```
+
+Il comando `userdel` elimina un utente, opzionalmente anche la sua home dir viene
+eliminata.
+
+```shell
+# remove user and its home directory
+$ userdel --remove <user>
+# remove its primary group
+$ groupdel <username>
+```
+
+Il comando `usermod` modifica un utente già esistente.
 
 ```shell
 # change home directory, expiration and group for the bob user
 $ usermod -d /home/bob_2 -e 2020-05-29 -g heros bob
+
+# move home directory, shell and other stuff related to a user 
+$ usermod --home /home/otherdirectory --move-home john 
+$ usermod --login jane john
+$ usermod --shell /bin/othershell jane
+# set expiration date for user
+$ sudo usermod --expiredate 2021-12-29 jane
 ```
+
+## Groups management
+
+Esistono due tipi di gruppi:
+
+- _primary group/login group_: gruppo primario di un utente, viene creato al momento della
+  creazione dell’utente
+- _secondary group_: gruppi addizionali aggiunti in un secondo momento
+
+Quando creiamo file o lanciamo processi, essi hanno permessi/ownership di uid + primary gid.
 
 Per creare/eliminare nuovi gruppi: `groupadd/groupdel <nome>`.
 
 ```shell
 # add group with specific name and gid
 $ groupadd -g 1010 mygroup
+
 # check the outcome
 $ grep -i ^mygroup /etc/group
 mygroup:x:1010:
 ```
 
+I gruppi possono essere modificati tramite `groupmod` ed eliminati tramite `groupdel`:
+
+```shell
+# change group name
+$ groupmod --new-name programmers developers
+# delete group
+$ groupdel programmers
+```
+
+Per visualizzare il primary group e i secondary groups di un utente esiste il comando `groups`:
+
+```shell
+$ groups <user>
+```
+
+Per aggiungere un utente a un gruppo, rimuoverlo o effettuare modifiche è possibile usare
+sia `gpasswd` che `usermod`:
+
+```shell
+# add user to group
+$ gpasswd --add <user> <group>
+# remove user from group
+$ gpasswd --delete <user> <group>
+# modifica primary group per utente
+$ usermod -g <group> <user>
+# aggiunge utente a secondary group 
+$ usermod -G <group> <user>
+```
+
 ## Su & sudo
 
 Per switchare da un user all’altro esistono alcuni comandi specifici, `su` e `sudo`. Il primo
-switcha ad altro utente, chiedendone la password, mentre il secondo permette di eseguire
+switcha ad altro utente, chiedendone la password, mentre il secondo permette di eseguire solo
 determinate operazioni secondo delle precise policy configurabili, ma impersonando l'utente
 solo per il comando specifico da eseguire. Tipicamente si ha necessità di eseguire comandi
 come un altro utente (es. root) per ottenere i permessi necessari a quell'operazione.
 
+Tipicamente i gruppi _wheel_/_admin_/_sudoers_ sono i gruppi admin che possono usare _sudo_
+per impersonificare root e lanciare comandi che richiedono alti privilegi.
+
 La directory `/etc/sudoers.d` ed il file `/etc/sudoers` contengono i files delle policy.
 Ogni entry di questi file controlla le operazioni che è possibile eseguire per un utente
-o gruppo di utenti e quali altri utenti/gruppi possono essere impersonificati.
+o gruppo e quali altri utenti/gruppi possono essere impersonificati.
 
 ⚠️ Never edit these files with a normal text editor! Always use the `visudo` command instead!
 
@@ -520,29 +890,92 @@ Il formato delle entries è:
 - the <hostname> indicates on which hosts this rule will apply on
 - the <users> indicates the users that can be impersonated
 - the <groups> indicates the groups that can be impersonated
-- the <command> indicates the commands that can be ran
+- the <command> indicates the commands that can be run
 
 ```shell
-$ cat /etc/sudoers
+$ sudo visudo
 
 # reset env vars when switching users
 Defaults env_reset
 
 User privilege specification
-root ALL=(ALL:ALL) ALL
+root    ALL=(ALL:ALL) ALL
 # members of the admin group can run all commands as every user
-%admin ALL=(ALL) ALL
+%admin  ALL=(ALL) ALL
 # members of the sudo group can run all commands as every user/group
-%sudo ALL=(ALL:ALL) ALL
+%sudo   ALL=(ALL:ALL) ALL
 # user Bob can to run any command as every user/group
-bob ALL=(ALL:ALL) ALL
+bob     ALL=(ALL:ALL) ALL
 # user Sarah can reboot the system (default=ALL)
-sarah localhost=/usr/bin/shutdown -r now
+sarah   localhost=/usr/bin/shutdown -r now
+# user mark can run ls and stats as user alice or carl 
+mark    ALL=(alice,carl)	/bin/ls,/bin/stats
 
 # See sudoers(5) for more information on "#include"
 directives:
 #includedir/etc/sudoers.d
 ```
+
+```shell
+# user mark can
+$ sudo -u alice ls /home/alice
+```
+
+Se vogliamo loggarci come root con password dobbiamo settare la password di root e assicurarsi
+che lo user root non sia lockato (`passwd root` + `passwd --unlock`). Viceversa se vogliamo
+lockare root: `passwd --lock root`. WARNING: lockare root è safe solo se hai sudo privilegies
+con un altro utente e puoi loggarti con tale utente altrimenti sei tagliato fuori dalla
+macchina.
+
+Per loggarsi come root da un altro utente:
+
+```shell
+$ sudo --login     
+```
+
+## System wide env profiles
+
+Due tipi di file controllano l'ambiente in cui viene lanciata una shell session: i file
+`.bashrc` e i files `.profile` per i singoli utenti, mentre il file `/etc/environment`
+controlla env vars per tutti.
+
+- `~/.profile` is one of your own user's personal shell initialization scripts. Every user
+  has one and can edit their file without affecting others. `/etc/profile` and
+  `/etc/profile.d/*.sh` are the global initialization scripts that are equivalent
+  to _~/.profile_ for each user. The global scripts get executed before the user-specific
+  scripts though; and the main _/etc/profile_ executes all the *.sh scripts in _/etc/profile.
+  d/_ just before
+- `~/.bashrc` is the place to put stuff that applies only to bash itself, such as alias
+  and function definitions, shell options, and prompt settings.
+- `~/.bash_profile`, bash uses it instead of _~/.profile_ or _~/.bash_login_.
+
+According to the bash man page, _.bash_profile_ is executed for login shells, while _.bashrc_
+is executed for interactive non-login shells.
+
+## User resource limits
+
+Il file `/etc/security/limits.conf` contiene i limiti di risorse utilizzabili dai singoli
+utenti. Il file è diviso in colonne:
+
+- _domain_: username/gruppo (applicato a tutti), * = everyone (defaults)
+- _type_: hard/soft/both, hard è fisso, non modificabile e non superabile, soft può essere
+  modificato fino ad hard
+- _item_: risorsa in question, e.g. nproc (numero di processi creati)/fsize (max size file
+  creato)/cpu (core usage * second)
+- _value_: the limit related to the item
+
+```shell
+# mostra i limiti per l’utente corrente
+$ ulimit -a
+
+# setta un limite per un dato parametro, si può abbassare, alzare
+# se soft (fino a max), solo root può fare tutto liberamente
+$ ulimit -u 
+```
+
+
+
+
 
 # ⚙️ Disks, partitions and filesystems
 
@@ -1028,7 +1461,7 @@ visualizzabili mediante `journalctl`.
 
 L’utente di default dei servizi è root.
 
-### Systemctl and journalctl
+### Systemctl
 
 Il tool 🛠️`systemctl` è usato per gestire i servizi e gli unit files. Permette di avviare,
 stoppare, installare unità, ricaricare configurazioni e molto altro.
@@ -1036,6 +1469,13 @@ stoppare, installare unità, ricaricare configurazioni e molto altro.
 ```shell
 # list units
 $ systemctl list-units [--all]
+# get info about a service
+$ systemctl status <unit-name>
+# cat unit file for the service
+$ systemctl cat <unit-name>
+
+# edit the unit file 
+$ systemctl edit --full <unit-name>
 # start the unit which file is /etc/systemd/system/<unit-name>.service 
 $ systemctl start <unit-name>
 # stop the service
@@ -1049,9 +1489,6 @@ $ systemctl reload <unit-name>
 $ systemctl enable <unit-name>
 # uninstall the service
 $ systemctl disable <unit-name>
-# get info about a service
-$ systemctl status <unit-name>
-
 
 # reload systemd units
 $ systemctl deamon-reload 
@@ -1061,67 +1498,139 @@ $ systemctl get-default
 $ systemctl set-default 		
 ```
 
+### System logs
+
+Kernel e processi generano logs. I logs di default vengono mandati verso _logging deamons_.
+`rsyslog` è il più comune, esso stora logs in formato testuale e leggibile in _/var/log_. I
+logs contengono timestamp, messaggio di log, processo che lo ha generato, etc.
+
 Il comando 🛠️`journalctl` è usato per leggere i log dei servizi e altre informazioni relative.
 
 ```shell
 # printa i logs da tutti i servizi
 $ journalctl		
-
 # printa logs dei servizi dal current boot in poi
 $ journalctl -b		
 
-# printa logs di una specifica unit/servizio
-$ journalctl -u <unit-name>	
+# printa logs di una specifica unit/servizio, e vai alla fine
+$ journalctl -u/--unit <unit-name> -e
+# printa logs di una specifica unit/servizio, e stai in follow mode
+$ journalctl -u/--unit <unit-name> --follow
+
+# show priorities
+$ journalctl -p
+# show logs with given priority
+$ journalctl -p [alert, crit, err, …]
+
+# mostra i logs since/until la data/timestamp
+$ journalctl -S 02:00 
+$ journalctl -U 3:00
 ```
 
 ## SSH
 
-Il comando 🛠️`ssh` è usato per eseguire shell su macchine remote, protocollo comunicante su
-porta 22:
+### SSH demon
+
+Il demone SSH più usato é _openSSH_, dopo installazione viene gestito tramite unit systemD.
+Il suo file di configurazione è `/etc/ssh/sshd_config`, dove possiamo controllare diversi
+parameteri fra cui:
+
+- _Port_ (22): porta su cui il demone ascolta
+- _PasswordAuthentication_: secifica se auth con password é permessa
+- _ListenAddress_: specifica ip su cui ascoltare
+- _PermitRootLogin_: permette o meno login come root user
+- _X11Forwarding_: lancia server grafico quando ci si connette via ssh
+
+Ad ogni cambiamento del file di conf é necessario reloadare il demone:
 
 ```shell
-$ ssh -i <path-to-key> <remote-user>@<hostname/ip>
+$ sudo systemctl reload sshd.service
 ```
+
+Le chiavi pubbliche “autorizzate” devono essere installate sul server in
+`<remote-user-home>/.ssh/authorized_keys` (la home è quella dell’utente con cui vogliamo
+loggarci). Il formato del file è semplicemente una lista di chiavi pubbliche, una per riga.
+Le chiavi pubbliche qui presenti permettono all’utente corrispondente di potersi
+loggare presnetando la relativa chiave privata.
+
+### SSH client
+
+Il comando 🛠️`ssh` è il client SSH usato per eseguire shell su macchine remote, protocollo
+comunicante su porta 22 tipicamente.
+
+```shell
+$ ssh -i <path/to/private/key> <remote-user>@<remote-ip/name>
+```
+
+I file di configurazione sono `/etc/ssh/ssh_config`, file di configurazione generale, e
+`/etc/ssh/ssh_config.d`, file di configurazione dei profili singoli che sono, importati sul
+default.
 
 La macchina remota deve avere un demone ssh in esecuzione. Il login può avvenire tramite
 password (sconsigliato) oppure tramite chiavi, dove l’utente che si connette deve presentare
 una chiave privata la cui chiave pubblica corrispondente è presente sul server remoto.
 
 Tipicamente l’utente in locale crea una coppia di chiavi, privata e pubblica. La privata
-deve rimanere segreta, la pubblica può essere inviata all’amministratore per essere
-installata sul server. Una chiave può essere generata ad esempio con: `ssh-keygen -t rsa`.
-
-Le chiavi generate localmente vengono salvate tipicamente in `~/.ssh/my_key.pub` e
-`~/.ssh/my_key`, per quanto riguarda rispettivamente la chiave pubblica e privata. Le
-chiavi pubbliche “autorizzate” sono installate sul server in `~/.ssh/authorized_keys` (la
-home è quella dell’utente che deve loggarsi). Il formato del file è semplicemente una
-lista di chiavi pubbliche, una per riga (il comando ssh-copy-id può installare chiavi
-pubbliche da locale con più facilità).
-
-Il comando 🛠️`scp` serve a copiare files da remoto verso locale e viceversa usando una
-connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag _-r_,
-mentre _-p_ preserva i permessi dei file locali. La sintassi per uploadare dei file è:
+deve rimanere segreta, la pubblica può essere data all’amministratore per essere
+installata sul server. Una chiave può essere generata localmente con:
 
 ```shell
+$ ssh-keygen -t rsa
+```
+
+Le chiavi generate vengono salvate di default in `~/.ssh/my_key.pub` e`~/.ssh/my_key`, per
+quanto riguarda rispettivamente la chiave pubblica e privata.
+
+La chiave pubblica viene validata tramite chiave privata durante la fase di auth.
+Si puó fare manualmente o via lo shortcut 🛠`ssh-copy-id`, da eseguire sul client per copiare
+la chiave indicata sul server remoto nella cartella dell’utente specificato. In alternativa
+il comando 🛠️`scp` serve a copiare files da remoto verso locale e viceversa usando una
+connessione SSH. E’ possibile copiare intere directory ricorsivamente con il flag _-r_,
+mentre _-p_ preserva i permessi dei file locali.
+
+```shell
+# copy keys with ssh-copy-id 
+$ ssh-copy-id <user>@<remote-machine>
+# copy files with scp
 $ scp -i <path/to/key> [-r] [-p] </local/files> <user>@<host/ip>:</remote/dir>
 ```
+
+Sempre in locale/sul client esiste il file `/<home>/.ssh/known-hosts`, questo file contiene
+tutti i server a cui ci siamo collegati precedentemente (motivi di security). Quando ci
+colleghiamo a server non noto, tale server viene riconosciuto e viene chiesto all'utente
+conferma.
 
 ## Cron jobs
 
 Il sistema _cron_ ci permette di schedulare task ricorrenti usando un formato specifico per lo
-scheduling. I task cron una volta create mediante comando 🛠`crontab` vengono gestiti dal
+scheduling. I task cron una volta create mediante comando 🛠`crontab` e vengono gestiti dal
 demone `crond`.
 
+Il file `/etc/crontab` è la cron tab globale, da non modificare direttamente, contiene anche
+esempi di sintassi, direttive per impostare la shell, env vars, mandare mail dopo che i
+jobs sono completati, etc.
+
 ```shell
-# schedulare un job come utente corrente (non usare root pls)
+# edit the crontab for the current user
 $ crontab -e	
-# lista tutti i jobs schedulati
+# lista all scheduled cron jobs
 $ crontab -l 	
+# remove all cron of the current user
+$ crontab -e
 ```
 
 La sintassi dei _cronjob_ è la seguente, con * per indicare che ogni valore di quel campo è
 valido per far correre il job. E’ possibile anche usare una sintassi specifica per indicare
-di eseguire il job non in momenti precisi, ma a step periodici.
+di far eseguire il job non in momenti precisi, ma a step periodici.
+
+Sintassi: `minute:hour:day:month:weekday`
+
+- `*` match all
+- `,` match listed values
+- `-` range of values
+- `/` specify steps
+
+Esempi:
 
 ```shell
 # minute:hour:day:month:weekday, runs at 08:10 
@@ -1130,3 +1639,6 @@ di eseguire il job non in momenti precisi, ma a step periodici.
 # periodic (every 2 mins)
 */2 * * * * 
 ```
+
+
+

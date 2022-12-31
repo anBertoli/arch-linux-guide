@@ -63,13 +63,19 @@ default e modificarlo. Notare che il termine runlevels è usato nei sistemi con 
 Questi sono stati sostituiti da target systemd nei sistemi basati su di esso. L'elenco
 completo dei runlevel e dei corrispondenti target di sistema è il seguente.
 
-- _runlevel 0_: `poweroff.target`
+- _runlevel 0_: `poweroff.target`, launches only fundamental processes, boot as root
 - _runlevel 1_: `rescue.target`
-- _runlevel 2_: `multi-user.target`
+- _runlevel 2_: `multi-user.target`, launches everything expect UI
 - _runlevel 3_: `multi-user.target`
 - _runlevel 4_: `multi-user.target`
-- _runlevel 5_: `graphical.target`
+- _runlevel 5_: `graphical.target`, launches UI if present
 - _runlevel 6_: `reboot.target`
+
+```shell
+$ systemctl get-default 		    # mostra target di default
+$ systemctl set-default <target>	# setta target di default al boot
+$ systemctl isolate <target>	    # ordina di raggiungere quel target ora, senza reboot
+```
 
 ## Log in
 
