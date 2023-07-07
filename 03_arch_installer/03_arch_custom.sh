@@ -8,8 +8,6 @@ print_header "User space customization
 source ./config.gen.sh
 check_vars
 
-
-
 #######################################################################
 ######## USERSPACE PROGRAMS ###########################################
 #######################################################################
@@ -23,8 +21,8 @@ rm -rf /usr/local/go
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
 tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 
-echo "export PATH=${PATH}:/usr/local/go/bin" >> $HOME/.profile
-source $HOME/.profile
+echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
+source "$HOME"/.profile
 go version
 
 ### install goland
@@ -37,8 +35,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust an
 rustup update
 cargo --version
 
-echo "export PATH=${PATH}:~/.cargo/bin" >> $HOME/.profile
-source $HOME/.profile
+echo "export PATH=${PATH}:~/.cargo/bin" >> "$HOME"/.profile
+source "$HOME"/.profile
 cargo --version
 
 ### install clion

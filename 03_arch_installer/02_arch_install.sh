@@ -124,7 +124,6 @@ arch-chroot /mnt touch /etc/vconsole.conf
 arch-chroot /mnt echo "KEYMAP=it" > /etc/vconsole.conf
 
 ### network
-arch-chroot /mnt pacman -S networkmanager
 arch-chroot /mnt systemctl stop wpa_supplicant
 arch-chroot /mnt systemctl disable wpa_supplicant
 arch-chroot /mnt systemctl enable NetworkManager
@@ -155,6 +154,9 @@ arch-chroot /mnt pacman -S nvidia nvidia-utils
 ### desktop enviroment
 arch-chroot /mnt pacman -S plasma
 arch-chroot /mnt systemctl enable sddm
+
+###
+arch-chroot /mnt ./03_arch_custom.sh
 
 ### done
 umount -R /mnt
