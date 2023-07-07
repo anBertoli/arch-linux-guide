@@ -70,10 +70,10 @@ print_checklist_item "erasing disk"
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 prompt_continue "Disk will be erased, to you want to continue?"
 
-print_checklist_item "unmounting filesystem /mnt"
-set -x
-umount -R /mnt || /bin/true
-set +x
+#print_checklist_item "unmounting filesystem /mnt"
+#set -x
+#umount -R /mnt || /bin/true
+#set +x
 
 set -x
 sgdisk --clear "$DISK_DEV_FILE"
