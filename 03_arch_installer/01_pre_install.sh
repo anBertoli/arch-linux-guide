@@ -95,8 +95,8 @@ set +x
 ### mount partitions, for SWAP, just tell Linux to use it
 print_checklist_item "mounting filesystems"
 set -x
-mount --mkdir -o remount "$DISK_PART_ROOT_DEV_FILE" /mnt
-mount --mkdir -o remount "$DISK_PART_EFI_DEV_FILE" /mnt/boot
+mount --mkdir --all "$DISK_PART_ROOT_DEV_FILE" /mnt
+mount --mkdir --all "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
