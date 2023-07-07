@@ -70,7 +70,7 @@ prompt_continue "Disk will be erased, to you want to continue?"
 
 print_checklist_item "unmounting filesystem /mnt"
 set -x
-umount -R /mnt
+umount -R -q /mnt
 set +x
 
 set -x
