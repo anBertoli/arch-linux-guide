@@ -33,7 +33,7 @@ find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
 
-prompt_continue "\nContinue?"
+prompt_continue "Continue?"
 
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
@@ -56,7 +56,7 @@ set -x
 timedatectl set-ntp true
 set +x
 
-prompt_continue "\nContinue?"
+prompt_continue "Continue?"
 
 #######################################################################
 ######## DISK PREPARATION #############################################
@@ -65,7 +65,7 @@ print_header_section "Disk partitioning"
 
 ### delete all partitions
 print_checklist_item "erasing disk"
-print_text "Current disk state:\n $(sgdisk -p "$DISK_DEV_FILE")"
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 prompt_continue "Disk will be erased, to you want to continue?"
 
 print_checklist_item "unmounting filesystem /mnt"
@@ -75,8 +75,8 @@ set +x
 
 set -x
 sgdisk --clear "$DISK_DEV_FILE"
-sgdisk -p "$DISK_DEV_FILE"
 set +x
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
 ### start = 0, means next starting point
 print_checklist_item "partitioning disk"
@@ -84,8 +84,8 @@ set -x
 sgdisk -n 1:0:+1G -t 1:ef00 -g "$DISK_DEV_FILE" # EFI
 sgdisk -n 2:0:+10G -t 2:8200 -g "$DISK_DEV_FILE" # SWAP
 sgdisk -n 3:0:+500G -t 3:8300 -g "$DISK_DEV_FILE" # ROOT
-sgdisk -p "$DISK_DEV_FILE"
 set +x
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
 ### format partitions with fs
 print_checklist_item "creating filesystem within partitions"
@@ -101,6 +101,7 @@ set -x
 mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
 set +x
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
 print_checklist_item "enabling swap space"
 set -x
