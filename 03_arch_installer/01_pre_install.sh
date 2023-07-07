@@ -89,7 +89,7 @@ print_checklist_item "creating filesystem within partitions"
 set -x
 mkfs.fat -F32 "$DISK_PART_EFI_DEV_FILE" # EFI
 mkfs.ext4 "$DISK_PART_ROOT_DEV_FILE" # ROOT
-mkswap "$DISK_PART_SWAP_DEV_FILE" # SWAP
+#mkswap "$DISK_PART_SWAP_DEV_FILE" # SWAP
 set +x
 
 ### mount partitions, for SWAP, just tell Linux to use it
@@ -102,7 +102,7 @@ print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
 print_checklist_item "enabling swap space"
 set -x
-swapon "$DISK_PART_SWAP_DEV_FILE"
+#swapon "$DISK_PART_SWAP_DEV_FILE"
 set +x
 
 
