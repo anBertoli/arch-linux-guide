@@ -31,6 +31,7 @@ print_checklist_item "setting IT keyboard layout"
 ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
 #loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 #set +x
+echo TETS
 exit 0
 
 ### connect to internet using non-interactive CLI
