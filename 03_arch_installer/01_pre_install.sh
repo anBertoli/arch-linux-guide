@@ -20,12 +20,10 @@ print_header_section "Preliminary operations"
 
 ### check we have booted in UEFI mode
 print_checklist_item "checking correct UEFI boot"
-set -x
 if [ -z "$(ls -A /sys/firmware/efi/efivars)" ]; then
     echo "Empty '/sys/firmware/efi/efivars'"
     exit 1
 fi
-set +x
 
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
