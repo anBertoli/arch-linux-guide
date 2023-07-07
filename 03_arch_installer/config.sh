@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+source print.sh
+
 declare -a VAR_NAMES=(
   WIFI_DEVICE
   WIFI_SSID
@@ -55,6 +57,16 @@ function check_vars {
     fi
   done
   echo -e "All values set.\n"
+}
+
+function check_conf_file {
+  if [ -f "./config.gen.sh" ]; then
+    print_text "Config file present (./config.gen.sh)"
+  else
+    print_text "Config file not present (./config.gen.sh).
+Consider regenerating them by executing ${BOLD_INTENSE_GREEN}./00_config_init.sh${BOLD_INTENSE_WHITE}"
+    exit 1
+  fi
 }
 
 function print_vars() {

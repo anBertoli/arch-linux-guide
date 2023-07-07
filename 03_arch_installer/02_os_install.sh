@@ -4,8 +4,10 @@ source config.sh
 source print.sh
 
 print_banner "OS Installation (3/4)"
+print_text "This section will guide you through the OS installation."
 
 # load configs
+check_conf_file
 source ./config.gen.sh
 check_vars
 
@@ -18,32 +20,42 @@ print_header_section "Preliminary operations"
 
 ### check we have booted in UEFI mode
 print_checklist_item "checking correct UEFI boot"
+set -x
 if [ -z "$(ls -A /sys/firmware/efi/efivars)" ]; then
     echo "Empty '/sys/firmware/efi/efivars'"
     exit 1
 fi
+set +x
 
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
+set -x
 ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
+set +x
 
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
+set -x
 iwctl device list
 iwctl station "$WIFI_DEVICE" scan
 iwctl station "$WIFI_DEVICE" get-networks
 iwctl --passphrase "$WIFI_PASSPHRASE" station "$WIFI_DEVICE" connect "$WIFI_SSID"
 ping -i 1 8.8.8.8
+set +x
 
 ### sync the machine clock using the NTP time protocol
 print_checklist_item "sync time (NTP)"
+set -x
 timedatectl set-ntp true
+set +x
 
 ### remount partitions
+set -x
 mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
 swapon "$DISK_PART_SWAP_DEV_FILE"
+set +x
 
 
 
@@ -54,6 +66,7 @@ print_header_section "OS Installation"
 
 ### optimize downloads
 print_checklist_item "setting mirrors"
+set -x
 reflector \
   --download-timeout 60 \
   --country Italy \
@@ -61,11 +74,12 @@ reflector \
   --protocol https \
   --sort rate \
   --save /etc/pacman.d/mirrorlist
+set +x
 
 ### install basic packages
 print_checklist_item "installing basic packages"
+set -x
 pacman -Sy
-
 pacstrap /mnt \
     linux \
     linux-firmware \
@@ -78,10 +92,13 @@ pacstrap /mnt \
     docker \
     vim \
     curl
+set +x
 
 ### persist mounts
 print_checklist_item "persist mounts with genfstab"
+set -x
 genfstab -U /mnt >> /mnt/etc/fstab
+set +x
 
 
 
@@ -93,10 +110,13 @@ print_header_section "GRUB Installation (boot loader)"
 
 ### install microcode updates
 print_checklist_item "installing microcode"
+set -x
 arch-chroot /mnt pacman -S amd-ucode
+set +x
 
 ### install GRUB
 print_checklist_item "installing grub and efibootmgr"
+set -x
 arch-chroot /mnt pacman -S grub efibootmgr
 arch-chroot /mnt efibootmgr -v
 
@@ -106,9 +126,13 @@ arch-chroot /mnt grub-install \
     --bootloader-id="$BOOTLOADER_ID" \
     --efi-directory=/boot
 
+set +x
+
 ### save GRUB conf
 print_checklist_item "saving GRUB conf"
+set -x
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+set +x
 
 
 
@@ -120,48 +144,65 @@ print_header_section "OS configuration"
 
 ### localization (timezone)
 print_checklist_item "setting timezone"
+set -x
 arch-chroot /mnt ls -alh /usr/share/zoneinfo
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/<region>/<city> /etc/localtime
 arch-chroot /mnt hwclock --systohc # generate /etc/adjtime
+set +x
 
 ### localization (language)
-print_checklist_item "setting language"
+print_checklist_item "setting and persisting language"
+set -x
 arch-chroot /mnt vim /etc/locale.gen   # uncomment chosen languages
 arch-chroot /mnt locale-gen            # generate and save locale files
 
 arch-chroot /mnt touch /etc/locale.conf
 arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
+set +x
+
 
 ### localization (keyboard)
-print_checklist_item "setting keyboard"
+print_checklist_item "setting and persisting keyboard"
+set -x
 arch-chroot /mnt touch /etc/vconsole.conf
 arch-chroot /mnt echo "KEYMAP=it" > /etc/vconsole.conf
+set +x
 
 ### network
-print_header_section "setting network confs"
 print_checklist_item "enabling network manager"
+set -x
 arch-chroot /mnt systemctl stop wpa_supplicant
 arch-chroot /mnt systemctl disable wpa_supplicant
 arch-chroot /mnt systemctl enable NetworkManager
+set +x
 
 print_checklist_item "generating /etc/hostname and /etc/hosts"
+set -x
 arch-chroot /mnt echo "andrea-<machine>" >> /etc/hostname
 arch-chroot /mnt echo "\
 127.0.0.1        localhost
 ::1              localhost
 127.0.1.1        andrea-<machine>" > /etc/hosts
+set +x
 
 ### users and security
 print_header_section "setting users and security confs"
 print_checklist_item "adding user"
+set -x
 arch-chroot /mnt useradd -m -G wheel "$USER"
+set +x
 
 print_checklist_item "setting root and user passwords"
+set -x
 arch-chroot /mnt echo "$USER_PASSWORD" | passwd --stdin                    # root
 arch-chroot /mnt echo "$USER_PASSWORD" | passwd --stdin "$USER_NAME"       # user
+set +x
 
 print_checklist_item "adding user to wheel (admins)"
+set -x
 arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//g' /etc/sudoers
+arch-chroot cat /etc/sudoers
+set +x
 
 
 
@@ -172,31 +213,33 @@ print_header_section "Graphics configuration"
 
 ### window server
 print_checklist_item "installing xorg"
+set -x
 arch-chroot /mnt pacman -S xorg-server
+set +x
 
 ### graphic card drivers
 print_checklist_item "installing graphic card drivers"
+set -x
 arch-chroot /mnt pacman -S nvidia nvidia-utils
+set +x
 
 ### desktop environment
 print_checklist_item "installing plasma (desktop)"
+set -x
 arch-chroot /mnt pacman -S plasma
 arch-chroot /mnt systemctl enable sddm
+set +x
 
-
+### end
 print_header_section "Checkpoint"
 print_text "
-${BOLD_INTENSE_GREEN}OS ready${BOLD_INTENSE_WHITE}
+${BOLD_INTENSE_GREEN}OS ready!${BOLD_INTENSE_WHITE}
 
-If you want to automatically install user space programs and utils continue
-to the next section, otherwise abort at the next prompt.
+If you want to automatically install user space programs and
+utils continue to the next section.
+
+To do so start the ./03_os_custom.sh script in the chroot so:
+${BOLD_INTENSE_GREEN}arch-chroot /mnt ./03_os_custom.sh ${BOLD_INTENSE_WHITE}.
+
+Exiting.
 "
-
-prompt_continue "Do you want to proceed with the next section automatically? "
-
-###
-#arch-chroot /mnt ./03_arch_custom.sh
-
-### done
-umount -R /mnt
-reboot

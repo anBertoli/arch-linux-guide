@@ -38,7 +38,7 @@ ${RESET}
 }
 
 function print_checklist_item() {
-  echo -ne "${RESET}- ${BOLD_INTENSE_GREEN}${1}${RESET}
+  echo -ne "${RESET}${BOLD_INTENSE_WHITE}- ${BOLD_INTENSE_GREEN}${1}${RESET}
 "
 }
 
