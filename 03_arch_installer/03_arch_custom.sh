@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e 
 
+print_header "User space customization
+(4/4)"
+
 # load configs
 source ./config.gen.sh
 check_vars

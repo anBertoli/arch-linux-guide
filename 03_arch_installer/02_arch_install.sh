@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e 
 
+print_header "OS installation
+(3/4)"
+
 # load configs
 source ./config.gen.sh
 check_vars
@@ -134,8 +137,8 @@ arch-chroot /mnt echo "\
 
 ### users and security
 arch-chroot /mnt useradd -m -G wheel $USER
-arch-chroot /mnt echo $USER_PASSWORD | passwd --stdin             # root
-arch-chroot /mnt echo $USER_PASSWORD | passwd --stdin $USER_NAME       # user
+arch-chroot /mnt echo "$USER_PASSWORD" | passwd --stdin                    # root
+arch-chroot /mnt echo "$USER_PASSWORD" | passwd --stdin "$USER_NAME"       # user
 
 arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//g' /etc/sudoers
 

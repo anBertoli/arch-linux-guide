@@ -3,7 +3,8 @@ set -e
 source config.sh
 source print.sh
 
-print_header "Pre installation configuration"
+print_header "Pre installation configuration
+(2/4)"
 
 # load configs
 source ./config.gen.sh
