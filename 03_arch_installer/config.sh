@@ -54,7 +54,7 @@ function check_vars {
           exit 1
     fi
   done
-  echo "All values set."
+  echo -e "All values set.\n"
 }
 
 function print_vars() {
@@ -66,8 +66,7 @@ function print_vars() {
 
 function write_vars() {
   echo "#!/bin/bash
-  set -e
-  "  > "$1"
+set -e  "  > "$1"
   for VAR_NAME in "${VAR_NAMES[@]}"
   do
     echo "${VAR_NAME}=\"${!VAR_NAME}\"" >> "$1"

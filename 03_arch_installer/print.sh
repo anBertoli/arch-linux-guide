@@ -11,11 +11,17 @@ BOLD_INTENSE_WHITE='\033[1;97m'
 NORMAL_INTENSE_GREEN='\033[0;92m'
 RESET='\033[0m'
 
-function print_header() {
+function print_banner() {
   echo -ne "${RESET}
 ------------------------------------
 ${BOLD_INTENSE_GREEN}
-${1}
+ █████╗ ██████╗  ██████╗██╗  ██╗    ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗
+  ██╔══██╗██╔══██╗██╔════╝██║  ██║    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗
+  ███████║██████╔╝██║     ███████║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝     ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝
+  ██╔══██║██╔══██╗██║     ██╔══██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗     ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗
+  ██║  ██║██║  ██║╚██████╗██║  ██║    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║
+  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝    ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
+  $1
 ${BOLD_INTENSE_WHITE}
 ------------------------------------
 ${RESET}
@@ -31,7 +37,7 @@ ${RESET}
 "
 }
 
-function print_header_par() {
+function print_checklist_item() {
   echo -ne "${RESET}- ${BOLD_INTENSE_GREEN}${1}${RESET}
 "
 }
@@ -46,7 +52,7 @@ function prompt_continue() {
   while true; do
       read -p "$(echo -e "${BOLD_INTENSE_WHITE}$1${RESET} [y/n] ")" YN
       case $YN in
-          [Yy]* ) return;;
+          [Yy]* ) echo; return;;
           [Nn]* ) echo "Exiting."; exit 1;;
           * ) echo "Please answer yes or no.";;
       esac
@@ -58,7 +64,7 @@ function prompt_abort() {
   while true; do
       read -p "$(echo -e "${BOLD_INTENSE_WHITE}$1${RESET} [y/n] ")" YN
       case $YN in
-          [Yy]* ) echo "Exiting."; exit 1;;
+          [Yy]* ) echo;  echo "Exiting."; exit 1;;
           [Nn]* ) return;;
           * ) echo "Please answer yes or no.";;
       esac
