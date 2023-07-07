@@ -1,18 +1,9 @@
 #!/bin/bash
 set -e 
 
-DEVICE="wlan0"
-SSID="TISCALI-Andrea"
-PASSPHRASE="DK3U7B43CY"
-
-DEV_FILE="/dev/nvme01"
-DEV_FILE_EFI="/dev/nvme01"
-DEV_FILE_ROOT="/dev/nvme01"
-DEV_FILE_SWAP="/dev/nvme01"
-
-BOOTLOADER_ID="arch-andrea"
-PASSWORD="AndreaLinux"                       
-USER=andrea
+# load configs
+source ./config.gen.sh
+check_vars
 
 
 
@@ -72,6 +63,8 @@ sudo usermod -a -G docker $USER
 #######################################################################
 
 ### customize prompt
+# shellcheck disable=SC2089
+# shellcheck disable=SC2016
 PROMPT='function __my_prompt_command() {
     local EXIT_CODE="$?"
 
@@ -92,17 +85,17 @@ PROMPT='function __my_prompt_command() {
 
 PROMPT_COMMAND=__my_prompt_command'
 
-echo $PROMPT >> ~/.profile
-echo $PROMPT >> ~/.bash_profile
+echo "$PROMPT" >> ~/.profile
+echo "$PROMPT" >> ~/.bash_profile
 
 ### add some aliases
 ALIAS_LL="alias ll=\"ls -alh\""
-echo $ALIAS_LL >> ~/.profile
-echo $ALIAS_LL >> ~/.bash_profile
+echo "$ALIAS_LL" >> ~/.profile
+echo "$ALIAS_LL" >> ~/.bash_profile
 
 ALIAS_K="alias k=\"kubectl\""
-echo $ALIAS_K >> ~/.profile
-echo $ALIAS_K >> ~/.bash_profile
+echo "$ALIAS_K" >> ~/.profile
+echo "$ALIAS_K" >> ~/.bash_profile
 
 ### reload
 source ~/.bash_profile
