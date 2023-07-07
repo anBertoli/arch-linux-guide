@@ -12,12 +12,6 @@ source ./config.gen.sh
 check_vars
 
 
-### REMOVE
-ls -alh /usr/share/kbd/keymaps/**/*.map.gz
-echo TEST1
-ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
-echo TEST2
-exit 0
 
 #######################################################################
 ######## BOOT FROM INSTALLATION MEDIUM ################################
@@ -34,7 +28,7 @@ fi
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
 set -x
-ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
+find /usr/share/kbd/keymaps/**/*.map.gz -type f -name "*.map.gz"
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
 exit 0
