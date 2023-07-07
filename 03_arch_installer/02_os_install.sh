@@ -20,19 +20,20 @@ print_header_section "Preliminary operations"
 
 ### check we have booted in UEFI mode
 print_checklist_item "checking correct UEFI boot"
-set -x
 if [ -z "$(ls -A /sys/firmware/efi/efivars)" ]; then
     echo "Empty '/sys/firmware/efi/efivars'"
     exit 1
 fi
-set +x
 
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
+print_text "Setting /usr/share/kbd/keymaps/i386/qwerty/it layout"
 set -x
-ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
+find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
+
+prompt_continue "Continue?"
 
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
@@ -41,7 +42,12 @@ iwctl device list
 iwctl station "$WIFI_DEVICE" scan
 iwctl station "$WIFI_DEVICE" get-networks
 iwctl --passphrase "$WIFI_PASSPHRASE" station "$WIFI_DEVICE" connect "$WIFI_SSID"
-ping -i 1 8.8.8.8
+set +x
+
+print_text "Waiting for connection.. (10 secs)"
+set -x
+sleep 10
+ping -c 5 -w 10 8.8.8.8
 set +x
 
 ### sync the machine clock using the NTP time protocol
@@ -50,6 +56,8 @@ set -x
 timedatectl set-ntp true
 set +x
 
+prompt_continue "Continue?"
+
 ### remount partitions
 set -x
 mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
@@ -57,7 +65,7 @@ mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
 swapon "$DISK_PART_SWAP_DEV_FILE"
 set +x
 
-
+prompt_continue "Continue?"
 
 #######################################################################
 ######## OS INSTALLATION ##############################################
@@ -100,7 +108,7 @@ set -x
 genfstab -U /mnt >> /mnt/etc/fstab
 set +x
 
-
+prompt_continue "Continue?"
 
 #######################################################################
 ######## BOOT LOADER (GRUB) INSTALLATION ##############################
@@ -134,7 +142,7 @@ set -x
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 set +x
 
-
+prompt_continue "Continue?"
 
 #######################################################################
 ######## OS CONFIGURATION ##############################################
@@ -204,7 +212,7 @@ arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//g' /etc/sudoers
 arch-chroot cat /etc/sudoers
 set +x
 
-
+prompt_continue "Continue?"
 
 #######################################################################
 ######## GRAPHICS #####################################################
