@@ -39,6 +39,9 @@ iwctl device list
 iwctl station "$WIFI_DEVICE" scan
 iwctl station "$WIFI_DEVICE" get-networks
 iwctl --passphrase "$WIFI_PASSPHRASE" station "$WIFI_DEVICE" connect "$WIFI_SSID"
+echo "waiting for connection.."
+sleep 10
+
 ping -c 5 -w 10 8.8.8.8
 set +x
 
