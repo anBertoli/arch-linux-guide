@@ -27,10 +27,11 @@ fi
 
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
-set -x
+#set -x
 ls -alh /usr/share/kbd/keymaps/**/*.map.gz | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
-set +x
+#set +x
+exit
 
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
