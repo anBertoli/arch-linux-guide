@@ -79,7 +79,7 @@ set +x
 ### install basic packages
 print_checklist_item "installing basic packages"
 set -x
-pacman -Sy
+pacman --noconfirm -Sy
 pacstrap /mnt \
     linux \
     linux-firmware \
@@ -111,13 +111,13 @@ print_header_section "GRUB Installation (boot loader)"
 ### install microcode updates
 print_checklist_item "installing microcode"
 set -x
-arch-chroot /mnt pacman -S amd-ucode
+arch-chroot /mnt pacman --noconfirm -S amd-ucode
 set +x
 
 ### install GRUB
 print_checklist_item "installing grub and efibootmgr"
 set -x
-arch-chroot /mnt pacman -S grub efibootmgr
+arch-chroot /mnt pacman --noconfirm -S grub efibootmgr
 arch-chroot /mnt efibootmgr -v
 
 arch-chroot /mnt mount --mkdir "$DISK_PART_EFI_DEV_FILE" /boot
@@ -214,19 +214,19 @@ print_header_section "Graphics configuration"
 ### window server
 print_checklist_item "installing xorg"
 set -x
-arch-chroot /mnt pacman -S xorg-server
+arch-chroot /mnt pacman --noconfirm -S xorg-server
 set +x
 
 ### graphic card drivers
 print_checklist_item "installing graphic card drivers"
 set -x
-arch-chroot /mnt pacman -S nvidia nvidia-utils
+arch-chroot /mnt pacman --noconfirm -S nvidia nvidia-utils
 set +x
 
 ### desktop environment
 print_checklist_item "installing plasma (desktop)"
 set -x
-arch-chroot /mnt pacman -S plasma
+arch-chroot /mnt pacman --noconfirm -S plasma
 arch-chroot /mnt systemctl enable sddm
 set +x
 

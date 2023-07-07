@@ -18,7 +18,7 @@ print_header_section "Programming languages and IDEs "
 
 set -x
 cd ~
-sudo pacman -Syu
+sudo pacman --noconfirm -Syu
 set +x
 
 ### install go
@@ -65,8 +65,8 @@ set +x
 ### install docker
 print_checklist_item "install Docker"
 set -x
-pacman -Sy docker
-pacman -Sy docker-compose
+pacman -Sy --noconfirm docker
+pacman -Sy --noconfirm docker-compose
 
 systemctl start docker
 systemctl enable docker
