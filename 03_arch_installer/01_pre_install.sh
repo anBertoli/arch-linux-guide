@@ -70,11 +70,6 @@ print_checklist_item "erasing disk"
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 prompt_continue "Disk will be erased, to you want to continue?"
 
-#print_checklist_item "unmounting filesystem /mnt"
-#set -x
-#umount -R /mnt || /bin/true
-#set +x
-
 set -x
 sgdisk --clear "$DISK_DEV_FILE"
 set +x
@@ -100,8 +95,8 @@ set +x
 ### mount partitions, for SWAP, just tell Linux to use it
 print_checklist_item "mounting filesystems"
 set -x
-mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
-mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
+mount --mkdir -o remount "$DISK_PART_ROOT_DEV_FILE" /mnt
+mount --mkdir -o remount "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 

@@ -60,8 +60,8 @@ prompt_continue "Continue?"
 
 ### remount partitions
 set -x
-mount --mkdir -o remount "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 mount --mkdir -o remount "$DISK_PART_ROOT_DEV_FILE" /mnt
+mount --mkdir -o remount "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 swapon "$DISK_PART_SWAP_DEV_FILE" || /bin/true
 set +x
 
