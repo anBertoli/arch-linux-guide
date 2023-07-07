@@ -55,7 +55,7 @@ sudo docker info
 sudo docker run hello-world
 
 # allows non-root users to use docker
-sudo usermod -a -G docker $USER 
+sudo usermod -a -G docker "$USER_NAME"
 
 
 
