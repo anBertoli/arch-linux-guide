@@ -28,7 +28,7 @@ fi
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
 set -x
-find /usr/share/kbd/keymaps -type f -name "*.map.gz"
+find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
 
@@ -51,6 +51,7 @@ set -x
 timedatectl set-ntp true
 set +x
 
+prompt_continue "Continue?"
 
 #######################################################################
 ######## DISK PREPARATION #############################################
@@ -97,6 +98,7 @@ set -x
 swapon "$DISK_PART_SWAP_DEV_FILE"
 set +x
 
+prompt_continue "Continue?"
 
 #######################################################################
 ######## DUAL BOOT CHECKPOINT #########################################
