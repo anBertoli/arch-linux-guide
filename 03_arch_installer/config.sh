@@ -37,14 +37,15 @@ function read_in_vars() {
     done
   done
 
-#  if [[ "${DISK_DEV_FILE}" =~ ^/dev/nvme ]]; then
-#      DISK_PART_EFI_DEV_FILE="${DISK_DEV_FILE}p1"
-#      DISK_PART_SWAP_DEV_FILE="${DISK_DEV_FILE}p2"
-#      DISK_PART_ROOT_DEV_FILE="${DISK_DEV_FILE}p3"
-#  else
-#      echo "Unknown disk type ('${DISK_DEV_FILE}'). Aborting."
-#      exit 1
-#  fi
+  DISK_DEV_FILE="/dev/nvme0n1"
+  if [[ "${DISK_DEV_FILE}" =~ ^/dev/nvme ]]; then
+      DISK_PART_EFI_DEV_FILE="${DISK_DEV_FILE}p1"
+      DISK_PART_SWAP_DEV_FILE="${DISK_DEV_FILE}p2"
+      DISK_PART_ROOT_DEV_FILE="${DISK_DEV_FILE}p3"
+  else
+      echo "Unknown disk type ('${DISK_DEV_FILE}'). Aborting."
+      exit 1
+  fi
 }
 
 function check_vars {
