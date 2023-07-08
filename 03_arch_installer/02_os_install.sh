@@ -84,7 +84,7 @@ reflector \
   --save /etc/pacman.d/mirrorlist
 set +x
 
-### install basic packages
+### install linux + basic packages
 print_checklist_item "installing basic packages"
 set -x
 pacman --noconfirm -Sy
@@ -161,13 +161,13 @@ set +x
 ### localization (language)
 print_checklist_item "setting and persisting language"
 set -x
-LOCALE_GEN="it_IT.UTF-8 UTF-8"
-LOCALE_CONF="LANG=it_IT.UTF-8"
+LOCALE_GEN="en_US.UTF-8"
+LOCALE_CONF="LANG=en_US.UTF-8"
 
 # uncomment chosen language then
 # generate and save locale files
-arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw changes.txt" /etc/locale.gen
-check_file_not_empty_and_delete /mnt/changes.txt
+arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw /tmp/changes.txt" /etc/locale.gen
+check_file_not_empty_and_delete /mnt/tmp/changes.txt
 
 arch-chroot /mnt locale-gen
 arch-chroot /mnt touch /etc/locale.conf
@@ -214,8 +214,8 @@ set +x
 
 print_checklist_item "adding user to wheel (admins)"
 set -x
-arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//gw changes.txt' /etc/sudoers
-check_file_not_empty_and_delete /mnt/changes.txt
+arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//gw /tmp/changes.txt' /etc/sudoers
+check_file_not_empty_and_delete /mnt/tmp/changes.txt
 arch-chroot cat /etc/sudoers
 set +x
 
