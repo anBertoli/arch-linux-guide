@@ -73,7 +73,7 @@ prompt_continue "Disk will be erased, to you want to continue?"
 set -x
 if mountpoint -d -x /mnt; then umount -R /mnt; fi
 if mountpoint -d -x /mnt/boot; then umount -R /mnt/boot; fi
-if mountpoint -d -x /mnt/boot; then umount -R /mnt/boot; fi
+exit
 swapoff "$DISK_PART_SWAP_DEV_FILE" || true
 sgdisk --clear "$DISK_DEV_FILE"
 set +x
