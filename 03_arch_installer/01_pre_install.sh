@@ -46,8 +46,8 @@ set +x
 
 print_text "Waiting for connection.. (10 secs)"
 set -x
-sleep 5
-ping -c 5 -w 5 8.8.8.8
+#sleep 5
+#ping -c 5 -w 5 8.8.8.8
 set +x
 
 ### sync the machine clock using the NTP time protocol
