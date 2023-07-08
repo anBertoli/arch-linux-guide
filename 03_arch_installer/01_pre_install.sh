@@ -71,10 +71,12 @@ print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 prompt_continue "Disk will be erased, to you want to continue?"
 
 set -x
+partprobe
 if mountpoint -d /mnt/boot; then umount -R /mnt/boot; fi
 if mountpoint -d /mnt; then umount -R /mnt; fi
 swapoff "$DISK_PART_SWAP_DEV_FILE" || true
 sgdisk --clear "$DISK_DEV_FILE"
+partprobe
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
@@ -84,6 +86,7 @@ set -x
 sgdisk -n 1:0:+1G -t 1:ef00 -g "$DISK_DEV_FILE" # EFI
 sgdisk -n 2:0:+10G -t 2:8200 -g "$DISK_DEV_FILE" # SWAP
 sgdisk -n 3:0:+500G -t 3:8300 -g "$DISK_DEV_FILE" # ROOT
+partprobe
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
