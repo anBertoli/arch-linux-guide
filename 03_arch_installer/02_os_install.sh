@@ -85,18 +85,18 @@ set +x
 print_checklist_item "installing basic packages"
 set -x
 pacman --noconfirm -Sy
-pacstrap /mnt \
-    linux \
-    linux-firmware \
-    base \
-    sudo \
-    networkmanager \
-    gcc \
-    git \
-    make \
-    docker \
-    vim \
-    curl
+#pacstrap /mnt \
+#    linux \
+#    linux-firmware \
+#    base \
+#    sudo \
+#    networkmanager \
+#    gcc \
+#    git \
+#    make \
+#    docker \
+#    vim \
+#    curl
 set +x
 
 ### persist mounts
