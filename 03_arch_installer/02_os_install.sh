@@ -33,8 +33,6 @@ find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
 
-prompt_continue "Continue?"
-
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
 set -x
@@ -56,9 +54,8 @@ set -x
 timedatectl set-ntp true
 set +x
 
-prompt_continue "Continue?"
-
 ### remount partitions
+print_checklist_item "remounting partitions (if needed)"
 set -x
 if ! mountpoint -d /mnt; then mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt; fi
 if ! mountpoint -d /mnt/boot; then mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot; fi
