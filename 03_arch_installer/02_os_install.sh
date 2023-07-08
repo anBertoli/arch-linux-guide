@@ -123,7 +123,7 @@ set +x
 print_checklist_item "installing grub and efibootmgr"
 set -x
 arch-chroot /mnt pacman --noconfirm -S grub efibootmgr
-arch-chroot /mnt efibootmgr -v
+print_text "Current EFIBOOT state:\n\n$(arch-chroot /mnt efibootmgr -v)"
 
 arch-chroot /mnt mount --mkdir "$DISK_PART_EFI_DEV_FILE" /boot
 arch-chroot /mnt grub-install \
@@ -150,7 +150,7 @@ print_header_section "OS configuration"
 ### localization (timezone)
 print_checklist_item "setting timezone"
 set -x
-arch-chroot /mnt ls -alh /usr/share/zoneinfo
+arch-chroot /mnt find /usr/share/zoneinfo -type f -name "*.map.gz" | grep Europe
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 arch-chroot /mnt hwclock --systohc # generate /etc/adjtime
 set +x
@@ -163,9 +163,9 @@ LOCALE_CONF="LANG=en_US.UTF-8"
 
 # uncomment chosen language then
 # generate and save locale files
-arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw /tmp/changes.txt" /etc/locale.gen
+arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw /root/changes.txt" /etc/locale.gen
 exit 0
-check_file_not_empty_and_delete /mnt/tmp/changes.txt
+check_file_not_empty_and_delete /mnt/root/changes.txt
 arch-chroot /mnt locale-gen
 arch-chroot /mnt touch /etc/locale.conf
 arch-chroot /mnt echo "${LOCALE_CONF}" > /etc/locale.conf
