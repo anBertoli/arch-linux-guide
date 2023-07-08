@@ -44,10 +44,10 @@ iwctl station "$WIFI_DEVICE" get-networks
 iwctl --passphrase "$WIFI_PASSPHRASE" station "$WIFI_DEVICE" connect "$WIFI_SSID"
 set +x
 
-print_text "Waiting for connection.. (10 secs)"
+print_text "Waiting for connection.. (5 secs)"
 set -x
-#sleep 5
-#ping -c 5 -w 5 8.8.8.8
+sleep 5
+ping -c 5 -w 10 8.8.8.8
 set +x
 
 ### sync the machine clock using the NTP time protocol
