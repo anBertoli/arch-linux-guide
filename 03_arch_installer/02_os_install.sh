@@ -161,11 +161,12 @@ set +x
 ### localization (language)
 print_checklist_item "setting and persisting language"
 set -x
-it_IT.UTF-8 UTF-8
-arch-chroot /mnt sed -i '/it_IT.UTF-8 UTF-8/s/^#//g' /etc/locale.gen  # uncomment chosen languages
-arch-chroot /mnt locale-gen                                           # generate and save locale files
+LOCALE_GEN="it_IT.UTF-8 UTF-8"
+LOCALE_CONF="LANG=it_IT.UTF-8"
+arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//g" /etc/locale.gen  # uncomment chosen languages
+arch-chroot /mnt locale-gen                                       # generate and save locale files
 arch-chroot /mnt touch /etc/locale.conf
-arch-chroot /mnt echo "LANG=it_IT.UTF-8" > /etc/locale.conf
+arch-chroot /mnt echo "${LOCALE_CONF}" > /etc/locale.conf
 set +x
 
 ### localization (keyboard)
@@ -185,18 +186,19 @@ set +x
 
 print_checklist_item "generating /etc/hostname and /etc/hosts"
 set -x
-arch-chroot /mnt echo "andrea-<machine>" >> /etc/hostname
+# TODO: add another var?
+arch-chroot /mnt echo "${USER_NAME}" >> /etc/hostname
 arch-chroot /mnt echo "\
 127.0.0.1        localhost
 ::1              localhost
-127.0.1.1        andrea-<machine>" > /etc/hosts
+127.0.1.1        ${USER_NAME}" > /etc/hosts
 set +x
 
 ### users and security
 print_header_section "setting users and security confs"
-print_checklist_item "adding user"
+print_checklist_item "adding user ${USER_NAME}"
 set -x
-arch-chroot /mnt useradd -m -G wheel "$USER"
+arch-chroot /mnt useradd -m -G wheel "$USER_NAME"
 set +x
 
 print_checklist_item "setting root and user passwords"
