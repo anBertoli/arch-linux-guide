@@ -168,7 +168,6 @@ LOCALE_CONF="LANG=en_US.UTF-8"
 # generate and save locale files
 arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw /tmp/changes.txt" /etc/locale.gen
 check_file_not_empty_and_delete /mnt/tmp/changes.txt
-
 arch-chroot /mnt locale-gen
 arch-chroot /mnt touch /etc/locale.conf
 arch-chroot /mnt echo "${LOCALE_CONF}" > /etc/locale.conf
