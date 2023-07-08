@@ -71,9 +71,9 @@ print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 prompt_continue "Disk will be erased, to you want to continue?"
 
 set -x
-if mountpoint -d -x /mnt; then umount umount -R /mnt; fi
-if mountpoint -d -x /mnt/boot; then umount umount -R /mnt/boot; fi
-if mountpoint -d -x /mnt/boot; then umount umount -R /mnt/boot; fi
+if mountpoint -d -x /mnt; then umount -R /mnt; fi
+if mountpoint -d -x /mnt/boot; then umount -R /mnt/boot; fi
+if mountpoint -d -x /mnt/boot; then umount -R /mnt/boot; fi
 swapoff "$DISK_PART_SWAP_DEV_FILE" || true
 sgdisk --clear "$DISK_DEV_FILE"
 set +x
