@@ -78,6 +78,8 @@ sgdisk --clear "$DISK_DEV_FILE"
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
+prompt_continue "Continue?"
+
 ### start = 0, means next starting point
 print_checklist_item "partitioning disk"
 set -x
@@ -87,6 +89,8 @@ sgdisk -n 3:0:+500G -t 3:8300 -g "$DISK_DEV_FILE" # ROOT
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
+prompt_continue "Continue?"
+
 ### format partitions with fs
 print_checklist_item "creating filesystem within partitions"
 set -x
@@ -94,6 +98,8 @@ mkfs.fat -F32 "$DISK_PART_EFI_DEV_FILE" # EFI
 mkfs.ext4 -F "$DISK_PART_ROOT_DEV_FILE" # ROOT
 mkswap "$DISK_PART_SWAP_DEV_FILE" # SWAP
 set +x
+
+prompt_continue "Continue?"
 
 ### mount partitions, for SWAP, just tell Linux to use it
 print_checklist_item "mounting filesystems"
