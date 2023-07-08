@@ -168,7 +168,6 @@ arch-chroot /mnt touch /etc/locale.conf
 arch-chroot /mnt echo "LANG=it_IT.UTF-8" > /etc/locale.conf
 set +x
 
-
 ### localization (keyboard)
 print_checklist_item "setting and persisting keyboard"
 set -x
