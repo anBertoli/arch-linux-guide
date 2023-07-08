@@ -62,7 +62,7 @@ prompt_continue "Continue?"
 set -x
 if ! mountpoint -d /mnt; then mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt; fi
 if ! mountpoint -d /mnt/boot; then mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot; fi
-swapon "$DISK_PART_SWAP_DEV_FILE" || /bin/true
+if ! swapon -s | grep "$DISK_PART_SWAP_DEV_FILE"; then swapon "$DISK_PART_SWAP_DEV_FILE" || true; fi
 set +x
 
 prompt_continue "Continue?"
