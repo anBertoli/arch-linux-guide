@@ -107,7 +107,7 @@ set -x
 mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
 mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
 set +x
-print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n"
 
 print_checklist_item "enabling swap space"
 set -x
@@ -121,8 +121,8 @@ set +x
 #######################################################################
 
 print_header_section "Checkpoint"
-print_text "
-Exit and install ${BOLD_INTENSE_GREEN}Windows${BOLD_INTENSE_WHITE} at this point if you want
+print_text \
+"Exit and install ${BOLD_INTENSE_GREEN}Windows${BOLD_INTENSE_WHITE} at this point if you want
 to set up a dual boot machine. Use remaining free space on the disk
 to install Windows. The EFI partition will be shared.
 
