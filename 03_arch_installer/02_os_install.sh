@@ -163,8 +163,13 @@ print_checklist_item "setting and persisting language"
 set -x
 LOCALE_GEN="it_IT.UTF-8 UTF-8"
 LOCALE_CONF="LANG=it_IT.UTF-8"
-arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//g" /etc/locale.gen  # uncomment chosen languages
-arch-chroot /mnt locale-gen                                       # generate and save locale files
+
+# uncomment chosen language then
+# generate and save locale files
+arch-chroot /mnt sed -i "/${LOCALE_GEN}/s/^#//gw changes.txt" /etc/locale.gen
+check_file_not_empty_and_delete /mnt/changes.txt
+
+arch-chroot /mnt locale-gen
 arch-chroot /mnt touch /etc/locale.conf
 arch-chroot /mnt echo "${LOCALE_CONF}" > /etc/locale.conf
 set +x
@@ -209,7 +214,8 @@ set +x
 
 print_checklist_item "adding user to wheel (admins)"
 set -x
-arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//g' /etc/sudoers
+arch-chroot /mnt sed -i '/%wheel ALL=(ALL) ALL/s/^#//gw changes.txt' /etc/sudoers
+check_file_not_empty_and_delete /mnt/changes.txt
 arch-chroot cat /etc/sudoers
 set +x
 
