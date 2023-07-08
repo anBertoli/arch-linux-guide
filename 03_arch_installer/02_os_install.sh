@@ -150,7 +150,7 @@ print_header_section "OS configuration"
 ### localization (timezone)
 print_checklist_item "setting timezone"
 set -x
-arch-chroot /mnt 'find /usr/share/zoneinfo -type f -name "*.map.gz" | grep Europe'
+arch-chroot /mnt /bin/bash 'find /usr/share/zoneinfo -type f | grep Europe'
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 arch-chroot /mnt hwclock --systohc # generate /etc/adjtime
 set +x
