@@ -154,18 +154,18 @@ print_header_section "OS configuration"
 print_checklist_item "setting timezone"
 set -x
 arch-chroot /mnt ls -alh /usr/share/zoneinfo
-arch-chroot /mnt ln -sf /usr/share/zoneinfo/<region>/<city> /etc/localtime
+arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 arch-chroot /mnt hwclock --systohc # generate /etc/adjtime
 set +x
 
 ### localization (language)
 print_checklist_item "setting and persisting language"
 set -x
-arch-chroot /mnt vim /etc/locale.gen   # uncomment chosen languages
-arch-chroot /mnt locale-gen            # generate and save locale files
-
+it_IT.UTF-8 UTF-8
+arch-chroot /mnt sed -i '/it_IT.UTF-8 UTF-8/s/^#//g' /etc/locale.gen  # uncomment chosen languages
+arch-chroot /mnt locale-gen                                           # generate and save locale files
 arch-chroot /mnt touch /etc/locale.conf
-arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
+arch-chroot /mnt echo "LANG=it_IT.UTF-8" > /etc/locale.conf
 set +x
 
 
