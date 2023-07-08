@@ -46,8 +46,8 @@ set +x
 
 print_text "Waiting for connection.. (10 secs)"
 set -x
-sleep 10
-ping -c 5 -w 10 8.8.8.8
+sleep 5
+ping -c 5 -w 5 8.8.8.8
 set +x
 
 ### sync the machine clock using the NTP time protocol
@@ -73,7 +73,8 @@ prompt_continue "Disk will be erased, to you want to continue?"
 set -x
 if mountpoint -d -x /mnt; then umount umount -R /mnt; fi
 if mountpoint -d -x /mnt/boot; then umount umount -R /mnt/boot; fi
-swapoff "$DISK_PART_SWAP_DEV_FILE"
+if mountpoint -d -x /mnt/boot; then umount umount -R /mnt/boot; fi
+swapoff "$DISK_PART_SWAP_DEV_FILE" || true
 sgdisk --clear "$DISK_DEV_FILE"
 set +x
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
