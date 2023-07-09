@@ -42,7 +42,7 @@ rm ./go${GO_VER}.linux-amd64.tar.gz
 set +x
 print_text "Writing 'export PATH=${PATH}:/usr/local/go/bin' to '${HOME}/.profile'"
 set -x
-echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
+echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
 source "$HOME"/.profile
 go version
 set +x
@@ -62,7 +62,7 @@ set +x
 
 print_text "Writing 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh' and '${HOME}/.profile'"
 set -x
-echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
+echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
 set +x
 
 prompt_continue "Continue?"
@@ -97,7 +97,7 @@ export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh'
 to '${HOME}/.profile' and '${HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$HOME"/.profile
-echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$USER_HOME"/.profile
+echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$HOME"/.profile
 set +x
 
 prompt_continue "Continue?"
@@ -151,11 +151,11 @@ echo "$PROMPT" >> "${HOME}"/.profile
 
 ### add some aliases
 ALIAS_LL="alias ll=\"ls -alh\""
-echo "$ALIAS_LL" >> "${HOME}"/.profile
+echo "$ALIAS_LL" >> "${HOME}/.profile"
 #echo "$ALIAS_LL" >> ~/.bash_profile
 
 ALIAS_K="alias k=\"kubectl\""
-echo "$ALIAS_K" >> "${HOME}"/.profile
+echo "$ALIAS_K" >> "${HOME}/.profile"
 #echo "$ALIAS_K" >> ~/.bash_profile
 
 #source "$HOME"/.profile
