@@ -9,6 +9,8 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+
+
 #######################################################################
 ######## GET NEW USER HOME ############################################
 #######################################################################
@@ -22,7 +24,10 @@ then
 fi
 set +x
 
-prompt_continue "USER HOME is '${USER_HOME}'. Correct?"
+prompt_continue "Root HOME is '${HOME}'. Correct?"
+prompt_continue "User HOME is '${USER_HOME}'. Correct?"
+prompt_continue "Continue?"
+
 
 
 #######################################################################
@@ -42,6 +47,7 @@ GO_VER=1.20
 rm -rf /usr/local/go
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
 tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
+rm ./go${GO_VER}.linux-amd64.tar.gz
 
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
