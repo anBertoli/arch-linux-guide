@@ -12,7 +12,26 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+### chroot into ROOT partition (where OS will be installed)
+print_checklist_item "copying scripts into user home partition"
+set -x
+rm -rf "/mnt/home/${USER_NAME}/arch-installer"
+cp -R "$(pwd)/.." "/mnt/home/${USER_NAME}/arch-installer"
+set +x
 
-### chroot into root partition (where OS is installed),
-### then install programs an/or configure things
-arch-chroot -u "${USER_NAME}" /mnt/ /bin/bash -c "cd $(pwd) && ./03_os_custom_chroot.sh"
+print_text "
+Copied to '/mnt/home/${USER_NAME}/arch-installer'
+Folder contents ('/mnt/home/${USER_NAME}/arch-installer'):
+\n$(ls -alh "/mnt/home/${USER_NAME}/arch-installer")"
+
+prompt_continue "Continue?"
+
+arch-chroot -u "${USER_NAME}" /mnt/ /bin/bash -c "
+cd /home/${USER_NAME}/arch-installer/03_arch_installer
+./03_os_custom_chroot.sh
+"
+
+print_text "Cleaning"
+set -x
+rm -rf /mnt/root/arch-installer
+set +x
