@@ -74,7 +74,7 @@ print_checklist_item "setting mirrors"
 set -x
 reflector \
   --download-timeout 60 \
-  --country 'Italy,Germany' \
+  --country 'Italy' \
   --age 48 \
   --latest 20 \
   --protocol https \
