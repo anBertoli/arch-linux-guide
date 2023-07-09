@@ -13,7 +13,7 @@ check_vars
 
 
 cp -R "$(pwd)/../.." /mnt/root/
-arch-chroot /mnt/ "$(pwd)/02_os_install_chroot.sh"
+arch-chroot /mnt/ "cd $(pwd) && ./02_os_install_chroot.sh"
 exit 1
 
 #######################################################################
