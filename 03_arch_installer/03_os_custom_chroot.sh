@@ -85,11 +85,11 @@ prompt_continue "Continue?"
 #
 #prompt_continue "Continue?"
 
-### install rust
+### install rustup, rust and cargo
 print_checklist_item "install Rust"
 set -x
 sudo -u "${USER_NAME}" /bin/bash -c "
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y # rustup, rust and cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 rustup update
 cargo --version
 "
