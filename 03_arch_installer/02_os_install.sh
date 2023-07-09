@@ -11,6 +11,10 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+
+cp -R "${pwd}" /mnt/root/scripts
+exit 1
+
 #######################################################################
 ######## BOOT FROM INSTALLATION MEDIUM ################################
 #######################################################################
@@ -108,5 +112,5 @@ set +x
 prompt_continue "Continue?"
 
 ### chroot into ROOT partition (where OS will be installed)
-ls ./
+cp -R "${pwd}" /mnt/root/scripts
 arch-chroot /mnt/ ./02_os_install_chroot.sh
