@@ -33,5 +33,5 @@ cd /home/${USER_NAME}/arch-installer/03_arch_installer
 
 print_text "Cleaning"
 set -x
-rm -rf /mnt/root/arch-installer
+rm -rf "/mnt/home/${USER_NAME}/arch-installer"
 set +x

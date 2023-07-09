@@ -118,6 +118,7 @@ print_header_section "Users and security"
 ### users and security
 print_checklist_item "adding user ${USER_NAME}"
 set -x
+userdel --remove "$USER_NAME"
 useradd -m -G wheel "$USER_NAME"
 set +x
 
