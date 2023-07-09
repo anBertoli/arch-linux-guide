@@ -9,8 +9,6 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-exit 0
-
 
 #######################################################################
 ######## GET NEW USER HOME ############################################
@@ -30,6 +28,7 @@ print_text "User HOME is '${HOME}'."
 print_text "User HOME is '${USER_HOME}'."
 prompt_continue "Continue?"
 
+exit 0
 
 
 #######################################################################
