@@ -52,10 +52,9 @@ prompt_continue "Continue?"
 #
 #set +x
 #print_text "Writing
-#'export PATH=${PATH}:/usr/local/go/bin'
-#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+#'export PATH=${PATH}:/usr/local/go/bin' to '${USER_HOME}/.profile'"
 #set -x
-#echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
+# TODO
 #echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
 #source "$HOME"/.profile
 #go version

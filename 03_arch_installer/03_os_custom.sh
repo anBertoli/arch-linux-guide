@@ -15,4 +15,4 @@ check_vars
 
 ### chroot into root partition (where OS is installed),
 ### then install programs an/or configure things
-arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./03_os_custom_chroot.sh"
+arch-chroot -u "${USER_NAME}" /mnt/ /bin/bash -c "cd $(pwd) && ./03_os_custom_chroot.sh"
