@@ -91,39 +91,28 @@ chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.profile
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
 set -x
-rm -rf /usr/local/rustup
-rm -rf /usr/local/cargo
-export RUSTUP_HOME=/usr/local/rustup
-export CARGO_HOME=/usr/local/cargo
-export PATH=/usr/local/cargo/bin:$PATH
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+sudo -u "${USER_NAME}" /bin/bash -c "
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source ${USER_HOME}/.profile
 rustup update
 cargo --version
-exit 0
+"
 
-#sudo -u "${USER_NAME}" /bin/bash -c "
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-#source ${USER_HOME}/.profile
-#rustup update
-#cargo --version
-#"
-#
-#
-#print_text "ouhbouboubobou"
-#source "${HOME}/.profile"
-#cargo --version
-set +x
-
-print_text "Writing
-'export PATH=${PATH}:~/.cargo/bin'
-to '${HOME}/.profile' and '${USER_HOME}/.profile'"
-set -x
-echo "export PATH=${PATH}:~/.cargo/bin" >> "$HOME"/.profile
-echo "export PATH=${PATH}:~/.cargo/bin" >> "$USER_HOME"/.profile
-source "$HOME"/.profile
+source "${HOME}/.profile"
 cargo --version
 set +x
+
+#
+#print_text "Writing
+#'export PATH=${PATH}:~/.cargo/bin'
+#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+#set -x
+#echo "export PATH=${PATH}:~/.cargo/bin" >> "$HOME"/.profile
+#echo "export PATH=${PATH}:~/.cargo/bin" >> "$USER_HOME"/.profile
+#source "$HOME"/.profile
+#cargo --version
+#set +x
 
 prompt_continue "Continue?"
 
