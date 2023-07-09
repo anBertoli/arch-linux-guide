@@ -101,7 +101,7 @@ set +x
 print_checklist_item "generating /etc/hostname and /etc/hosts"
 set -x
 # TODO: add another var?
-echo "${USER_NAME}" >> /etc/hostname
+echo "${USER_NAME}" > /etc/hostname
 echo "\
 127.0.0.1        localhost
 ::1              localhost
@@ -129,8 +129,8 @@ set +x
 
 print_checklist_item "adding user to wheel (admins)"
 set -x
-sed -i '/%wheel ALL=(ALL) ALL/s/^# //g' /etc/sudoers
-if ! grep "^%wheel ALL=(ALL) ALL" /etc/sudoers;
+sed -i '/%wheel ALL=(ALL:ALL)/s/^# //g' /etc/sudoers
+if ! grep "^%wheel ALL=(ALL:ALL)" /etc/sudoers;
 then
   print_text "/etc/locale.gen error"
   print_text "$(grep "%wheel ALL=(ALL) ALL" /etc/sudoers)"

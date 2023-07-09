@@ -32,7 +32,7 @@ function read_in_vars() {
           ;;
         DISK_DEV_FILE)
           lsblk
-          read -r -p "Insert ${VAR_NAME} (e.g. '/dev/nvme0n1'): " VAR_VAL
+          read -r -p "Insert ${VAR_NAME}: " VAR_VAL
           ;;
         DISK_PART_EFI_DEV_FILE | DISK_PART_SWAP_DEV_FILE | DISK_PART_ROOT_DEV_FILE)
           break;;
