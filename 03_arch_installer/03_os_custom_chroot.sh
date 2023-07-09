@@ -25,6 +25,7 @@ prompt_continue "Continue?"
 print_header_section "Programming languages and IDEs "
 
 set -x
+cd "${HOME}"
 sudo pacman --noconfirm -Syu
 set +x
 
