@@ -10,25 +10,15 @@ source ./config.gen.sh
 check_vars
 
 
+
 #######################################################################
 ######## GET NEW USER HOME ############################################
 #######################################################################
 print_header_section "Getting user home"
 set -x
-#USER_HOME="$(getent passwd "${USER_NAME}" | cut -d: -f6)"
 USER_HOME="${HOME}"
-if [ -z "$USER_HOME" ]
-then
-      echo "USER_HOME is empty"
-      exit 1
-fi
-set +x
-
-print_text "User HOME is '${HOME}'."
 print_text "User HOME is '${USER_HOME}'."
 prompt_continue "Continue?"
-
-exit 0
 
 
 #######################################################################
@@ -37,7 +27,6 @@ exit 0
 print_header_section "Programming languages and IDEs "
 
 set -x
-cd ~
 pacman --noconfirm -Syu
 set +x
 
