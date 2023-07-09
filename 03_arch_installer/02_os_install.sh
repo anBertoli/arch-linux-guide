@@ -72,13 +72,14 @@ print_header_section "OS Installation"
 ### optimize downloads
 print_checklist_item "setting mirrors"
 set -x
-#reflector \
-#  --download-timeout 60 \
-#  --country 'Italy,Germany' \
-#  --age 12 \
-#  --protocol https \
-#  --sort rate \
-#  --save /etc/pacman.d/mirrorlist
+reflector \
+  --download-timeout 60 \
+  --country 'Italy,Germany' \
+  --age 48 \
+  --latest 20 \
+  --protocol https \
+  --sort rate \
+  --save /etc/pacman.d/mirrorlist
 set +x
 
 ### install linux + basic packages

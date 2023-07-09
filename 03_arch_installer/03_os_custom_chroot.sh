@@ -9,7 +9,19 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-#USER_HOME=$(getent passwd "${USER_NAME}" | cut -d: -f6)
+#######################################################################
+######## GET NEW USER HOME ############################################
+#######################################################################
+set -x
+USER_HOME="$(getent passwd "${USER_NAME}" | cut -d: -f6)"
+if [ -z "$USER_HOME" ]
+then
+      echo "USER_HOME is empty"
+      exit 1
+fi
+set +x
+
+prompt_continue "USER HOME is '${USER_HOME}'. Correct?"
 
 
 #######################################################################
@@ -36,6 +48,8 @@ source "$HOME"/.profile
 go version
 set +x
 
+prompt_continue "Continue?"
+
 ### install goland
 print_checklist_item "install Goland"
 set -x
@@ -43,6 +57,8 @@ GOLAND_VER="2022.2.4"
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
 tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 set +x
+
+prompt_continue "Continue?"
 
 ### install rust
 print_checklist_item "install Rust"
@@ -57,6 +73,8 @@ source "$HOME"/.profile
 cargo --version
 set +x
 
+prompt_continue "Continue?"
+
 ### install clion
 print_checklist_item "install CLion"
 set -x
@@ -64,6 +82,8 @@ CLION_VER="2022.2.4"
 curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
 tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
 set +x
+
+prompt_continue "Continue?"
 
 ### install docker
 print_checklist_item "install Docker"
@@ -81,7 +101,7 @@ sudo docker run hello-world
 sudo usermod -a -G docker "$USER_NAME"
 set +x
 
-
+prompt_continue "Continue?"
 
 #######################################################################
 ######## COMMAND LINE #################################################
