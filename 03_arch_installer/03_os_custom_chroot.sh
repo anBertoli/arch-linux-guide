@@ -91,17 +91,26 @@ chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.profile
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
 set -x
-sudo -u "${USER_NAME}" /bin/bash -c "
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source ${USER_HOME}/.profile
+export RUSTUP_HOME=/usr/local/rustup
+export CARGO_HOME=/usr/local/cargo
+export PATH=/usr/local/cargo/bin:$PATH
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 rustup update
 cargo --version
-"
-#sudo -u "${USER_NAME}" curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust and cargo
+exit 0
+
+#sudo -u "${USER_NAME}" /bin/bash -c "
+#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+#source ${USER_HOME}/.profile
 #rustup update
-print_text "ouhbouboubobou"
-source "${HOME}/.profile"
-cargo --version
+#cargo --version
+#"
+#
+#
+#print_text "ouhbouboubobou"
+#source "${HOME}/.profile"
+#cargo --version
 set +x
 
 print_text "Writing
