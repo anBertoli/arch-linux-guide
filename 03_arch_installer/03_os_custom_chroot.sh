@@ -33,7 +33,7 @@ set +x
 print_checklist_item "install Go"
 set -x
 GO_VER=1.20
-rm -rf /usr/local/go
+sudo rm -rf /usr/local/go
 
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
@@ -53,7 +53,7 @@ prompt_continue "Continue?"
 print_checklist_item "install Goland"
 set -x
 GOLAND_VER="2022.2.4"
-rm -rf /opt/GoLand*
+sudo rm -rf /opt/GoLand*
 
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
 sudo tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
