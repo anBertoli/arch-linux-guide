@@ -79,9 +79,6 @@ set +x
 
 prompt_continue "Continue?"
 
-# TODO
-#chown "${USER_NAME}:${USER_NAME}" "/home/${USER_NAME}/.profile"
-
 
 
 ### install rustup, rust and cargo
