@@ -9,6 +9,7 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+exit 0
 
 
 #######################################################################
