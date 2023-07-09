@@ -11,4 +11,4 @@ check_vars
 
 
 ### chroot into ROOT, install programs
-arch-chroot /mnt/ ./03_os_custom_chroot.sh
+arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./03_os_custom_chroot.sh"
