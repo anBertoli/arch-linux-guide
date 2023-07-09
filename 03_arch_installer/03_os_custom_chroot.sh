@@ -99,6 +99,7 @@ cargo --version
 "
 #sudo -u "${USER_NAME}" curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust and cargo
 #rustup update
+print_text "ouhbouboubobou"
 source "${HOME}/.profile"
 cargo --version
 set +x
