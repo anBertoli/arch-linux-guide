@@ -21,6 +21,15 @@ function read_in_vars() {
   do
     while true; do
       case "$VAR_NAME" in
+        WIFI_DEVICE):
+          iwctl device list
+          read -r -p "Insert ${VAR_NAME}: " VAR_VAL
+          ;;
+        WIFI_SSID)
+          iwctl station "$WIFI_DEVICE" scan
+          iwctl station "$WIFI_DEVICE" get-networks
+          read -r -p "Insert ${VAR_NAME}: " VAR_VAL
+          ;;
         DISK_DEV_FILE)
           lsblk
           read -r -p "Insert ${VAR_NAME} (e.g. '/dev/nvme0n1'): " VAR_VAL
