@@ -93,11 +93,13 @@ print_checklist_item "install Rust"
 set -x
 sudo -u "${USER_NAME}" /bin/bash -c "
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source ${USER_HOME}/.profile
 rustup update
 cargo --version
 "
 #sudo -u "${USER_NAME}" curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust and cargo
 #rustup update
+source "${HOME}/.profile"
 cargo --version
 set +x
 
