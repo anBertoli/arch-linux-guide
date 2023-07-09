@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-source config.sh
-source print.sh
+source ./config.sh
+source ./print.sh
 
 # load configs
 check_conf_file

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-source print.sh
+source ./print.sh
 
 declare -a VAR_NAMES=(
   WIFI_DEVICE
