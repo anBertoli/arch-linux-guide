@@ -21,9 +21,14 @@ function read_in_vars() {
   do
     while true; do
       case "$VAR_NAME" in
-        DISK_DEV_FILE) read -r -p "Insert ${VAR_NAME} (e.g. '/dev/nvme0n1'): " VAR_VAL;;
-        DISK_PART_EFI_DEV_FILE | DISK_PART_SWAP_DEV_FILE | DISK_PART_ROOT_DEV_FILE) break;;
-        *) read -r -p "Insert ${VAR_NAME}: " VAR_VAL;;
+        DISK_DEV_FILE)
+          lsblk
+          read -r -p "Insert ${VAR_NAME} (e.g. '/dev/nvme0n1'): " VAR_VAL
+          ;;
+        DISK_PART_EFI_DEV_FILE | DISK_PART_SWAP_DEV_FILE | DISK_PART_ROOT_DEV_FILE)
+          break;;
+        *)
+          read -r -p "Insert ${VAR_NAME}: " VAR_VAL;;
       esac
 
       if [ -z "$VAR_VAL" ]

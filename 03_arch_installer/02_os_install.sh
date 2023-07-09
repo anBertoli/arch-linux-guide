@@ -72,18 +72,20 @@ print_header_section "OS Installation"
 ### optimize downloads
 print_checklist_item "setting mirrors"
 set -x
-#reflector \
-#  --download-timeout 60 \
-#  --country Italy --country Germany \
-#  --age 12 \
-#  --protocol https \
-#  --sort rate \
-#  --save /etc/pacman.d/mirrorlist
+reflector \
+  --download-timeout 60 \
+  --country Italy --country Germany \
+  --age 12 \
+  --protocol https \
+  --sort rate \
+  --save /etc/pacman.d/mirrorlist
 set +x
 
 ### install linux + basic packages
 print_checklist_item "installing basic packages"
 set -x
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
 pacman --noconfirm -Sy
 pacstrap /mnt \
     linux \
@@ -180,7 +182,6 @@ set +x
 ### network
 print_checklist_item "enabling network manager"
 set -x
-arch-chroot /mnt systemctl stop wpa_supplicant
 arch-chroot /mnt systemctl disable wpa_supplicant
 arch-chroot /mnt systemctl enable NetworkManager
 set +x
