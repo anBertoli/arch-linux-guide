@@ -25,7 +25,7 @@ prompt_continue "Continue?"
 print_header_section "Programming languages and IDEs "
 
 set -x
-pacman --noconfirm -Syu
+sudo pacman --noconfirm -Syu
 set +x
 
 ### install go
