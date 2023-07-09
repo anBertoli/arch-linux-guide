@@ -49,6 +49,7 @@ curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.
 tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
 
+print_text "Writing to '${HOME}/.profile' and '${USER_HOME}/.profile'"
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
 source "$HOME"/.profile
