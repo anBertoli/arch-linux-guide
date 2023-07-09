@@ -45,12 +45,15 @@ print_checklist_item "install Go"
 set -x
 GO_VER=1.20
 rm -rf /usr/local/go
+
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
 tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
 
 set +x
-print_text "Writing to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+print_text "Writing
+'export PATH=${PATH}:/usr/local/go/bin'
+to '${HOME}/.profile' and '${USER_HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
@@ -64,10 +67,20 @@ prompt_continue "Continue?"
 print_checklist_item "install Goland"
 set -x
 GOLAND_VER="2022.2.4"
+rm -rf /opt/GoLand*
+
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
 tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 rm ./goland-${GOLAND_VER}.tar.gz
 set +x
+
+set +x
+print_text "Writing
+'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
+to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+set -x
+echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
+echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
 
 prompt_continue "Continue?"
 
@@ -79,7 +92,9 @@ rustup update
 cargo --version
 
 set +x
-print_text "Writing to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+print_text "Writing
+'export PATH=${PATH}:~/.cargo/bin'
+to '${HOME}/.profile' and '${USER_HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:~/.cargo/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:~/.cargo/bin" >> "$USER_HOME"/.profile
@@ -93,9 +108,20 @@ prompt_continue "Continue?"
 print_checklist_item "install CLion"
 set -x
 CLION_VER="2022.2.4"
+rm -rf /opt/CLion*
+
 curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
 tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
+rm ./clion-${GOLAND_VER}.tar.gz
 set +x
+
+#set +x
+#print_text "Writing
+#'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
+#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+#set -x
+#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
+#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
 
 prompt_continue "Continue?"
 
@@ -104,15 +130,12 @@ print_checklist_item "install Docker"
 set -x
 pacman -Sy --noconfirm docker
 pacman -Sy --noconfirm docker-compose
-
-systemctl start docker
 systemctl enable docker
-
-sudo docker info
-sudo docker run hello-world
+docker info
+docker run hello-world
 
 # allows non-root users to use docker
-sudo usermod -a -G docker "$USER_NAME"
+usermod -a -G docker "$USER_NAME"
 set +x
 
 prompt_continue "Continue?"
