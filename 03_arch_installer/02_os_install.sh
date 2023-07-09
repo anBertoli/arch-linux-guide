@@ -11,8 +11,8 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-print_text "Copied to '/mnt/$(pwd)'"
-print_text "Folder contents ('/mnt/$(pwd)') :
+print_text "Copied to '/mnt$(pwd)'"
+print_text "Folder contents ('/mnt$(pwd)') :
 
 $(ls -alh /mnt/"$(pwd)")"
 exit 0
