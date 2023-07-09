@@ -28,9 +28,6 @@ print_checklist_item "Write config file"
 write_vars ./config.gen.sh
 check_conf_file
 
-## copy config
-#cp -R "$(pwd)/../.." /mnt/root/
-
 ### end
 print_text "Config values written to '${BOLD_INTENSE_GREEN}./config.gen.sh${BOLD_INTENSE_WHITE}'.
 To continue start the ${BOLD_INTENSE_GREEN}./01_pre_install.sh${BOLD_INTENSE_WHITE} script.

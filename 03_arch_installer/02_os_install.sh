@@ -12,9 +12,8 @@ source ./config.gen.sh
 check_vars
 
 
-#cp -R "$(pwd)/../.." /mnt/root/
-#arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
-arch-chroot /mnt/ ./02_os_install_chroot.sh
+cp -R "$(pwd)/../.." /mnt/root/
+arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
 exit 0
 
 #######################################################################
