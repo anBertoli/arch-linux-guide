@@ -118,5 +118,7 @@ set +x
 print_text "Copied to '/mnt$(pwd)'"
 print_text "Folder contents ('/mnt$(pwd)'):\n\n$(ls -alh /mnt/"$(pwd)")"
 
+prompt_continue "Continue?"
+
 arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
 
