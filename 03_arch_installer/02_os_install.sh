@@ -125,7 +125,7 @@ Folder contents ('/mnt/root/arch-installer'):
 prompt_continue "Continue?"
 
 arch-chroot /mnt/ /bin/bash -c "
-  cd /mnt/root/arch-installer/03_arch_installer
+  cd /root/arch-installer/03_arch_installer
   ./02_os_install_chroot.sh
 "
 
