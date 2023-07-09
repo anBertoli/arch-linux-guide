@@ -1,11 +1,11 @@
-#!/bin/bash
-set -e
-source config.sh
-source print.sh
-
-# load configs
-check_conf_file
-source ./config.gen.sh
+##!/bin/bash
+#set -e
+#source config.sh
+#source print.sh
+#
+## load configs
+#check_conf_file
+#source ./config.gen.sh
 check_vars
 
 
