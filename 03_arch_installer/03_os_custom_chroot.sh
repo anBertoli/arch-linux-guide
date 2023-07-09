@@ -86,7 +86,7 @@ prompt_continue "Continue?"
 #prompt_continue "Continue?"
 
 chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.profile
-exit 0
+
 
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
