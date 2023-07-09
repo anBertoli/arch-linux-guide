@@ -36,7 +36,7 @@ GO_VER=1.20
 rm -rf /usr/local/go
 
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
-tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
 
 set +x
