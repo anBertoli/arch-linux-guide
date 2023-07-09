@@ -65,7 +65,7 @@ LOCALE_CONF="LANG=en_US.UTF-8"
 
 # uncomment chosen language then
 # generate and save locale files
-sed -i "/${LOCALE_GEN}/s/^#//gw" /etc/locale.gen
+sed -i "/${LOCALE_GEN}/s/^#//g" /etc/locale.gen
 if ! grep "^${LOCALE_GEN}" /etc/locale.gen;
 then
   print_text "/etc/locale.gen error"
