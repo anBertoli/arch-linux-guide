@@ -121,5 +121,5 @@ print_text "Folder contents ('/mnt$(pwd)'):\n\n$(ls -alh /mnt/"$(pwd)")"
 
 prompt_continue "Continue?"
 
-arch-chroot -u "${USER_NAME}" /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
+arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
 
