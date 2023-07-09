@@ -138,7 +138,7 @@ then
 fi
 set +x
 
-print_text "Reading '/etc/sudoers' file:\n\n$(cat /etc/sudoers)"
+print_text "Grepping wheel into '/etc/sudoers' file:\n\n$(grep '^%wheel ALL=(ALL:ALL)' /etc/sudoers)"
 
 prompt_continue "Continue?"
 
