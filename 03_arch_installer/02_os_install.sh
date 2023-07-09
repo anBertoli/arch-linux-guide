@@ -11,6 +11,8 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+pwd
+exit 0
 
 
 #######################################################################
