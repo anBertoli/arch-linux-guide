@@ -11,9 +11,10 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-cp -R "$(pwd)/../.." /mnt/root/
-print_text " Copied to '/mnt/$(pwd)'"
-print_text "Folder:\n\n$(ls -alh /mnt/$(pwd))"
+print_text "Copied to '/mnt/$(pwd)'"
+print_text "Folder contents ('/mnt/$(pwd)') :
+
+$(ls -alh /mnt/"$(pwd)")"
 exit 0
 
 #######################################################################
@@ -118,8 +119,10 @@ set -x
 cp -R "$(pwd)/../.." /mnt/root/
 set +x
 
-print_text " Copied to '/mnt/$(pwd)'"
-print_text "$(ls -alh \"/mnt/$(pwd)\)"
+print_text "Copied to '/mnt/$(pwd)'"
+print_text "Folder contents ('/mnt/$(pwd)') :
+
+$(ls -alh /mnt/"$(pwd)")"
 
 arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
 
