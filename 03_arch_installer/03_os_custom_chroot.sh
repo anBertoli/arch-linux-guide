@@ -74,13 +74,14 @@ tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 rm ./goland-${GOLAND_VER}.tar.gz
 set +x
 
-set +x
+# TODO: CHECK
 print_text "Writing
 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
 to '${HOME}/.profile' and '${USER_HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
+set +x
 
 prompt_continue "Continue?"
 
@@ -90,8 +91,8 @@ set -x
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust and cargo
 rustup update
 cargo --version
-
 set +x
+
 print_text "Writing
 'export PATH=${PATH}:~/.cargo/bin'
 to '${HOME}/.profile' and '${USER_HOME}/.profile'"
@@ -108,20 +109,20 @@ prompt_continue "Continue?"
 print_checklist_item "install CLion"
 set -x
 CLION_VER="2022.2.4"
-rm -rf /opt/CLion*
+rm -rf /opt/clion*
 
 curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
 tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
 rm ./clion-${GOLAND_VER}.tar.gz
 set +x
 
-#set +x
-#print_text "Writing
-#'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
-#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
-#set -x
-#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
-#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
+print_text "Writing
+export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh'
+to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+set -x
+echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$HOME"/.profile
+echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$USER_HOME"/.profile
+set +x
 
 prompt_continue "Continue?"
 
@@ -168,6 +169,7 @@ PROMPT='function __my_prompt_command() {
 
 PROMPT_COMMAND=__my_prompt_command'
 
+echo -x
 echo "$PROMPT" >> "${USER_HOME}"/.profile
 #echo "$PROMPT" >> ~/.bash_profile
 
@@ -181,6 +183,7 @@ echo "$ALIAS_K" >> "${USER_HOME}"/.profile
 #echo "$ALIAS_K" >> ~/.bash_profile
 
 #source "$HOME"/.profile
+echo +x
 
 ### end
 print_header_section "Checkpoint"
