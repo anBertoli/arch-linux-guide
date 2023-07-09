@@ -91,6 +91,8 @@ chown ${USER_NAME}:${USER_NAME} /home/${USER_NAME}/.profile
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
 set -x
+rm -rf /usr/local/rustup
+rm -rf /usr/local/cargo
 export RUSTUP_HOME=/usr/local/rustup
 export CARGO_HOME=/usr/local/cargo
 export PATH=/usr/local/cargo/bin:$PATH
