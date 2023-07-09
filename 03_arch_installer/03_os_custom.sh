@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e 
 
-print_header "OS user space customization (4/4)"
+print_banner "OS user space customization (4/4)"
 print_text "This section will guide you through the customization of your OS."
 
 # load configs

@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e 
 
-print_banner "OS user space customization (4/4)"
-print_text "This section will guide you through the customization of your OS."
+source ./config.sh
+source ./print.sh
 
 # load configs
 check_conf_file
