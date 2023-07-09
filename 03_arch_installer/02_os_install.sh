@@ -117,8 +117,9 @@ rm -rf /mnt/root/arch-installer
 cp -R "$(pwd)/.." /mnt/root/arch-installer
 set +x
 
-print_text "Copied to '/mnt/root/arch-installer'"
-print_text "Folder contents ('/mnt/root/arch-installer'):
+print_text "
+Copied to '/mnt/root/arch-installer'.
+Folder contents ('/mnt/root/arch-installer'):
 \n$(ls -alh /mnt/root/arch-installer)"
 
 prompt_continue "Continue?"
