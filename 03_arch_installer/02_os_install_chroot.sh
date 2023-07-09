@@ -8,6 +8,7 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
+echo CIAOOOOO
 exit 0
 
 
