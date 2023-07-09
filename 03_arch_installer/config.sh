@@ -105,14 +105,3 @@ USER_PASSWORD=AndreaArch
 #  done
   chmod 0777 "$1"
 }
-
-
-function check_file_not_empty_and_delete() {
-    if [ -s "$1" ]; then
-        rm "$1"
-    else
-        print_text "check file not empty ${1}"
-        rm "$1"
-        exit 1
-    fi
-}

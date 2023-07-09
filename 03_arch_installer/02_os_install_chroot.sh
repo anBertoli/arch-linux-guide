@@ -66,7 +66,13 @@ LOCALE_CONF="LANG=en_US.UTF-8"
 # uncomment chosen language then
 # generate and save locale files
 sed -i "/${LOCALE_GEN}/s/^#//gw /root/changes.txt" /etc/locale.gen
-check_file_not_empty_and_delete /root/changes.txt
+if ! grep "^${LOCALE_GEN}" /etc/locale.gen;
+then
+  print_text "/etc/locale.gen error"
+  print_text "$(grep "${LOCALE_GEN}" /etc/locale.gen)"
+  exit 1
+fi
+
 locale-gen
 touch /etc/locale.conf
 echo "${LOCALE_CONF}" > /etc/locale.conf
@@ -123,8 +129,13 @@ set +x
 
 print_checklist_item "adding user to wheel (admins)"
 set -x
-sed -i '/%wheel ALL=(ALL) ALL/s/^#//gw /root/changes.txt' /etc/sudoers
-check_file_not_empty_and_delete /root/changes.txt
+sed -i '/%wheel ALL=(ALL) ALL/s/^# //g' /etc/sudoers
+if ! grep "^%wheel ALL=(ALL) ALL" /etc/sudoers;
+then
+  print_text "/etc/locale.gen error"
+  print_text "$(grep "%wheel ALL=(ALL) ALL" /etc/sudoers)"
+  exit 1
+fi
 set +x
 
 print_text "Reading '/etc/sudoers' file:\n\n$(cat /etc/sudoers)"
