@@ -13,6 +13,25 @@ check_vars
 
 
 
+
+
+
+### chroot into ROOT partition (where OS will be installed)
+print_checklist_item "copying scripts into ROOT partition"
+set -x
+rm -rf /mnt/root/arch-installer
+cp -R "$(pwd)/.." /mnt/root/arch-installer
+set +x
+
+print_text "Copied to '/mnt/root/arch-installer'"
+print_text "Folder contents ('/mnt/root/arch-installer'):
+\n$(ls -alh /mnt/root/arch-installer)"
+
+prompt_continue "Continue?"
+exit 1
+
+
+
 #######################################################################
 ######## BOOT FROM INSTALLATION MEDIUM ################################
 #######################################################################
@@ -113,6 +132,7 @@ prompt_continue "Continue?"
 ### chroot into ROOT partition (where OS will be installed)
 print_checklist_item "copying scripts into ROOT partition"
 set -x
+rm -rf /mnt/root/arch-installer
 cp -R "$(pwd)/../.." /mnt/root/arch-installer
 set +x
 
