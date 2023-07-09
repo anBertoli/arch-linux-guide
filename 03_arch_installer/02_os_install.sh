@@ -11,9 +11,9 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-
 cp -R "$(pwd)/../.." /mnt/root/
-arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
+print_text " Copied to '/mnt/$(pwd)'"
+print_text "$(ls -alh \"/mnt/$(pwd)\")"
 exit 0
 
 #######################################################################
@@ -113,5 +113,13 @@ set +x
 prompt_continue "Continue?"
 
 ### chroot into ROOT partition (where OS will be installed)
-cp -R "${pwd}" /mnt/root/scripts
-arch-chroot /mnt/ ./02_os_install_chroot.sh
+print_checklist_item "copying scripts into ROOT partition"
+set -x
+cp -R "$(pwd)/../.." /mnt/root/
+set +x
+
+print_text " Copied to '/mnt/$(pwd)'"
+print_text "$(ls -alh \"/mnt/$(pwd)\)"
+
+arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
+
