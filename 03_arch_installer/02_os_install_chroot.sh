@@ -133,7 +133,7 @@ sed -i '/%wheel ALL=(ALL:ALL)/s/^# //g' /etc/sudoers
 if ! grep "^%wheel ALL=(ALL:ALL)" /etc/sudoers;
 then
   print_text "/etc/locale.gen error"
-  print_text "$(grep "%wheel ALL=(ALL) ALL" /etc/sudoers)"
+  print_text "$(grep "%wheel" /etc/sudoers)"
   exit 1
 fi
 set +x
