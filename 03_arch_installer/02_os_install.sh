@@ -11,10 +11,6 @@ check_conf_file
 source ./config.gen.sh
 check_vars
 
-pwd
-exit 0
-
-
 #######################################################################
 ######## BOOT FROM INSTALLATION MEDIUM ################################
 #######################################################################
@@ -74,13 +70,13 @@ print_header_section "OS Installation"
 ### optimize downloads
 print_checklist_item "setting mirrors"
 set -x
-reflector \
-  --download-timeout 60 \
-  --country 'Italy,Germany' \
-  --age 12 \
-  --protocol https \
-  --sort rate \
-  --save /etc/pacman.d/mirrorlist
+#reflector \
+#  --download-timeout 60 \
+#  --country 'Italy,Germany' \
+#  --age 12 \
+#  --protocol https \
+#  --sort rate \
+#  --save /etc/pacman.d/mirrorlist
 set +x
 
 ### install linux + basic packages
@@ -112,4 +108,5 @@ set +x
 prompt_continue "Continue?"
 
 ### chroot into ROOT partition (where OS will be installed)
+ls ./
 arch-chroot /mnt/ ./02_os_install_chroot.sh
