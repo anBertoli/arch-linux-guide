@@ -15,9 +15,7 @@ check_vars
 ######## GET NEW USER HOME ############################################
 #######################################################################
 print_header_section "Getting user home"
-set -x
-USER_HOME="${HOME}"
-print_text "User HOME is '${USER_HOME}'."
+print_text "User HOME is '${HOME}'."
 prompt_continue "Continue?"
 
 
