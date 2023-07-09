@@ -31,7 +31,7 @@ cd /home/${USER_NAME}/arch-installer/03_arch_installer
 ./03_os_custom_chroot.sh
 "
 
-#print_text "Cleaning"
-#set -x
-#rm -rf "/mnt/home/${USER_NAME}/arch-installer"
-#set +x
+print_text "Cleaning"
+set -x
+rm -rf "/home/${USER_NAME}/arch-installer/03_arch_installer"
+set +x
