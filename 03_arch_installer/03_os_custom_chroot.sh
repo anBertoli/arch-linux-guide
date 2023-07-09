@@ -24,8 +24,8 @@ then
 fi
 set +x
 
-prompt_continue "Root HOME is '${HOME}'. Correct?"
-prompt_continue "User HOME is '${USER_HOME}'. Correct?"
+print_text "Root HOME is '${HOME}'."
+print_text "User HOME is '${USER_HOME}'."
 prompt_continue "Continue?"
 
 
