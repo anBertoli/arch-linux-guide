@@ -66,6 +66,7 @@ set -x
 GOLAND_VER="2022.2.4"
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
 tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
+rm ./goland-${GOLAND_VER}.tar.gz
 set +x
 
 prompt_continue "Continue?"
@@ -77,6 +78,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # rustup, rust an
 rustup update
 cargo --version
 
+set +x
+print_text "Writing to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+set -x
 echo "export PATH=${PATH}:~/.cargo/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:~/.cargo/bin" >> "$USER_HOME"/.profile
 source "$HOME"/.profile
