@@ -12,7 +12,7 @@ source ./config.gen.sh
 check_vars
 
 
-cp -R "$(pwd)" /mnt/root/scripts
+cp -R "$(pwd)/.." /mnt/root/
 exit 1
 
 #######################################################################
