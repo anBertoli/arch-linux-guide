@@ -129,7 +129,7 @@ cd /root/arch-installer/03_arch_installer
 ./02_os_install_chroot.sh
 "
 
-print_text "Cleaning"
+print_checklist_item "cleaning scripts into ROOT partition"
 set -x
 rm -rf /mnt/root/arch-installer
 set +x
