@@ -113,7 +113,7 @@ prompt_continue "Continue?"
 ### chroot into ROOT partition (where OS will be installed)
 print_checklist_item "copying scripts into ROOT partition"
 set -x
-cp -R "$(pwd)/../.." /mnt/root/
+cp -R "$(pwd)/../.." /mnt/root/arch-installer
 set +x
 
 print_text "Copied to '/mnt$(pwd)'"
@@ -123,3 +123,7 @@ prompt_continue "Continue?"
 
 arch-chroot /mnt/ /bin/bash -c "cd $(pwd) && ./02_os_install_chroot.sh"
 
+print_text "Cleaning"
+set -x
+rm -rf /mnt/root/arch-installer
+set +x
