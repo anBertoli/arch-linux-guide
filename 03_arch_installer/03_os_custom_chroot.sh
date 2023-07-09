@@ -40,7 +40,7 @@ sudo tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
 
 set +x
-print_text "Writing 'export PATH=${PATH}:/usr/local/go/bin' to '${USER_HOME}/.profile'"
+print_text "Writing 'export PATH=${PATH}:/usr/local/go/bin' to '${HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
 source "$HOME"/.profile
@@ -56,11 +56,11 @@ GOLAND_VER="2022.2.4"
 rm -rf /opt/GoLand*
 
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
-tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
+sudo tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 rm ./goland-${GOLAND_VER}.tar.gz
 set +x
 
-print_text "Writing 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh' and '${USER_HOME}/.profile'"
+print_text "Writing 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh' and '${HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
 set +x
@@ -74,7 +74,7 @@ print_checklist_item "install Rust"
 set -x
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source "${USER_HOME}/.profile"
+source "${HOME}/.profile"
 rustup update
 cargo --version
 set +x
@@ -94,7 +94,7 @@ set +x
 
 print_text "Writing
 export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh'
-to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+to '${HOME}/.profile' and '${HOME}/.profile'"
 set -x
 echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/clion.sh" >> "$USER_HOME"/.profile
@@ -146,16 +146,16 @@ PROMPT='function __my_prompt_command() {
 PROMPT_COMMAND=__my_prompt_command'
 
 echo -x
-echo "$PROMPT" >> "${USER_HOME}"/.profile
+echo "$PROMPT" >> "${HOME}"/.profile
 #echo "$PROMPT" >> ~/.bash_profile
 
 ### add some aliases
 ALIAS_LL="alias ll=\"ls -alh\""
-echo "$ALIAS_LL" >> "${USER_HOME}"/.profile
+echo "$ALIAS_LL" >> "${HOME}"/.profile
 #echo "$ALIAS_LL" >> ~/.bash_profile
 
 ALIAS_K="alias k=\"kubectl\""
-echo "$ALIAS_K" >> "${USER_HOME}"/.profile
+echo "$ALIAS_K" >> "${HOME}"/.profile
 #echo "$ALIAS_K" >> ~/.bash_profile
 
 #source "$HOME"/.profile
