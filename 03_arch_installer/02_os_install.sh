@@ -85,7 +85,6 @@ set +x
 print_checklist_item "installing basic packages"
 set -x
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-#sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
 pacman --noconfirm -Sy
 pacstrap /mnt \
     linux \
@@ -99,6 +98,7 @@ pacstrap /mnt \
     docker \
     vim \
     curl
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
 set +x
 
 ### persist mounts
