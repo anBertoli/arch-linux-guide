@@ -33,57 +33,57 @@ prompt_continue "Continue?"
 #######################################################################
 ######## USERSPACE PROGRAMS ###########################################
 #######################################################################
-print_header_section "Programming languages and IDEs "
-
-set -x
-cd ~
-pacman --noconfirm -Syu
-set +x
-
-### install go
-print_checklist_item "install Go"
-set -x
-GO_VER=1.20
-rm -rf /usr/local/go
-
-curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
-tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
-rm ./go${GO_VER}.linux-amd64.tar.gz
-
-set +x
-print_text "Writing
-'export PATH=${PATH}:/usr/local/go/bin'
-to '${HOME}/.profile' and '${USER_HOME}/.profile'"
-set -x
-echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
-echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
-source "$HOME"/.profile
-go version
-set +x
-
-prompt_continue "Continue?"
-
-### install goland
-print_checklist_item "install Goland"
-set -x
-GOLAND_VER="2022.2.4"
-rm -rf /opt/GoLand*
-
-curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
-tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
-rm ./goland-${GOLAND_VER}.tar.gz
-set +x
-
-# TODO: CHECK
-print_text "Writing
-'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
-to '${HOME}/.profile' and '${USER_HOME}/.profile'"
-set -x
-echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
-echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
-set +x
-
-prompt_continue "Continue?"
+#print_header_section "Programming languages and IDEs "
+#
+#set -x
+#cd ~
+#pacman --noconfirm -Syu
+#set +x
+#
+#### install go
+#print_checklist_item "install Go"
+#set -x
+#GO_VER=1.20
+#rm -rf /usr/local/go
+#
+#curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
+#tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
+#rm ./go${GO_VER}.linux-amd64.tar.gz
+#
+#set +x
+#print_text "Writing
+#'export PATH=${PATH}:/usr/local/go/bin'
+#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+#set -x
+#echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
+#echo "export PATH=${PATH}:/usr/local/go/bin" >> "$USER_HOME"/.profile
+#source "$HOME"/.profile
+#go version
+#set +x
+#
+#prompt_continue "Continue?"
+#
+#### install goland
+#print_checklist_item "install Goland"
+#set -x
+#GOLAND_VER="2022.2.4"
+#rm -rf /opt/GoLand*
+#
+#curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
+#tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
+#rm ./goland-${GOLAND_VER}.tar.gz
+#set +x
+#
+## TODO: CHECK
+#print_text "Writing
+#'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh'
+#to '${HOME}/.profile' and '${USER_HOME}/.profile'"
+#set -x
+#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$HOME"/.profile
+#echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin/goland.sh" >> "$USER_HOME"/.profile
+#set +x
+#
+#prompt_continue "Continue?"
 
 ### install rust
 print_checklist_item "install Rust"
