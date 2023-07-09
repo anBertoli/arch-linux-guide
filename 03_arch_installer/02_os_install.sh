@@ -107,5 +107,7 @@ set -x
 genfstab -U /mnt >> /mnt/etc/fstab
 set +x
 
-### chroot into ROOT, install thing and do configuration
+prompt_continue "Continue?"
+
+### chroot into ROOT partition (where OS will be installed)
 arch-chroot /mnt/ ./02_os_install_chroot.sh
