@@ -27,6 +27,7 @@ Folder contents ('/mnt/home/${USER_NAME}/arch-installer'):
 prompt_continue "Continue?"
 
 arch-chroot /mnt sudo -u "${USER_NAME}" /bin/bash -c "
+set -e
 cd /home/${USER_NAME}/arch-installer/03_arch_installer
 ./03_os_custom_chroot.sh
 "
