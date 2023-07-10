@@ -25,12 +25,11 @@ set +x
 ### install GRUB
 print_checklist_item "installing grub and efibootmgr"
 
-prompt_continue "Continue?"
-
 set -x
 pacman --noconfirm -S grub efibootmgr
 set +x
 print_text "Current EFIBOOT state:\n\n$(efibootmgr -v)"
+prompt_continue "Continue?"
 set -x
 grub-install \
     --target=x86_64-efi \
