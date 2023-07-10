@@ -7,10 +7,11 @@ source ./print.sh
 print_banner "OS user space customization (4/4)"
 print_text "This section will guide you through the customization of your OS."
 
-# load configs
+### load configs
 check_conf_file
 source ./config.gen.sh
 check_vars
+
 
 ### chroot into ROOT partition (where OS will be installed)
 print_checklist_item "copying scripts into user home"
@@ -37,12 +38,14 @@ set -x
 rm -rf "/home/${USER_NAME}/arch-installer/03_arch_installer"
 set +x
 
+
 ### end
 print_header_section "Checkpoint"
 print_text "
-${BOLD_INTENSE_GREEN}Success!${BOLD_INTENSE_WHITE}
+${BOLD_INTENSE_GREEN}Success! :)${BOLD_INTENSE_WHITE}
 
-All done, just reboot the system and use it.
+All done, just reboot the system and use it or
+hang around before rebooting.
 
 Exiting.
 "

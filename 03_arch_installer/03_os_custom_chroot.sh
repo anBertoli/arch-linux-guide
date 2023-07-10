@@ -4,7 +4,7 @@ set -e
 source ./config.sh
 source ./print.sh
 
-# load configs
+### load configs
 check_conf_file
 source ./config.gen.sh
 check_vars
@@ -29,6 +29,7 @@ set -x
 sudo pacman --noconfirm -Syu
 set +x
 
+
 ### install go
 print_checklist_item "install Go"
 set -x
@@ -39,7 +40,6 @@ sudo rm -rf /usr/local/go
 curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
-
 
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.bashrc
