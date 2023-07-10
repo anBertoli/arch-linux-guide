@@ -24,6 +24,7 @@ set -x
 CLION_VER="2022.2.4"
 sudo rm -rf /opt/clion*
 
+pwd
 curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
 sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
 rm ./clion-${GOLAND_VER}.tar.gz
