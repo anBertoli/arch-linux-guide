@@ -98,7 +98,6 @@ print_header_section "Network configuration"
 print_checklist_item "enabling network manager"
 set -x
 systemctl disable wpa_supplicant
-systemctl disable dhcpcd.service
 systemctl enable NetworkManager
 set +x
 
