@@ -32,9 +32,12 @@ sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
 #rm -f ./clion-${CLION_VER}.tar.gz
 set +x
 
-print_text "Writing export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/' to '${HOME}/.profile''"
+print_text "Writing 'alias clion='/opt/clion-${CLION_VER}/bin/clion.sh''
+to '${HOME}/.profile' and '${HOME}/.bashrc'"
 set -x
-echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin" >> "$HOME"/.profile
+echo "alias goland='/usr/local/bin/goland'"
+echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.profile
+echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.bashrc
 set +x
 
 prompt_continue "Continue?"
