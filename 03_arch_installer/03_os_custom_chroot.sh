@@ -28,8 +28,8 @@ CLION_VER="2022.2.4"
 sudo rm -rf /opt/clion*
 
 #curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
-sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
-rm ./clion-${CLION_VER}.tar.gz
+#sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
+rm -f ./clion-${CLION_VER}.tar.gz
 set +x
 
 print_text "Writing export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/' to '${HOME}/.profile''"
@@ -48,7 +48,7 @@ sudo pacman -Sy --noconfirm docker-compose
 sudo systemctl enable docker
 
 # allows non-root users to use docker
-usermod -a -G docker "$USER_NAME"
+sudo usermod -a -G docker "$USER_NAME"
 docker info
 docker run hello-world
 set +x
