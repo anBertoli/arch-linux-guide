@@ -49,7 +49,7 @@ sudo systemctl enable docker
 
 # allows non-root users to use docker
 sudo usermod -a -G docker "$USER_NAME"
-docker info
+docker -v
 set +x
 
 prompt_continue "Continue?"
