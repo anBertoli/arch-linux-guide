@@ -67,7 +67,7 @@ print_header_section "Disk partitioning"
 
 ### delete all partitions
 print_checklist_item "erasing disk"
-print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
 prompt_continue "Disk will be erased, to you want to continue?"
 
 set -x
@@ -76,8 +76,8 @@ if mountpoint -d /mnt; then umount -R /mnt; fi
 if swapon -s | grep "$DISK_PART_SWAP_DEV_FILE"; then swapoff "$DISK_PART_SWAP_DEV_FILE" || true; fi
 sgdisk --clear "$DISK_DEV_FILE"
 set +x
-print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
 prompt_continue "Continue?"
 
 ### start = 0, means next starting point
@@ -87,8 +87,8 @@ sgdisk -n 1:0:+1G -t 1:ef00 -g "$DISK_DEV_FILE" # EFI
 sgdisk -n 2:0:+10G -t 2:8200 -g "$DISK_DEV_FILE" # SWAP
 sgdisk -n 3:0:+500G -t 3:8300 -g "$DISK_DEV_FILE" # ROOT
 set +x
-print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")"
 
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
 prompt_continue "Continue?"
 
 ### format partitions with fs
@@ -99,20 +99,19 @@ mkfs.ext4 -F "$DISK_PART_ROOT_DEV_FILE" # ROOT
 mkswap "$DISK_PART_SWAP_DEV_FILE" # SWAP
 set +x
 
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
 prompt_continue "Continue?"
 
 ### mount partitions, for SWAP, just tell Linux to use it
-print_checklist_item "mounting filesystems"
+print_checklist_item "mounting filesystems and enabling swap space"
 set -x
 mount --mkdir "$DISK_PART_ROOT_DEV_FILE" /mnt
 mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/boot
-set +x
-print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n"
-
-print_checklist_item "enabling swap space"
-set -x
 swapon "$DISK_PART_SWAP_DEV_FILE"
 set +x
+
+print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
+prompt_continue "Continue?"
 
 
 

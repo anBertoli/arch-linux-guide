@@ -13,8 +13,11 @@ source ./config.gen.sh
 check_vars
 
 
-### chroot into ROOT partition (where OS will be installed)
+#######################################################################
+######## CHROOT AND INSTALL THINGS ####################################
+#######################################################################
 print_checklist_item "copying scripts into user home"
+
 set -x
 rm -rf "/mnt/home/${USER_NAME}/arch-installer"
 cp -R "$(pwd)/.." "/mnt/home/${USER_NAME}/arch-installer"

@@ -25,14 +25,14 @@ set +x
 ### install GRUB
 print_checklist_item "installing grub and efibootmgr"
 print_text "Current EFIBOOT state:\n\n$(efibootmgr -v)"
+prompt_continue "Continue?"
+
 set -x
 pacman --noconfirm -S grub efibootmgr
-#mount --mkdir "$DISK_PART_EFI_DEV_FILE" /boot
 grub-install \
     --target=x86_64-efi \
     --bootloader-id="$BOOTLOADER_ID" \
     --efi-directory=/boot
-
 set +x
 
 ### save GRUB conf

@@ -97,6 +97,7 @@ pacstrap /mnt \
     git \
     make \
     docker \
+    docker-compose \
     vim \
     curl
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
@@ -109,6 +110,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 set +x
 
 prompt_continue "Continue?"
+
 
 ### chroot into ROOT partition (where OS will be installed)
 print_checklist_item "copying scripts into ROOT partition"

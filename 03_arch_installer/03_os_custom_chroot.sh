@@ -23,7 +23,6 @@ prompt_continue "Continue?"
 ######## USERSPACE PROGRAMS ###########################################
 #######################################################################
 print_header_section "Programming languages and IDEs "
-
 set -x
 sudo pacman --noconfirm -Syu
 set +x
@@ -48,7 +47,6 @@ set +x
 
 prompt_continue "Continue?"
 
-
 ### install goland
 print_checklist_item "install Goland"
 set -x
@@ -66,7 +64,6 @@ set +x
 
 prompt_continue "Continue?"
 
-
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
 set -x
@@ -78,7 +75,6 @@ cargo --version
 set +x
 
 prompt_continue "Continue?"
-
 
 ### install clion
 print_checklist_item "install CLion"
@@ -97,14 +93,12 @@ set +x
 
 prompt_continue "Continue?"
 
-
 ### install docker
 print_checklist_item "install Docker"
 set -x
 sudo pacman -Sy --noconfirm docker
 sudo pacman -Sy --noconfirm docker-compose
 sudo systemctl enable docker
-
 # allows non-root users to use docker
 sudo usermod -a -G docker "$USER_NAME"
 docker -v
@@ -117,8 +111,11 @@ prompt_continue "Continue?"
 #######################################################################
 ######## COMMAND LINE #################################################
 #######################################################################
+print_header_section "Customizing .bashrc and .profile"
+
 
 ### customize prompt
+print_checklist_item "customizing terminal prompt"
 PROMPT='
 function __my_prompt_command() {
     local EXIT_CODE="$?"
@@ -142,18 +139,18 @@ function __my_prompt_command() {
 PROMPT_COMMAND=__my_prompt_command
 '
 
-echo -x
 echo "$PROMPT" >> "${HOME}/.profile"
 echo "$PROMPT" >> "${HOME}/.bashrc"
 
 ### add some aliases
+print_checklist_item "setting aliases"
+echo -x
 ALIAS_LL="alias ll=\"ls -alh\""
 echo "$ALIAS_LL" >> "${HOME}/.profile"
 echo "$ALIAS_LL" >> "${HOME}/.bashrc"
-
 ALIAS_K="alias k=\"kubectl\""
 echo "$ALIAS_K" >> "${HOME}/.profile"
 echo "$ALIAS_K" >> "${HOME}/.bashrc"
+echo +x
 
 source "$HOME"/.profile
-echo +x
