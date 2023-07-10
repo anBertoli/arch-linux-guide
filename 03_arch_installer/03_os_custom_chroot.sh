@@ -18,6 +18,26 @@ print_header_section "Getting user home"
 print_text "User HOME is '${HOME}'."
 prompt_continue "Continue?"
 
+######## REMOVE
+### install goland
+print_checklist_item "install Goland"
+set -x
+GOLAND_VER="2022.2.4"
+sudo rm -rf /opt/GoLand*
+
+curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
+sudo tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
+rm ./goland-${GOLAND_VER}.tar.gz
+set +x
+
+print_text "Writing 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin' and '${HOME}/.profile'"
+set -x
+echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin" >> "$HOME"/.profile
+set +x
+
+prompt_continue "Continue?"
+
+
 ### install clion
 print_checklist_item "install CLion"
 set -x
@@ -36,7 +56,7 @@ echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin" >> "$HOME"/.profile
 set +x
 
 prompt_continue "Continue?"
-
+######## REMOVE
 
 ### install docker
 print_checklist_item "install Docker"
