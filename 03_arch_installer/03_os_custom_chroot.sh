@@ -21,6 +21,52 @@ prompt_continue "Continue?"
 
 
 #######################################################################
+######## COMMAND LINE #################################################
+#######################################################################
+
+### customize prompt
+PROMPT='
+function __my_prompt_command() {
+    local EXIT_CODE="$?"
+
+    local NORMAL_WHITE="\033[0;37m"
+    local BOLD_WHITE="\033[1;97m"
+    local BOLD_GREEN="\033[1;92m"
+    local BOLD_RED="\033[1;91m"
+    local RESET="\033[0m"
+
+    PS1="${NORMAL_WHITE}[${BOLD_WHITE}\u@\h${NORMAL_WHITE}]-[${BOLD_GREEN}\w${NORMAL_WHITE}]-["
+    if [ $EXIT_CODE != 0 ]; then
+        # Add red if exit code non 0
+        PS1+="${BOLD_RED}${EXIT_CODE}${NORMAL_WHITE}"
+    else
+        PS1+="${BOLD_GREEN}${EXIT_CODE}${NORMAL_WHITE}"
+    fi
+    PS1+="]${RESET} 🛠  "
+}
+
+PROMPT_COMMAND=__my_prompt_command
+'
+
+echo -x
+echo "$PROMPT" >> "${HOME}"/.profile
+#echo "$PROMPT" >> ~/.bash_profile
+
+### add some aliases
+ALIAS_LL="alias ll=\"ls -alh\""
+echo "$ALIAS_LL" >> "${HOME}/.profile"
+#echo "$ALIAS_LL" >> ~/.bash_profile
+
+ALIAS_K="alias k=\"kubectl\""
+echo "$ALIAS_K" >> "${HOME}/.profile"
+#echo "$ALIAS_K" >> ~/.bash_profile
+
+#source "$HOME"/.profile
+echo +x
+exit 100
+
+
+#######################################################################
 ######## USERSPACE PROGRAMS ###########################################
 #######################################################################
 print_header_section "Programming languages and IDEs "
@@ -61,8 +107,8 @@ curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go
 sudo tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 rm ./goland-${GOLAND_VER}.tar.gz
 
-echo "alias goland=/opt/GoLand-${GOLAND_VER}/go/bin/goland" >> "$HOME"/.profile
-echo "alias goland=/opt/GoLand-${GOLAND_VER}/go/bin/goland" >> "$HOME"/.bashrc
+echo "alias goland=/opt/GoLand-${GOLAND_VER}/bin/goland.sh" >> "$HOME"/.profile
+echo "alias goland=/opt/GoLand-${GOLAND_VER}/bin/goland.sh" >> "$HOME"/.bashrc
 set +x
 
 prompt_continue "Continue?"
@@ -112,52 +158,5 @@ docker -v
 set +x
 
 prompt_continue "Continue?"
-
-
-
-#######################################################################
-######## COMMAND LINE #################################################
-#######################################################################
-
-### customize prompt
-# shellcheck disable=SC2089
-# shellcheck disable=SC2016
-PROMPT='function __my_prompt_command() {
-    local EXIT_CODE="$?"
-
-    local NORMAL_WHITE="\033[0;37m"
-    local BOLD_WHITE="\033[1;97m"
-    local BOLD_GREEN="\033[1;92m"
-    local BOLD_RED="\033[1;91m"
-    local RESET="\033[0m"
-
-    PS1="${NORMAL_WHITE}[${BOLD_WHITE}\u@\h${NORMAL_WHITE}]-[${BOLD_GREEN}\w${NORMAL_WHITE}]-["
-    if [ $EXIT_CODE != 0 ]; then
-        # Add red if exit code non 0
-        PS1+="${BOLD_RED}${EXIT_CODE}${NORMAL_WHITE}"
-    else
-        PS1+="${BOLD_GREEN}${EXIT_CODE}${NORMAL_WHITE}"
-    fi
-    PS1+="] 🛠️  ${RESET}"
-}
-
-PROMPT_COMMAND=__my_prompt_command'
-
-echo -x
-echo "$PROMPT" >> "${HOME}"/.profile
-#echo "$PROMPT" >> ~/.bash_profile
-
-### add some aliases
-ALIAS_LL="alias ll=\"ls -alh\""
-echo "$ALIAS_LL" >> "${HOME}/.profile"
-#echo "$ALIAS_LL" >> ~/.bash_profile
-
-ALIAS_K="alias k=\"kubectl\""
-echo "$ALIAS_K" >> "${HOME}/.profile"
-#echo "$ALIAS_K" >> ~/.bash_profile
-
-#source "$HOME"/.profile
-echo +x
-
 
 
