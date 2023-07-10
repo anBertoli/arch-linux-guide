@@ -124,15 +124,16 @@ print_header_section "Customizing .bashrc and .profile"
 
 ### customize prompt
 print_checklist_item "customizing terminal prompt"
+# shellcheck disable=SC2016
 PROMPT='
 function __my_prompt_command() {
     local EXIT_CODE="$?"
 
-    local NORMAL_WHITE="\033[0;37m"
-    local BOLD_WHITE="\033[1;97m"
-    local BOLD_GREEN="\033[1;92m"
-    local BOLD_RED="\033[1;91m"
-    local RESET="\033[0m"
+    local NORMAL_WHITE="\[\033[0;37m\]"
+    local BOLD_WHITE="\[\033[1;97m\]"
+    local BOLD_GREEN="\[\033[1;92m\]"
+    local BOLD_RED="\[\033[1;91m\]"
+    local RESET="\[\033[0m\]"
 
     PS1="${NORMAL_WHITE}[${BOLD_WHITE}\u@\h${NORMAL_WHITE}]-[${BOLD_GREEN}\w${NORMAL_WHITE}]-["
     if [ $EXIT_CODE != 0 ]; then
