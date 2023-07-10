@@ -50,7 +50,6 @@ sudo systemctl enable docker
 # allows non-root users to use docker
 sudo usermod -a -G docker "$USER_NAME"
 docker info
-docker run hello-world
 set +x
 
 prompt_continue "Continue?"
