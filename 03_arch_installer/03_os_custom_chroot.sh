@@ -18,46 +18,7 @@ print_header_section "Getting user home"
 print_text "User HOME is '${HOME}'."
 prompt_continue "Continue?"
 
-######## REMOVE
 
-### install clion
-print_checklist_item "install CLion"
-set -x
-cd "${HOME}"
-CLION_VER="2022.2.4"
-sudo rm -rf /opt/clion*
-
-#curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
-sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
-#rm -f ./clion-${CLION_VER}.tar.gz
-set +x
-
-print_text "Writing 'alias clion='/opt/clion-${CLION_VER}/bin/clion.sh''
-to '${HOME}/.profile' and '${HOME}/.bashrc'"
-set -x
-echo "alias goland='/usr/local/bin/goland'"
-echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.profile
-echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.bashrc
-set +x
-
-prompt_continue "Continue?"
-
-
-### install docker
-print_checklist_item "install Docker"
-set -x
-sudo pacman -Sy --noconfirm docker
-sudo pacman -Sy --noconfirm docker-compose
-sudo systemctl enable docker
-
-# allows non-root users to use docker
-sudo usermod -a -G docker "$USER_NAME"
-docker -v
-set +x
-
-prompt_continue "Continue?"
-exit 0
-######## REMOVE
 
 #######################################################################
 ######## USERSPACE PROGRAMS ###########################################
@@ -79,10 +40,9 @@ curl -L --output ./go${GO_VER}.linux-amd64.tar.gz https://go.dev/dl/go${GO_VER}.
 sudo tar -C /usr/local -xzf ./go${GO_VER}.linux-amd64.tar.gz
 rm ./go${GO_VER}.linux-amd64.tar.gz
 
-set +x
-print_text "Writing 'export PATH=${PATH}:/usr/local/go/bin' to '${HOME}/.profile'"
-set -x
+
 echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.profile
+echo "export PATH=${PATH}:/usr/local/go/bin" >> "$HOME"/.bashrc
 source "$HOME"/.profile
 go version
 set +x
@@ -100,11 +60,9 @@ sudo rm -rf /opt/GoLand*
 curl -L --output ./goland-${GOLAND_VER}.tar.gz https://download.jetbrains.com/go/goland-${GOLAND_VER}.tar.gz
 sudo tar xzf ./goland-${GOLAND_VER}.tar.gz -C /opt/
 rm ./goland-${GOLAND_VER}.tar.gz
-set +x
 
-print_text "Writing 'export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin' and '${HOME}/.profile'"
-set -x
-echo "export PATH=${PATH}:/opt/GoLand-${GOLAND_VER}/go/bin" >> "$HOME"/.profile
+echo "alias goland=/opt/GoLand-${GOLAND_VER}/go/bin/goland" >> "$HOME"/.profile
+echo "alias goland=/opt/GoLand-${GOLAND_VER}/go/bin/goland" >> "$HOME"/.bashrc
 set +x
 
 prompt_continue "Continue?"
@@ -132,12 +90,10 @@ sudo rm -rf /opt/clion*
 
 curl -L --output ./clion-${CLION_VER}.tar.gz https://download.jetbrains.com/cpp/CLion-${CLION_VER}.tar.gz
 sudo tar xzf ./clion-${CLION_VER}.tar.gz -C /opt/
-rm ./clion-${GOLAND_VER}.tar.gz
-set +x
+rm -f ./clion-${CLION_VER}.tar.gz
 
-print_text "Writing export PATH=${PATH}:/opt/clion-${CLION_VER}/bin/' to '${HOME}/.profile''"
-set -x
-echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin" >> "$HOME"/.profile
+echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.profile
+echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.bashrc
 set +x
 
 prompt_continue "Continue?"
@@ -151,9 +107,8 @@ sudo pacman -Sy --noconfirm docker-compose
 sudo systemctl enable docker
 
 # allows non-root users to use docker
-usermod -a -G docker "$USER_NAME"
-docker info
-docker run hello-world
+sudo usermod -a -G docker "$USER_NAME"
+docker -v
 set +x
 
 prompt_continue "Continue?"
