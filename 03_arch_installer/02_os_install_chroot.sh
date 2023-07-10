@@ -151,31 +151,18 @@ print_header_section "Graphics configuration"
 ### window server
 print_checklist_item "installing xorg"
 set -x
-pacman --noconfirm -S xorg-server
+pacman --noconfirm --disable-download-timeout -S xorg-server
 set +x
 
 ### graphic card drivers
 print_checklist_item "installing graphic card drivers"
 set -x
-pacman --noconfirm -S nvidia nvidia-utils
+pacman --noconfirm --disable-download-timeout -S nvidia nvidia-utils
 set +x
 
 ### desktop environment
 print_checklist_item "installing plasma (desktop)"
 set -x
-pacman --noconfirm -S plasma
+pacman --noconfirm --disable-download-timeout -S plasma
 systemctl enable sddm
 set +x
-
-### end
-print_header_section "Checkpoint"
-print_text "
-${BOLD_INTENSE_GREEN}OS ready!${BOLD_INTENSE_WHITE}
-
-If you want to automatically install user space programs and
-utils continue to the next section.
-
-To do so start the ./03_os_custom.sh script: ${BOLD_INTENSE_GREEN}./03_os_custom.sh${BOLD_INTENSE_WHITE}.
-
-Exiting.
-"

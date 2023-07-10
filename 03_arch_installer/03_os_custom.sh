@@ -13,7 +13,7 @@ source ./config.gen.sh
 check_vars
 
 ### chroot into ROOT partition (where OS will be installed)
-print_checklist_item "copying scripts into user home partition"
+print_checklist_item "copying scripts into user home"
 set -x
 rm -rf "/mnt/home/${USER_NAME}/arch-installer"
 cp -R "$(pwd)/.." "/mnt/home/${USER_NAME}/arch-installer"
@@ -31,7 +31,17 @@ cd /home/${USER_NAME}/arch-installer/03_arch_installer
 ./03_os_custom_chroot.sh
 "
 
-print_text "Cleaning"
+print_checklist_item "cleaning scripts file into user home"
 set -x
 rm -rf "/home/${USER_NAME}/arch-installer/03_arch_installer"
 set +x
+
+### end
+print_header_section "Checkpoint"
+print_text "
+${BOLD_INTENSE_GREEN}Success!${BOLD_INTENSE_WHITE}
+
+All done, just reboot the system and use it.
+
+Exiting.
+"

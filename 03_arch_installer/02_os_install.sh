@@ -133,3 +133,16 @@ print_checklist_item "cleaning scripts into ROOT partition"
 set -x
 rm -rf /mnt/root/arch-installer
 set +x
+
+### end
+print_header_section "Checkpoint"
+print_text "
+${BOLD_INTENSE_GREEN}OS ready!${BOLD_INTENSE_WHITE}
+
+If you want to automatically install user space programs and
+utils continue to the next section.
+
+To do so start the ./03_os_custom.sh script: ${BOLD_INTENSE_GREEN}./03_os_custom.sh${BOLD_INTENSE_WHITE}.
+
+Exiting.
+"
