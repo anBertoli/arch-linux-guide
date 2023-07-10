@@ -22,6 +22,7 @@ prompt_continue "Continue?"
 ### install goland
 print_checklist_item "install Goland"
 set -x
+cd "${HOME}"
 GOLAND_VER="2022.2.4"
 sudo rm -rf /opt/GoLand*
 
@@ -41,6 +42,7 @@ prompt_continue "Continue?"
 ### install clion
 print_checklist_item "install CLion"
 set -x
+cd "${HOME}"
 CLION_VER="2022.2.4"
 sudo rm -rf /opt/clion*
 
@@ -56,7 +58,7 @@ echo "export PATH=${PATH}:/opt/clion-${CLION_VER}/bin" >> "$HOME"/.profile
 set +x
 
 prompt_continue "Continue?"
-######## REMOVE
+
 
 ### install docker
 print_checklist_item "install Docker"
@@ -73,6 +75,7 @@ set +x
 
 prompt_continue "Continue?"
 exit 0
+######## REMOVE
 
 #######################################################################
 ######## USERSPACE PROGRAMS ###########################################
@@ -80,13 +83,13 @@ exit 0
 print_header_section "Programming languages and IDEs "
 
 set -x
-cd "${HOME}"
 sudo pacman --noconfirm -Syu
 set +x
 
 ### install go
 print_checklist_item "install Go"
 set -x
+cd "${HOME}"
 GO_VER=1.20
 sudo rm -rf /usr/local/go
 
@@ -108,6 +111,7 @@ prompt_continue "Continue?"
 ### install goland
 print_checklist_item "install Goland"
 set -x
+cd "${HOME}"
 GOLAND_VER="2022.2.4"
 sudo rm -rf /opt/GoLand*
 
@@ -140,6 +144,7 @@ prompt_continue "Continue?"
 ### install clion
 print_checklist_item "install CLion"
 set -x
+cd "${HOME}"
 CLION_VER="2022.2.4"
 sudo rm -rf /opt/clion*
 
