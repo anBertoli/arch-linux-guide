@@ -169,6 +169,6 @@ pacman --noconfirm --disable-download-timeout -S plasma
 systemctl enable sddm
 pacman --noconfirm --disable-download-timeout -S \
   konsole \
-  delphin
+  dolphin
 
 set +x
