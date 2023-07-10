@@ -165,7 +165,7 @@ set +x
 ### desktop environment
 print_checklist_item "installing plasma (desktop)"
 set -x
-pacman --noconfirm --disable-download-timeout -S plasma
+pacman --noconfirm --disable-download-timeout -S plasma-desktop
 systemctl enable sddm
 pacman --noconfirm --disable-download-timeout -S \
   konsole \

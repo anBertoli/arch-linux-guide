@@ -27,7 +27,7 @@ fi
 
 ### set keyboard layout
 print_checklist_item "setting IT keyboard layout"
-print_text "Setting /usr/share/kbd/keymaps/i386/qwerty/it layout"
+print_text "Setting '/usr/share/kbd/keymaps/i386/qwerty/it' layout"
 set -x
 find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
