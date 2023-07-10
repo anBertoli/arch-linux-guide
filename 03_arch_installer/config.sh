@@ -94,20 +94,6 @@ function print_vars() {
 function write_vars() {
   echo "#!/bin/bash
 set -e  "  > "$1"
-
-#  echo "
-#WIFI_DEVICE=wlan0
-#WIFI_SSID=TISCALI-Andrea
-#WIFI_PASSPHRASE=DK3U7B43CY
-#DISK_DEV_FILE=/dev/nvme0n1
-#DISK_PART_EFI_DEV_FILE=/dev/nvme0n1p1
-#DISK_PART_SWAP_DEV_FILE=/dev/nvme0n1p2
-#DISK_PART_ROOT_DEV_FILE=/dev/nvme0n1p3
-#BOOTLOADER_ID=arch-linux-boot
-#USER_NAME=andrea-arch
-#USER_PASSWORD=AndreaArch
-#  " >> "$1"
-
   for VAR_NAME in "${VAR_NAMES[@]}"
   do
     echo "${VAR_NAME}=\"${!VAR_NAME}\"" >> "$1"
