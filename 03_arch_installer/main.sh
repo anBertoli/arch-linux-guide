@@ -3,7 +3,6 @@ set -e
 
 source config.sh
 source print.sh
-AUTO_YES=no
 
 print_banner "Init installation"
 print_text "This section allows you to (re)start from different points in the installation process.
@@ -17,6 +16,21 @@ Available options:
 If you resume the installation from another point and the config file is not present you must
 regenerate it. To do so choose the 'conf' option.
 "
+
+
+
+AUTO_YES=no
+function prompt_auto_yes() {
+  echo
+  while true; do
+      read -p "$(echo -e "${BOLD_INTENSE_WHITE}Automatically proceed on everything?${RESET} [y/n] ")" YN
+      case $YN in
+          [Yy]* ) AUTO_YES=yes; echo "AUTOYES=$AUTO_YES"; return;;
+          [Nn]* ) AUTO_YES=no; echo "AUTOYES=$AUTO_YES"; return;;
+          * ) echo "Please answer yes or no.";;
+      esac
+  done
+}
 
 read -r -p "Choose step to start from: " STEP
 case "$STEP" in
@@ -54,16 +68,3 @@ case "$STEP" in
   *)
     print_text "Invalid choice. Aborting."
 esac
-
-
-function prompt_auto_yes() {
-  echo
-  while true; do
-      read -p "$(echo -e "${BOLD_INTENSE_WHITE}Automatically proceed on everything?${RESET} [y/n] ")" YN
-      case $YN in
-          [Yy]* ) AUTO_YES=yes; return;;
-          [Nn]* ) AUTO_YES=no; return;;
-          * ) echo "Please answer yes or no.";;
-      esac
-  done
-}
