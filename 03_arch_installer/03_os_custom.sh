@@ -38,7 +38,7 @@ cd /home/${USER_NAME}/arch-installer/03_arch_installer
 
 print_checklist_item "cleaning scripts file into user home"
 set -x
-rm -rf "/home/${USER_NAME}/arch-installer"
+rm -rf "/mnt/home/${USER_NAME}/arch-installer"
 set +x
 
 
