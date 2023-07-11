@@ -7,6 +7,7 @@ source ./print.sh
 ### load configs
 check_conf_file
 source ./config.gen.sh
+AUTO_YES=$1
 check_vars
 
 
@@ -16,7 +17,7 @@ check_vars
 #######################################################################
 print_header_section "Getting user home"
 print_text "User HOME is '${HOME}'."
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 
@@ -46,7 +47,7 @@ source "$HOME"/.profile
 go version
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### install goland
 print_checklist_item "install Goland"
@@ -63,7 +64,7 @@ echo "alias goland=/opt/GoLand-${GOLAND_VER}/bin/goland.sh" >> "$HOME"/.profile
 echo "alias goland=/opt/GoLand-${GOLAND_VER}/bin/goland.sh" >> "$HOME"/.bashrc
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### install rustup, rust and cargo
 print_checklist_item "install Rust"
@@ -75,7 +76,7 @@ rustup update
 cargo --version
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### install clion
 print_checklist_item "install CLion"
@@ -92,7 +93,7 @@ echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.profile
 echo "alias clion='/opt/clion-${CLION_VER}/bin/clion.sh'" >> "$HOME"/.bashrc
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### install docker
 print_checklist_item "install Docker"
@@ -105,7 +106,7 @@ sudo usermod -a -G docker "$USER_NAME"
 docker -v
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 

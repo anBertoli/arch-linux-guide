@@ -9,8 +9,8 @@ print_text "This section will prepare the disk to install the OS."
 # load configs
 check_conf_file
 source ./config.gen.sh
+AUTO_YES=$1
 check_vars
-
 
 
 #######################################################################
@@ -33,7 +33,7 @@ find /usr/share/kbd/keymaps -type f -name "*.map.gz" | grep it
 loadkeys /usr/share/kbd/keymaps/i386/qwerty/it
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### connect to internet using non-interactive CLI
 print_checklist_item "connecting via wifi device"
@@ -56,7 +56,7 @@ set -x
 timedatectl set-ntp true
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 
@@ -68,7 +68,7 @@ print_header_section "Disk partitioning"
 ### delete all partitions
 print_checklist_item "erasing disk"
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
-prompt_continue "Disk will be erased, to you want to continue?"
+prompt_continue "Disk will be erased, to you want to continue?" "$AUTO_YES"
 
 set -x
 if mountpoint -d /mnt/boot; then umount -R /mnt/boot; fi
@@ -78,7 +78,7 @@ sgdisk --clear "$DISK_DEV_FILE"
 set +x
 
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### start = 0, means next starting point
 print_checklist_item "partitioning disk"
@@ -89,7 +89,7 @@ sgdisk -n 3:0:+500G -t 3:8300 -g "$DISK_DEV_FILE" # ROOT
 set +x
 
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### format partitions with fs
 print_checklist_item "creating filesystem within partitions"
@@ -100,7 +100,7 @@ mkswap "$DISK_PART_SWAP_DEV_FILE" # SWAP
 set +x
 
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 ### mount partitions, for SWAP, just tell Linux to use it
 print_checklist_item "mounting filesystems and enabling swap space"
@@ -111,7 +111,7 @@ swapon "$DISK_PART_SWAP_DEV_FILE"
 set +x
 
 print_text "Current disk state:\n\n$(sgdisk -p "$DISK_DEV_FILE")\n\n$(lsblk)"
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 

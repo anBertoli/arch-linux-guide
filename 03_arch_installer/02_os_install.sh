@@ -9,6 +9,7 @@ print_text "This section will guide you through the OS installation."
 # load configs
 check_conf_file
 source ./config.gen.sh
+AUTO_YES=$1
 check_vars
 
 
@@ -62,7 +63,7 @@ if ! mountpoint -d /mnt/boot; then mount --mkdir "$DISK_PART_EFI_DEV_FILE" /mnt/
 if ! swapon -s | grep "$DISK_PART_SWAP_DEV_FILE"; then swapon "$DISK_PART_SWAP_DEV_FILE" || true; fi
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 #######################################################################
 ######## OS INSTALLATION ##############################################
@@ -109,7 +110,7 @@ set -x
 genfstab -U /mnt >> /mnt/etc/fstab
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 ### chroot into ROOT partition (where OS will be installed)
@@ -124,18 +125,27 @@ Copied to '/mnt/root/arch-installer'.
 Folder contents ('/mnt/root/arch-installer'):
 \n$(ls -alh /mnt/root/arch-installer)"
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 arch-chroot /mnt/ /bin/bash -c "
 set -e
 cd /root/arch-installer/03_arch_installer
-./02_os_install_chroot.sh
+./02_os_install_chroot.sh ${AUTO_YES}
 "
 
+### set X11 keyboard layout (must be done outside chroot)
+set -x
+localectl set-keymap it
+cp /etc/X11/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+set +x
+
+
+### clean scripts
 print_checklist_item "cleaning scripts into ROOT partition"
 set -x
 rm -rf /mnt/root/arch-installer
 set +x
+
 
 ### end
 print_header_section "Checkpoint"

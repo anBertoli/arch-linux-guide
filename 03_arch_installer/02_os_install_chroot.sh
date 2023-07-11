@@ -6,6 +6,7 @@ source ./print.sh
 # load configs
 check_conf_file
 source ./config.gen.sh
+AUTO_YES=$1
 check_vars
 
 
@@ -29,7 +30,7 @@ set -x
 pacman --noconfirm -S grub efibootmgr
 set +x
 print_text "Current EFIBOOT state:\n\n$(efibootmgr -v)"
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 set -x
 grub-install \
     --target=x86_64-efi \
@@ -43,7 +44,7 @@ set -x
 grub-mkconfig -o /boot/grub/grub.cfg
 set +x
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 
@@ -148,7 +149,7 @@ set +x
 
 print_text "Grepping wheel into '/etc/sudoers' file:\n\n$(grep '^%wheel ALL=(ALL:ALL)' /etc/sudoers)"
 
-prompt_continue "Continue?"
+prompt_continue "Continue?" "$AUTO_YES"
 
 
 
@@ -178,8 +179,4 @@ pacman --noconfirm --disable-download-timeout -S \
   konsole \
   dolphin \
   firefox
-
-#.config/kxkbrc file is related to
-# Plasma KDE specific configuration
-#sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
 set +x

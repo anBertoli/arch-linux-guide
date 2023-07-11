@@ -50,23 +50,15 @@ function print_text() {
 
 function prompt_continue() {
   echo
+  if [ "$2" == "yes" ]; then
+     echo -e "${BOLD_INTENSE_WHITE}$1${RESET} [y/n] (${BOLD_INTENSE_BLUE}auto-yes${RESET})"
+     return
+  fi
   while true; do
       read -p "$(echo -e "${BOLD_INTENSE_WHITE}$1${RESET} [y/n] ")" YN
       case $YN in
           [Yy]* ) echo; return;;
           [Nn]* ) echo "Exiting."; exit 1;;
-          * ) echo "Please answer yes or no.";;
-      esac
-  done
-}
-
-function prompt_abort() {
-  echo
-  while true; do
-      read -p "$(echo -e "${BOLD_INTENSE_WHITE}$1${RESET} [y/n] ")" YN
-      case $YN in
-          [Yy]* ) echo;  echo "Exiting."; exit 1;;
-          [Nn]* ) return;;
           * ) echo "Please answer yes or no.";;
       esac
   done
