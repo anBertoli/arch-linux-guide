@@ -65,6 +65,8 @@ set +x
 
 prompt_continue "Continue?" "$AUTO_YES"
 
+
+
 #######################################################################
 ######## OS INSTALLATION ##############################################
 #######################################################################
@@ -113,6 +115,12 @@ set +x
 prompt_continue "Continue?" "$AUTO_YES"
 
 
+
+#######################################################################
+######## OS CONFIGURATION #############################################
+#######################################################################
+print_header_section "OS Configuration"
+
 ### chroot into ROOT partition (where OS will be installed)
 print_checklist_item "copying scripts into ROOT partition"
 set -x
@@ -134,11 +142,11 @@ cd /root/arch-installer/03_arch_installer
 "
 
 ### set X11 keyboard layout (must be done outside chroot)
+print_checklist_item "setting X11 keyboard layout"
 set -x
 localectl set-keymap it
 cp /etc/X11/xorg.conf.d/00-keyboard.conf /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
 set +x
-
 
 ### clean scripts
 print_checklist_item "cleaning scripts into ROOT partition"
@@ -147,7 +155,10 @@ rm -rf /mnt/root/arch-installer
 set +x
 
 
-### end
+
+#######################################################################
+######## END CHECKPOINT CONFIGURATION #################################
+#######################################################################
 print_header_section "Checkpoint"
 print_text "
 ${BOLD_INTENSE_GREEN}OS ready!${BOLD_INTENSE_WHITE}

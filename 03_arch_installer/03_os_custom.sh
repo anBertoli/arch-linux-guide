@@ -43,7 +43,10 @@ rm -rf "/mnt/home/${USER_NAME}/arch-installer"
 set +x
 
 
-### end
+
+#######################################################################
+######## END CHECKPOINT CONFIGURATION #################################
+#######################################################################
 print_header_section "Checkpoint"
 print_text "
 ${BOLD_INTENSE_GREEN}Success! :)${BOLD_INTENSE_WHITE}
