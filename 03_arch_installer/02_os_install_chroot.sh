@@ -113,7 +113,6 @@ print_checklist_item "setting and persisting keyboard"
 set -x
 touch /etc/vconsole.conf
 echo "KEYMAP=it" > /etc/vconsole.conf
-sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
 set +x
 
 
