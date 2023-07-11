@@ -109,7 +109,7 @@ echo "${LOCALE_CONF}" > /etc/locale.conf
 set +x
 
 ### localization (keyboard)
-print_checklist_item "setting and persisting keyboard"
+print_checklist_item "setting keyboard layout"
 set -x
 touch /etc/vconsole.conf
 echo "KEYMAP=it" > /etc/vconsole.conf
