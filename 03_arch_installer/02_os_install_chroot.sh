@@ -107,8 +107,7 @@ touch /etc/locale.conf
 echo "${LOCALE_CONF}" > /etc/locale.conf
 set +x
 
-### localization (keyboard), the .config/kxkbrc file
-### is related to Plasma KDE specific configuration
+### localization (keyboard)
 print_checklist_item "setting and persisting keyboard"
 set -x
 touch /etc/vconsole.conf
