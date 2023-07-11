@@ -181,5 +181,5 @@ pacman --noconfirm --disable-download-timeout -S \
 
 #.config/kxkbrc file is related to
 # Plasma KDE specific configuration
-sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
+#sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
 set +x
