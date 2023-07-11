@@ -17,7 +17,8 @@ If you resume the installation from another point and the config file is not pre
 regenerate it. To do so choose the 'conf' option.
 "
 
-case "$1" in
+read -r -p "Choose step to start from: " STEP
+case "$STEP" in
   "conf")
      ./00_config_init.sh
      ;;
