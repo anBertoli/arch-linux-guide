@@ -133,7 +133,6 @@ systemctl enable sddm
 pacman --noconfirm --disable-download-timeout -S \
   konsole \
   dolphin
-
 set +x
 
 
