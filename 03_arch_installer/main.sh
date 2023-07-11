@@ -24,8 +24,8 @@ function prompt_auto_yes() {
   while true; do
       read -p "$(echo -e "${BOLD_INTENSE_WHITE}Automatically proceed on everything?${RESET} [y/n] ")" YN
       case $YN in
-          [Yy]* ) AUTO_YES=yes; echo "AUTOYES=$AUTO_YES"; return;;
-          [Nn]* ) AUTO_YES=no; echo "AUTOYES=$AUTO_YES"; return;;
+          [Yy]* ) AUTO_YES=yes; return;;
+          [Nn]* ) AUTO_YES=no; return;;
           * ) echo "Please answer yes or no.";;
       esac
   done
