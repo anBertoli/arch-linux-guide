@@ -18,10 +18,9 @@ regenerate it. To do so choose the 'conf' option.
 "
 
 
-
+###
 AUTO_YES=no
 function prompt_auto_yes() {
-  echo
   while true; do
       read -p "$(echo -e "${BOLD_INTENSE_WHITE}Automatically proceed on everything?${RESET} [y/n] ")" YN
       case $YN in
