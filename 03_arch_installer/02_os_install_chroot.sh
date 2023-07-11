@@ -73,6 +73,52 @@ set +x
 
 
 #######################################################################
+######## LOCALE & KEYBOARD CONFIGURATION ##############################
+#######################################################################
+# 📝️ Inside the chroot at the mount point of the root partition (/mnt/)
+print_header_section "Local & keyboard configuration"
+
+### localization (timezone)
+print_checklist_item "setting timezone"
+set -x
+find /usr/share/zoneinfo -type f | grep Rome
+ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+hwclock --systohc # generate /etc/adjtime
+set +x
+
+### localization (language)
+print_checklist_item "setting and persisting language"
+set -x
+LOCALE_GEN="en_US.UTF-8"
+LOCALE_CONF="LANG=en_US.UTF-8"
+
+# uncomment chosen language then
+# generate and save locale files
+sed -i "/${LOCALE_GEN}/s/^#//g" /etc/locale.gen
+if ! grep "^${LOCALE_GEN}" /etc/locale.gen;
+then
+  print_text "/etc/locale.gen error"
+  print_text "$(grep "${LOCALE_GEN}" /etc/locale.gen)"
+  exit 1
+fi
+
+locale-gen
+touch /etc/locale.conf
+echo "${LOCALE_CONF}" > /etc/locale.conf
+set +x
+
+### localization (keyboard), the .config/kxkbrc file
+### is related to Plasma KDE specific configuration
+print_checklist_item "setting and persisting keyboard"
+set -x
+touch /etc/vconsole.conf
+echo "KEYMAP=it" > /etc/vconsole.conf
+sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
+set +x
+
+
+
+#######################################################################
 ######## USERS & SECURITY CONFIGURATION ###############################
 #######################################################################
 # 📝️ Inside the chroot at the mount point of the root partition (/mnt/)
@@ -133,50 +179,8 @@ systemctl enable sddm
 pacman --noconfirm --disable-download-timeout -S \
   konsole \
   dolphin
-set +x
 
-
-
-#######################################################################
-######## LOCALE & KEYBOARD CONFIGURATION ##############################
-#######################################################################
-# 📝️ Inside the chroot at the mount point of the root partition (/mnt/)
-print_header_section "Local & keyboard configuration"
-
-### localization (timezone)
-print_checklist_item "setting timezone"
-set -x
-find /usr/share/zoneinfo -type f | grep Rome
-ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
-hwclock --systohc # generate /etc/adjtime
-set +x
-
-### localization (language)
-print_checklist_item "setting and persisting language"
-set -x
-LOCALE_GEN="en_US.UTF-8"
-LOCALE_CONF="LANG=en_US.UTF-8"
-
-# uncomment chosen language then
-# generate and save locale files
-sed -i "/${LOCALE_GEN}/s/^#//g" /etc/locale.gen
-if ! grep "^${LOCALE_GEN}" /etc/locale.gen;
-then
-  print_text "/etc/locale.gen error"
-  print_text "$(grep "${LOCALE_GEN}" /etc/locale.gen)"
-  exit 1
-fi
-
-locale-gen
-touch /etc/locale.conf
-echo "${LOCALE_CONF}" > /etc/locale.conf
-set +x
-
-### localization (keyboard), the .config/kxkbrc file
-### is related to Plasma KDE specific configuration
-print_checklist_item "setting and persisting keyboard"
-set -x
-touch /etc/vconsole.conf
-echo "KEYMAP=it" > /etc/vconsole.conf
+#.config/kxkbrc file is related to
+# Plasma KDE specific configuration
 sed -i '/LayoutList=/c\LayoutList=it' "/home/${USER_NAME}/.config/kxkbrc"
 set +x
