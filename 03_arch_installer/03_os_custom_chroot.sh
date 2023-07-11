@@ -94,13 +94,6 @@ set +x
 
 prompt_continue "Continue?"
 
-### install firefox
-print_checklist_item "install Firefox"
-set -x
-cd "${HOME}"
-sudo pacman -Sy --noconfirm firefox
-set +x
-
 ### install docker
 print_checklist_item "install Docker"
 set -x

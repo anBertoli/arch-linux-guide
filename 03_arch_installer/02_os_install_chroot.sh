@@ -176,7 +176,8 @@ pacman --noconfirm --disable-download-timeout -S plasma
 systemctl enable sddm
 pacman --noconfirm --disable-download-timeout -S \
   konsole \
-  dolphin
+  dolphin \
+  firefox
 
 #.config/kxkbrc file is related to
 # Plasma KDE specific configuration
