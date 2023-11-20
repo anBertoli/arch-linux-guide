@@ -436,10 +436,10 @@ the GRUB configuration file and saves it to a given target location. In this cas
 $ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-
-
-
-
+To change boot order, e.g.:
+```shell
+$ efibootmgr -o 1,3,2,0,...
+```
 
 
 

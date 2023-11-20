@@ -23,14 +23,6 @@ gen-docs: build-cli
 		--replace ../../02_linux_handbook#../02_linux_handbook	\
 		--verbose --force
 
-	#./bin/arch-cli \
-# 		--source-dir ../01_arch_linux_installation/chapters \
-# 		--source-dir ../02_linux_handbook/chapters \
-#		gen --file ../README.md \
-#		--replace ../../01_arch_linux_installation#./01_arch_linux_installation \
-#		--replace ../../02_linux_handbook#./02_linux_handbook	\
-#		--verbose --force
-
 .PHONY: clean
 clean:
 	rm -rf ./target
